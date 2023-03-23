@@ -18,9 +18,9 @@
 
 -[Змаев Даниил](https://github.com/dany0k)  
 
--[Дмитрий Мамонов](https://github.com/Dmitriy-M1319)  
+-[Мамонов Дмитрий](https://github.com/Dmitriy-M1319)  
 
--[Павел Смирнов](https://github.com/SmPavel)  
+-[Смирнов Павел](https://github.com/SmPavel)  
 
 
 
