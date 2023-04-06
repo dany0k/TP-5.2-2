@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_wallet"
+        android:title="Счета" />
+    <item
+        android:icon="@drawable/ic_template"
+        android:title="Шаблоны" />
+    <item android:id="@+id/placeholder"
+        android:title=""/>
+    <item
+        android:icon="@drawable/ic_consumption"
+        android:title="Расходы" />
+    <item
+        android:icon="@drawable/ic_income"
+        android:title="Доходы" />
+</menu>
