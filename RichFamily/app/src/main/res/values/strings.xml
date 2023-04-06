@@ -10,4 +10,11 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_label_tv">Имя</string>
+    <string name="email_label_tv">Почта</string>
+    <string name="edit_button_label_tv">Редактировать</string>
+    <string name="exit_button_label">Выйти</string>
+    <string name="operation_type_label_tv">Тип операции</string>
 </resources>
