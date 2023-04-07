@@ -7,14 +7,63 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="name_label_tv">Имя</string>
-    <string name="email_label_tv">Почта</string>
-    <string name="edit_button_label_tv">Редактировать</string>
+    <string name="hello_blank_fragment">Заглушка на первое время</string>
+
+    <string name="name_hint_text">Имя</string>
+    <string name="surname_hint_text">Фамилия</string>
+    <string name="email_hint_text">Почта</string>
+    <string name="password_hint_text">Пароль</string>
+    <string name="submit_password_hint_text">Подтверждение пароля</string>
+    <string name="secret_word_hint_text">Секретное слово</string>
+
+    <string name="edit_button_label">Редактировать</string>
     <string name="exit_button_label">Выйти</string>
-    <string name="operation_type_label_tv">Тип операции</string>
+    <string name="add_operation_button_label">Добавить</string>
+    <string name="submit_button_label">Подтвердить</string>
+    <string name="enter_button_label">Войти</string>
+
+    <string name="operation_type_label">Тип операции</string>
+    <string name="consumption_text">Расход</string>
+    <string name="income_text">Доход</string>
+
+    <string name="category_hint_text">Категория</string>
+    <string name="total_hint_text">Сумма</string>
+    <string name="comment_hint_text">Комментарий</string>
+    <string name="sender_hint_text">Отправитель/Получатель</string>
+
+    <string name="have_account_text">Уже есть аккаунт</string>
+    <string name="forgot_password_text">Забыл пароль</string>
+
+    <string name="categories_title">Категории</string>
+    <string name="report_title">Отчет</string>
+    <string name="credits_title">Кредиты</string>
+    <string name="account_title">Аккаунт</string>
+    <string name="group_title">Группа</string>
+    <string name="about_title">О приложении</string>
+    <string name="wallet_title">Счета</string>
+    <string name="templates_title">Шаблоны</string>
+    <string name="consumption_label">Расходы</string>
+    <string name="income_label">Доходы</string>
+    <string name="create_group_text">Создание новой группы</string>
+    <string name="group_name_hint_text">Название группы</string>
+    <string name="create_group_button_label">Создать группу</string>
+    <string name="user_groups_label">Ваши группы:</string>
+    <string name="invite_user_text">Добавить участника</string>
+    <string name="invite_user_button_label">Пригласить</string>
+    <string name="calculate_text">Калькулятор</string>
+    <string name="credit_name_hint_text">Название кредита</string>
+    <string name="percentage_hint_text">Процентная ставка</string>
+    <string name="first_pay_hint_text">Первоначальный взнос</string>
+    <string name="credit_total_hint_text">Сумма кредита</string>
+    <string name="credit_term_hint_text">Срок кредита</string>
+    <string name="years_text">лет</string>
+    <string name="calculate_button_label">Рассчитать</string>
+    <string name="monthly_payment_text">Ежемесячный платеж</string>
+    <string name="continue_button_label">Продолжить</string>
+    <string name="cost_and_percentage_text">Стоимость и проценты</string>
+    <string name="interest_charges_text">Начисленные проценты</string>
+    <string name="save_report_button_label">Сохранить отчет</string>
+    <string name="add_category_text">Создание новой категории</string>
+    <string name="category_name_hint_text">Название категории</string>
+    <string name="add_category_button_label">Создать категорию</string>
 </resources>
