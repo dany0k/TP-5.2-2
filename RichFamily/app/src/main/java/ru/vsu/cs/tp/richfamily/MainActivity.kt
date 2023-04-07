@@ -2,15 +2,11 @@ package ru.vsu.cs.tp.richfamily
 
 import android.os.Bundle
 import android.view.Menu
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.ui.*
 import ru.vsu.cs.tp.richfamily.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,21 +19,36 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Navigation
+        binding.bottomNav.bottomNavigationView.background = null
+        binding.bottomNav.bottomNavigationView.menu.getItem(2).isEnabled = false
+        val bottomNavController = findNavController(R.id.nav_host_fragment_content_main)
+        NavigationUI.setupWithNavController(binding.bottomNav.bottomNavigationView, bottomNavController)
 
-        setSupportActionBar(binding.appBarMain.toolbar)
+        // Fab
+        binding.bottomNav.fab.setOnClickListener {
 
-        binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
         }
+
+        // Action bar
+        setSupportActionBar(binding.appBarMain.toolbar)
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.walletFragment,
+                R.id.templateFragment,
+                R.id.consumptionFragment,
+                R.id.incomeFragment,
+                R.id.accountFragment,
+                R.id.groupFragment,
+                R.id.aboutFragment,
+                R.id.creditFragment,
+                R.id.addCreditFragment,
+                R.id.creditListFragment,
+                R.id.reportFragment,
+                R.id.categoryFragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -45,7 +56,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
