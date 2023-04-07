@@ -5,17 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.vsu.cs.tp.richfamily.databinding.FragmentCreditBinding
+import androidx.navigation.ui.NavigationUI
+import ru.vsu.cs.tp.richfamily.databinding.FragmentCreditListBinding
 
-class CreditFragment : Fragment() {
+class CreditListFragment : Fragment() {
 
-    private lateinit var binding: FragmentCreditBinding
+    private lateinit var binding: FragmentCreditListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCreditBinding.inflate(inflater, container, false)
+        binding = FragmentCreditListBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 }
