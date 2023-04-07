@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/userProfileFragment"
     tools:context=".ui.account.AccountFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/name_label_tv"
+        style="@style/LabelText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:text="@string/name_hint_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
-            android:id="@+id/nameLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/name_tv"
+        style="@style/DefaultText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Иван Иванов"
+        app:layout_constraintTop_toBottomOf="@id/name_label_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
-                style="@style/LabelText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/name_label_tv" />
+    <TextView
+        android:id="@+id/email_label_tv"
+        style="@style/LabelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/name_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/email_hint_text" />
 
-            <TextView
-                style="@style/DefaultText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Иван Иванов" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/email_tv"
+        style="@style/DefaultText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/email_label_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="ivanov21@gmail.com" />
 
-        <LinearLayout
-            android:id="@+id/emailLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/nameLinearLayout">
+    <Button
+        style="@style/LinkText"
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_button_label"
+        android:textColor="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_tv" />
 
-            <TextView
-                style="@style/LabelText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/email_label_tv" />
+    <Button
+        android:backgroundTint="@color/primary"
+        android:layout_margin="16sp"
+        android:id="@+id/exitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exit_button_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editButton"/>
 
-            <TextView
-                style="@style/DefaultText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="ivanov21@gmail.com" />
-        </LinearLayout>
-
-        <TextView
-            style="@style/LinkText"
-            android:id="@+id/editButtonTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit_button_label_tv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailLinearLayout" />
-
-        <Button
-            android:backgroundTint="@color/primary"
-            android:layout_margin="16sp"
-            android:id="@+id/exitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/exit_button_label"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
