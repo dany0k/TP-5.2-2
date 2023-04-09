@@ -29,4 +29,8 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/toolbar_menu_drawer" />
 
+    <include
+        android:id="@+id/content"
+        layout="@layout/content_main" />
+
 </androidx.drawerlayout.widget.DrawerLayout>
