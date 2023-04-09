@@ -9,12 +9,20 @@
         android:id="@+id/walletFragment"
         android:name="ru.vsu.cs.tp.richfamily.ui.wallet.WalletFragment"
         android:label="Счета"
-        tools:layout="@layout/fragment_wallet" />
+        tools:layout="@layout/fragment_wallet" >
+        <action
+            android:id="@+id/action_walletFragment_to_addWalletFragment"
+            app:destination="@id/addWalletFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/templateFragment"
         android:name="ru.vsu.cs.tp.richfamily.ui.template.TemplateFragment"
-        android:label="Шаблоны" />
+        android:label="Шаблоны" >
+        <action
+            android:id="@+id/action_templateFragment_to_addTemplateFragment"
+            app:destination="@id/addTemplateFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/accountFragment"
@@ -25,12 +33,20 @@
         android:id="@+id/consumptionFragment"
         android:name="ru.vsu.cs.tp.richfamily.ui.consumption.ConsumptionFragment"
         android:label="Расходы"
-        tools:layout="@layout/fragment_consumption" />
+        tools:layout="@layout/fragment_consumption" >
+        <action
+            android:id="@+id/action_consumptionFragment_to_addConsumptionFragment"
+            app:destination="@id/addConsumptionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/incomeFragment"
         android:name="ru.vsu.cs.tp.richfamily.ui.income.IncomeFragment"
         android:label="Доходы"
-        tools:layout="@layout/fragment_income" />
+        tools:layout="@layout/fragment_income" >
+        <action
+            android:id="@+id/action_incomeFragment_to_addIncomeFragment"
+            app:destination="@id/addIncomeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/groupFragment"
         android:name="ru.vsu.cs.tp.richfamily.ui.group.GroupListFragment"
@@ -80,5 +96,24 @@
         android:name="ru.vsu.cs.tp.richfamily.ui.category.CategoryFragment"
         android:label="Категории"
         tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/addWalletFragment"
+        android:name="ru.vsu.cs.tp.richfamily.ui.wallet.AddWalletFragment"
+        android:label="Новый счет" />
+    <fragment
+        android:id="@+id/addConsumptionFragment"
+        android:name="ru.vsu.cs.tp.richfamily.ui.consumption.AddConsumptionFragment"
+        android:label="Новый рассход"
+        tools:layout="@layout/fragment_add_consumption" />
+    <fragment
+        android:id="@+id/addIncomeFragment"
+        android:name="ru.vsu.cs.tp.richfamily.ui.income.AddIncomeFragment"
+        android:label="Новый доход"
+        tools:layout="@layout/fragment_add_income" />
+    <fragment
+        android:id="@+id/addTemplateFragment"
+        android:name="ru.vsu.cs.tp.richfamily.ui.template.AddTemplateFragment"
+        android:label="Новый шаблон"
+        tools:layout="@layout/fragment_add_template" />
 
 </navigation>
