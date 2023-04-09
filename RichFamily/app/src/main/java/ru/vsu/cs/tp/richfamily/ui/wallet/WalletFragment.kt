@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.FragmentWalletBinding
 
@@ -23,6 +24,9 @@ class WalletFragment : Fragment() {
             container,
             false
         )
+        binding.fab.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_walletFragment_to_addWalletFragment)
+        }
         return binding.root
     }
 }

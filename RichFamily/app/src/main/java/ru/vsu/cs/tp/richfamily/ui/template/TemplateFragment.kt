@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.FragmentTemplateBinding
 
@@ -23,6 +24,9 @@ class TemplateFragment : Fragment() {
             container,
             false
         )
+        binding.fab.setOnClickListener {
+            Navigation.findNavController(it).navigate(R.id.action_templateFragment_to_addTemplateFragment)
+        }
         return binding.root
     }
 }
