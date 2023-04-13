@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.auth
+package ru.vsu.cs.tp.richfamily.view.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

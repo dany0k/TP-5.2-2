@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.report
+package ru.vsu.cs.tp.richfamily.view.report
 
 class ReportViewModel {
 }

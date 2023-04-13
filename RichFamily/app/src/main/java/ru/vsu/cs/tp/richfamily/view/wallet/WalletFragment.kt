@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.wallet
+package ru.vsu.cs.tp.richfamily.view.wallet
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

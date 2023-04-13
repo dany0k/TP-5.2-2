@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.credit
+package ru.vsu.cs.tp.richfamily.view.credit
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

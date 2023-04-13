@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.category
+package ru.vsu.cs.tp.richfamily.view.category
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

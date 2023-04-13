@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.account
+package ru.vsu.cs.tp.richfamily.view.account
 
 import android.os.Bundle
 import android.view.*

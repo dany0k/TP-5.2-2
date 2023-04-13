@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.registration
+package ru.vsu.cs.tp.richfamily.view.registration
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

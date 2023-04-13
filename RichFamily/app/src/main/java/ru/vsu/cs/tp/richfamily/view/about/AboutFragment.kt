@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.about
+package ru.vsu.cs.tp.richfamily.view.about
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.ui.wallet
+package ru.vsu.cs.tp.richfamily.view.wallet
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -28,13 +28,13 @@ class AddEditWalletFragment : Fragment() {
         var walletID: Int = -1
 
         binding.addWalletButton.setOnClickListener {
+            // Todo Кидать ошибку пользователю
             val walletTitle: String = binding.walletNameEt.text.toString()
             val walletScore: Int = Integer.parseInt(binding.totalEt.text.toString())
             val walletComment: String = binding.walletCommentTil.toString()
 
-
             if (walletTitle.isNotEmpty()) {
-                viewModel.addWallet(Wallet(walletTitle, walletScore))
+                viewModel.addWallet(Wallet(walletTitle, walletScore, walletComment))
                 Toast.makeText(context, "Счет добавлен", Toast.LENGTH_SHORT).show()
                 Navigation.findNavController(it).navigate(R.id.action_addWalletFragment_to_walletFragment)
             } else {
