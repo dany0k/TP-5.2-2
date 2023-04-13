@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/categoryFragment"
-    tools:context=".ui.category.CategoryFragment">
+    tools:context=".view.category.CategoryFragment">
 
     <include
         android:id="@+id/category_list"

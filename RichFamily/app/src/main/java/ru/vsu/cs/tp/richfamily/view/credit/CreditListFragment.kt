@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.ui.NavigationUI
 import ru.vsu.cs.tp.richfamily.databinding.FragmentCreditListBinding
 
 class CreditListFragment : Fragment() {

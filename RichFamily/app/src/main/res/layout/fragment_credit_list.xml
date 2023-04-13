@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/creditListFragment"
-    tools:context=".ui.credit.CreditFragment">
+    tools:context=".view.credit.CreditFragment">
 
     <include
         android:id="@+id/credits"

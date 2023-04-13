@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/userProfileFragment"
-    tools:context=".ui.account.AccountFragment">
+    tools:context=".view.account.AccountFragment">
 
     <TextView
         android:id="@+id/name_label_tv"

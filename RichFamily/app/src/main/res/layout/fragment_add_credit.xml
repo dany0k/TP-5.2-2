@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/addCreditFragment"
     android:orientation="vertical"
-    tools:context=".ui.credit.AddCreditFragment">
+    tools:context=".view.credit.AddCreditFragment">
 
     <EditText
         android:layout_width="match_parent"

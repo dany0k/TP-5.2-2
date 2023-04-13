@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/creditFragment"
-    tools:context=".ui.credit.CreditFragment">
+    tools:context=".view.credit.CreditFragment">
 
     <TableRow
         android:layout_marginTop="@dimen/default_margin">

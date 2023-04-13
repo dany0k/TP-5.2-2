@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/reportFragment"
-    tools:context=".ui.report.ReportFragment">
+    tools:context=".view.report.ReportFragment">
 
     <TextView
         android:id="@+id/operationsList"

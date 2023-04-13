@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/consumptionFragment"
-    tools:context=".ui.consumption.ConsumptionFragment">
+    tools:context=".view.consumption.ConsumptionFragment">
 
     <include layout="@layout/operation"/>
 

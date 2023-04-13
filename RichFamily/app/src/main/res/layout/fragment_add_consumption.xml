@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.consumption.AddConsumptionFragment">
+    tools:context=".view.consumption.AddConsumptionFragment">
 
     <include
         layout="@layout/add_operation_view"/>
