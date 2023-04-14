@@ -1,13 +1,14 @@
 package ru.vsu.cs.tp.richfamily.view.wallet
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddWalletBinding
 import ru.vsu.cs.tp.richfamily.model.Wallet
@@ -25,30 +26,55 @@ class AddEditWalletFragment : Fragment() {
     ): View {
         binding = FragmentAddWalletBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity())[WalletViewModel::class.java]
-
-        var walletTitle: String
-        var walletScore: Int
-        var walletComment: String
-
+        // Подписываемся на изменение переменной currentWalletMutable
+        // Если по-русски, то
+        // При нажатии пользователем на уже сущ. счет, поля - предзаполняются
         viewModel.currentWallet().observe(viewLifecycleOwner) { wallet ->
-            binding.walletNameEt.text.insert(0, wallet.walletTitle)
-            binding.totalEt.text.insert(0, wallet.walletScore.toString())
-            binding.walletCommentTil.editText?.text?.insert(0, wallet.walletComment)
-            viewModel.clearCurrentWallet()
+            // Отображаем данные
+            binding.walletNameEt.setText(wallet.walletTitle)
+            binding.totalEt.setText(wallet.walletScore.toString())
+            binding.walletCommentTil.editText!!.setText(wallet.walletComment)
         }
 
+        // Назначение действия кнопке
         binding.addWalletButton.setOnClickListener {
-            walletTitle = binding.walletNameEt.text.toString()
-            walletScore = Integer.parseInt(binding.totalEt.text.toString())
-            walletComment = binding.walletCommentTil.editText?.text.toString()
-                if (walletTitle.isNotEmpty()) {
-                    viewModel.addWallet(Wallet(walletTitle, walletScore, walletComment))
-                    Toast.makeText(context, "Счет добавлен", Toast.LENGTH_SHORT).show()
-                    Navigation.findNavController(it).navigate(R.id.action_addWalletFragment_to_walletFragment)
-                } else {
-                    Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
-                }
-            }
+            insertWalletToDatabase();
+        }
         return binding.root
     }
+
+    private fun insertWalletToDatabase() {
+        val walletTitle: String = binding.walletNameEt.text.toString()
+        val walletScore: Int = Integer.parseInt(binding.totalEt.text.toString())
+        val walletComment: String = binding.walletCommentTil.editText!!.text.toString()
+
+        if (inputCheck(walletTitle, walletScore, walletComment)) {
+            val wallet = Wallet(0, walletTitle, walletScore, walletComment)
+            viewModel.addWallet(wallet)
+            Toast.makeText(
+                requireActivity(),
+                "Счет успешно добавлен",
+                Toast.LENGTH_LONG)
+                .show()
+            findNavController().navigate(R.id.action_addWalletFragment_to_walletFragment)
+        } else {
+            Toast.makeText(
+                requireActivity(),
+                "Пожалуйста заполните все поля",
+                Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    private fun inputCheck(
+        walletTitle: String,
+        walletScore: Int,
+        walletComment: String
+    ) : Boolean {
+        return !(TextUtils.isEmpty(walletTitle) &&
+                TextUtils.isEmpty(walletComment) &&
+                walletScore.toString().isEmpty())
+    }
+
+
 }
