@@ -24,23 +24,31 @@ class AddEditWalletFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddWalletBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[WalletViewModel::class.java]
-        var walletID: Int = -1
+        viewModel = ViewModelProvider(requireActivity())[WalletViewModel::class.java]
+
+        var walletTitle: String
+        var walletScore: Int
+        var walletComment: String
+
+        viewModel.currentWallet().observe(viewLifecycleOwner) { wallet ->
+            binding.walletNameEt.text.insert(0, wallet.walletTitle)
+            binding.totalEt.text.insert(0, wallet.walletScore.toString())
+            binding.walletCommentTil.editText?.text?.insert(0, wallet.walletComment)
+            viewModel.clearCurrentWallet()
+        }
 
         binding.addWalletButton.setOnClickListener {
-            // Todo Кидать ошибку пользователю
-            val walletTitle: String = binding.walletNameEt.text.toString()
-            val walletScore: Int = Integer.parseInt(binding.totalEt.text.toString())
-            val walletComment: String = binding.walletCommentTil.toString()
-
-            if (walletTitle.isNotEmpty()) {
-                viewModel.addWallet(Wallet(walletTitle, walletScore, walletComment))
-                Toast.makeText(context, "Счет добавлен", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(it).navigate(R.id.action_addWalletFragment_to_walletFragment)
-            } else {
-                Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
+            walletTitle = binding.walletNameEt.text.toString()
+            walletScore = Integer.parseInt(binding.totalEt.text.toString())
+            walletComment = binding.walletCommentTil.editText?.text.toString()
+                if (walletTitle.isNotEmpty()) {
+                    viewModel.addWallet(Wallet(walletTitle, walletScore, walletComment))
+                    Toast.makeText(context, "Счет добавлен", Toast.LENGTH_SHORT).show()
+                    Navigation.findNavController(it).navigate(R.id.action_addWalletFragment_to_walletFragment)
+                } else {
+                    Toast.makeText(context, "Заполните все поля!", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
         return binding.root
     }
 }

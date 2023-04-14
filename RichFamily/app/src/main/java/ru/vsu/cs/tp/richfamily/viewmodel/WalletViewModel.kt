@@ -3,6 +3,7 @@ package ru.vsu.cs.tp.richfamily.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,6 +15,7 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
 
     val allWallets: LiveData<List<Wallet>>
     private val repository: WalletRepository
+    private var currWalletMutable = MutableLiveData<Wallet>()
 
     init {
         val dao = AppDataBase.getDatabase(application).getWalletsDao()
@@ -32,4 +34,17 @@ class WalletViewModel(application: Application) : AndroidViewModel(application) 
     fun addWallet(wallet: Wallet) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(wallet)
     }
+
+    fun saveWallet(wallet: Wallet) {
+        currWalletMutable.value = wallet
+    }
+
+    fun currentWallet(): LiveData<Wallet> {
+        return currWalletMutable
+    }
+
+    fun clearCurrentWallet() {
+        currWalletMutable = MutableLiveData<Wallet>()
+    }
+
 }

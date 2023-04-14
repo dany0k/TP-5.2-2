@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -40,7 +41,7 @@ class WalletFragment : Fragment(), WalletClickDeleteInterface, WalletClickInterf
             this, this, this)
         binding.walletsRv.adapter = walletRVAdapter
         // ViewModel
-        viewModel = ViewModelProvider(this,
+        viewModel = ViewModelProvider(requireActivity(),
             ViewModelProvider.AndroidViewModelFactory
                 .getInstance(App()))[WalletViewModel::class.java]
         viewModel.allWallets.observe(viewLifecycleOwner, Observer { list ->
@@ -61,6 +62,8 @@ class WalletFragment : Fragment(), WalletClickDeleteInterface, WalletClickInterf
     }
 
     override fun onNoteClick(wallet: Wallet) {
-
+        viewModel.saveWallet(wallet)
+        Navigation.findNavController(binding.root)
+            .navigate(R.id.action_walletFragment_to_addWalletFragment);
     }
 }
