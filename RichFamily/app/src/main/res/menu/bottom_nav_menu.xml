@@ -8,8 +8,6 @@
         android:id="@+id/templateFragment"
         android:icon="@drawable/ic_template"
         android:title="@string/templates_title" />
-    <item android:id="@+id/placeholder"
-        android:title=""/>
     <item
         android:id="@+id/consumptionFragment"
         android:icon="@drawable/ic_consumption"
