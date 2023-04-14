@@ -14,22 +14,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        val scope = CoroutineScope(Dispatchers.Default)
+//        scope.launch {
+//            AppDataBase.getDatabase(this@MainActivity).clearAllTables()
+//        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Navigation
         binding.bottomNav.bottomNavigationView.background = null
-        binding.bottomNav.bottomNavigationView.menu.getItem(2).isEnabled = false
         val bottomNavController = findNavController(R.id.nav_host_fragment_content_main)
         NavigationUI.setupWithNavController(binding.bottomNav.bottomNavigationView, bottomNavController)
-
-        // Fab
-        binding.bottomNav.fab.setOnClickListener {
-
-        }
-
         // Action bar
         setSupportActionBar(binding.appBarMain.toolbar)
         val drawerLayout: DrawerLayout = binding.drawerLayout
@@ -41,14 +40,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.templateFragment,
                 R.id.consumptionFragment,
                 R.id.incomeFragment,
-                R.id.accountFragment,
                 R.id.groupFragment,
-                R.id.aboutFragment,
-                R.id.creditFragment,
-                R.id.addCreditFragment,
-                R.id.creditListFragment,
-                R.id.reportFragment,
-                R.id.categoryFragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
