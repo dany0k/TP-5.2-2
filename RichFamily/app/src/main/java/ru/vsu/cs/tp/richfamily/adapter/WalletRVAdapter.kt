@@ -5,23 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.fragment.app.ListFragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.WalletRvItemBinding
 import ru.vsu.cs.tp.richfamily.model.Wallet
-import ru.vsu.cs.tp.richfamily.view.credit.CreditListFragmentDirections
 import ru.vsu.cs.tp.richfamily.view.wallet.WalletFragment
 import ru.vsu.cs.tp.richfamily.view.wallet.WalletFragmentDirections
 
 class WalletRVAdapter(
     val context: WalletFragment,
     private val walletClickDeleteInterface: WalletClickDeleteInterface,
-    private val walletClickInterface: WalletClickInterface
     ) : RecyclerView.Adapter<WalletRVAdapter.WalletViewHolder>() {
 
-    private val pos: Int = -1
     private val allWallet = ArrayList<Wallet>()
 
     inner class WalletViewHolder(
@@ -48,8 +43,6 @@ class WalletRVAdapter(
            val action = WalletFragmentDirections.
            actionWalletFragmentToUpdateWalletFragment(allWallet[position])
             holder.itemView.findNavController().navigate(action)
-//            walletClickInterface.onNoteClick(allWallet[position])
-//            holder.itemView.findNavController().navigate()
         }
     }
 

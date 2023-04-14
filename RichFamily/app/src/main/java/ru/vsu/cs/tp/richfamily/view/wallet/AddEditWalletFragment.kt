@@ -26,17 +26,7 @@ class AddEditWalletFragment : Fragment() {
     ): View {
         binding = FragmentAddWalletBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(requireActivity())[WalletViewModel::class.java]
-        // Подписываемся на изменение переменной currentWalletMutable
-        // Если по-русски, то
-        // При нажатии пользователем на уже сущ. счет, поля - предзаполняются
-        viewModel.currentWallet().observe(viewLifecycleOwner) { wallet ->
-            // Отображаем данные
-            binding.walletNameEt.setText(wallet.walletTitle)
-            binding.totalEt.setText(wallet.walletScore.toString())
-            binding.walletCommentTil.editText!!.setText(wallet.walletComment)
-        }
 
-        // Назначение действия кнопке
         binding.addWalletButton.setOnClickListener {
             insertWalletToDatabase();
         }
