@@ -18,7 +18,7 @@
 
     <string name="edit_button_label">Редактировать</string>
     <string name="exit_button_label">Выйти</string>
-    <string name="add_operation_button_label">Добавить</string>
+    <string name="add_operation_button_label">Сохранить</string>
     <string name="submit_button_label">Подтвердить</string>
     <string name="enter_button_label">Войти</string>
 
@@ -66,4 +66,8 @@
     <string name="add_category_text">Создание новой категории</string>
     <string name="category_name_hint_text">Название категории</string>
     <string name="add_category_button_label">Создать категорию</string>
+    <string name="credit_name_text">Название кредита</string>
+    <string name="start_sum_hint_text">Изначальная сумма</string>
+    <string name="wallet_hint_text">Счет</string>
+    <string name="wallet_title_hint_text">Название счета</string>
 </resources>
