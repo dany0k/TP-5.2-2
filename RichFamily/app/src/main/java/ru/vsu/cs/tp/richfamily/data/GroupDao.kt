@@ -14,6 +14,6 @@ interface GroupDao {
     @Update
     suspend fun update(group: Group)
 
-    @Query("Select * from group order by id ASC")
+    @Query("Select * from userGroup order by id ASC")
     fun getAllGroups(): LiveData<List<Group>>
 }

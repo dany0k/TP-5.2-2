@@ -8,7 +8,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "group")
+@Entity(tableName = "userGroup")
 
 data class Group (
     @PrimaryKey(autoGenerate = true)
