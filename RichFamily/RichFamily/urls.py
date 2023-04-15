@@ -17,6 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from operations.views import *
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('categories/', OperationCategoryAPIList.as_view()),
+    path('categories/<int:pk>/', OperationCategoryAPIOne.as_view()),
+    path('templates/', OperationTemplateAPIList.as_view()),
 ]
