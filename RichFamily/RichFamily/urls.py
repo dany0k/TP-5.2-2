@@ -15,13 +15,41 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers, permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
 from operations.views import *
+from users.views import *
+from groups.views import *
+
+# Блок подключения Swagger
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Snippets API",
+      default_version='v1',
+      description="Test description",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="contact@snippets.local"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+router = routers.SimpleRouter()
+router.register(r'categories', OperationCategoryViewSet, basename='categories')
+router.register(r'templates', OperationTemplateViewSet, basename='templates')
+router.register(r'accounts', AccountViewSet, basename='accounts')
+router.register(r'operations', OperationViewSet, basename='operations')
+router.register(r'credits', CreditPayViewSet, basename='credits')
+router.register(r'users', UserProfileViewSet, basename='users')
+router.register(r'groups', GroupViewSet, basename='groups')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('categories/', OperationCategoryAPIList.as_view()),
-    path('categories/<int:pk>/', OperationCategoryAPIOne.as_view()),
-    path('templates/', OperationTemplateAPIList.as_view()),
+    path('api/v1/', include(router.urls)),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
