@@ -19,8 +19,8 @@ class OperationTemplateSerializer(serializers.ModelSerializer):
 class AccountSerializer(serializers.ModelSerializer):
     """ Сериализатор для счета пользователя """
     class Meta:
-        models = Account
-        fields = ('id', 'user', 'acc_sum', 'acc_currency' ,'acc_comment ')
+        model = Account
+        fields = ('id', 'user', 'acc_sum', 'acc_currency' ,'acc_comment')
 
 
 class OperationSerializer(serializers.ModelSerializer):
