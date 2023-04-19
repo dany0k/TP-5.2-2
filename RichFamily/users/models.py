@@ -10,7 +10,6 @@ class AppUserProfile(models.Model):
     # В качестве модели пользователя будет использоваться расширенная встроенная модель
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     secret_word = models.CharField(max_length=255)
-    groups = models.ManyToManyField(Group, related_name='users', blank=True)
 
 
 @receiver(post_save, sender=User)
@@ -24,9 +23,12 @@ def save_user_profile(sender, instance, **kwargs):
     instance.appuserprofile.save()
 
 
-class Leaders(models.Model):
-    group = models.OneToOneField(Group, on_delete=models.CASCADE)
-    leader = models.OneToOneField(AppUserProfile, on_delete=models.CASCADE)
+class GroupUser(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    is_leader = models.BooleanField(default=False)
+
 
     class Meta:
-        db_table = 'leaders'
+        unique_together = (('group'), ('user'))
+        db_table = 'groups_users'
