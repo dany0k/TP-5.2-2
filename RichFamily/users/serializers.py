@@ -8,5 +8,4 @@ class AppUserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppUserProfile
         fields = '__all__'
-        extra_kwargs = {'groups': {'required': False}}
 
