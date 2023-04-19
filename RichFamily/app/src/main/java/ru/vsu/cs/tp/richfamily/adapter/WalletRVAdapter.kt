@@ -15,7 +15,7 @@ import ru.vsu.cs.tp.richfamily.view.wallet.WalletFragmentDirections
 class WalletRVAdapter(
     val context: WalletFragment,
     private val walletClickDeleteInterface: WalletClickDeleteInterface,
-    ) : RecyclerView.Adapter<WalletRVAdapter.WalletViewHolder>() {
+) : RecyclerView.Adapter<WalletRVAdapter.WalletViewHolder>() {
 
     private val allWallet = ArrayList<Wallet>()
 

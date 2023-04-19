@@ -40,7 +40,7 @@ class AddEditWalletFragment : Fragment() {
 
         if (inputCheck(walletTitle, walletScore, walletComment)) {
             val wallet = Wallet(0, walletTitle, walletScore, walletComment)
-            viewModel.addWallet(wallet)
+//            viewModel.addWallet(wallet)
             Toast.makeText(
                 requireActivity(),
                 "Счет успешно добавлен",

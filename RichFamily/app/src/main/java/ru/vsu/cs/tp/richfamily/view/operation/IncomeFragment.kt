@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.view.income
+package ru.vsu.cs.tp.richfamily.view.operation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,7 +19,8 @@ class IncomeFragment : Fragment() {
     ): View {
         binding = FragmentIncomeBinding.inflate(inflater, container, false)
         binding.fab.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_incomeFragment_to_addIncomeFragment)
+            Navigation.findNavController(it)
+                .navigate(R.id.action_incomeFragment_to_addOperationFragment)
         }
         return binding.root
     }

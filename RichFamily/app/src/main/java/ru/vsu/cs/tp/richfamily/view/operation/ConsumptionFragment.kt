@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.view.consumption
+package ru.vsu.cs.tp.richfamily.view.operation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,7 +19,7 @@ class ConsumptionFragment : Fragment() {
     ): View {
         binding = FragmentConsumptionBinding.inflate(inflater, container, false)
         binding.fab.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_consumptionFragment_to_addConsumptionFragment)
+            Navigation.findNavController(it).navigate(R.id.action_consumptionFragment_to_addOperationFragment)
         }
         return binding.root
     }

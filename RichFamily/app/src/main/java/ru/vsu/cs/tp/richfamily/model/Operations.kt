@@ -1,16 +1,11 @@
 package ru.vsu.cs.tp.richfamily.model
 
 import android.os.Parcelable
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import ru.vsu.cs.tp.richfamily.model.Category
-import ru.vsu.cs.tp.richfamily.model.Wallet
 import java.time.LocalDateTime
-import java.time.ZonedDateTime
 
 @Parcelize
 @Entity(tableName = "operations")

@@ -54,7 +54,7 @@ class UpdateWalletFragment : Fragment() {
                 walletName,
                 walletScore,
                 walletComment)
-            viewModel.updateWallet(updatedWallet)
+//            viewModel.updateWallet(updatedWallet)
             findNavController().navigate(R.id.action_updateWalletFragment_to_walletFragment)
             Toast.makeText(
                 requireActivity(),

@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import ru.vsu.cs.tp.richfamily.MainActivity
-import ru.vsu.cs.tp.richfamily.data.WalletDao
-import ru.vsu.cs.tp.richfamily.model.Wallet
+import ru.vsu.cs.tp.richfamily.room.user.UserDao
+import ru.vsu.cs.tp.richfamily.room.user.UserDB
 
-@Database(entities = [Wallet::class], version = 1, exportSchema = false)
+@Database(entities = [UserDB::class], version = 1, exportSchema = false)
 abstract class AppDataBase : RoomDatabase() {
 
-    abstract fun getWalletsDao(): WalletDao
+    abstract fun getUserDao(): UserDao
+
 
     companion object {
 
