@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_walletFragment_to_updateWalletFragment"
             app:destination="@id/updateWalletFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
 
     <fragment
@@ -34,21 +37,21 @@
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/consumptionFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.consumption.ConsumptionFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.ConsumptionFragment"
         android:label="Расходы"
         tools:layout="@layout/fragment_consumption" >
         <action
-            android:id="@+id/action_consumptionFragment_to_addConsumptionFragment"
-            app:destination="@id/addConsumptionFragment" />
+            android:id="@+id/action_consumptionFragment_to_addOperationFragment"
+            app:destination="@id/addOperationFragment" />
     </fragment>
     <fragment
         android:id="@+id/incomeFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.income.IncomeFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.IncomeFragment"
         android:label="Доходы"
         tools:layout="@layout/fragment_income" >
         <action
-            android:id="@+id/action_incomeFragment_to_addIncomeFragment"
-            app:destination="@id/addIncomeFragment" />
+            android:id="@+id/action_incomeFragment_to_addOperationFragment"
+            app:destination="@id/addOperationFragment" />
     </fragment>
     <fragment
         android:id="@+id/groupFragment"
@@ -105,16 +108,6 @@
             app:destination="@id/walletFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addConsumptionFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.consumption.AddConsumptionFragment"
-        android:label="Рассход"
-        tools:layout="@layout/fragment_add_consumption" />
-    <fragment
-        android:id="@+id/addIncomeFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.income.AddIncomeFragment"
-        android:label="Доход"
-        tools:layout="@layout/fragment_add_income" />
-    <fragment
         android:id="@+id/addTemplateFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.template.AddTemplateFragment"
         android:label="Шаблон"
@@ -130,5 +123,27 @@
             android:name="currentWallet"
             app:argType="ru.vsu.cs.tp.richfamily.model.Wallet" />
     </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.auth.RegistrationFragment"
+        android:label="Регистрация" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.auth.LoginFragment"
+        android:label="Вход"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOperationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.AddOperationFragment"
+        android:label="fragment_add_operation"
+        tools:layout="@layout/fragment_add_operation" />
 
 </navigation>
