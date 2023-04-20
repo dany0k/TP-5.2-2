@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.model
+package ru.vsu.cs.tp.richfamily.api.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -8,14 +8,11 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "wallet")
-data class Wallet(
+@Entity(tableName = "userGroup")
+
+data class Group (
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
-    @ColumnInfo(name = "title")
-    val walletTitle: String,
-    @ColumnInfo(name = "score")
-    val walletScore: Int,
-    @ColumnInfo(name = "comment")
-    val walletComment: String
+    @ColumnInfo(name = "groupName")
+    val groupName: String
 ) : Parcelable

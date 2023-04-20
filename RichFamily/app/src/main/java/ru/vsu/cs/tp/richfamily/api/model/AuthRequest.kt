@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.model
+package ru.vsu.cs.tp.richfamily.api.model
 
 data class AuthRequest (
     val username: String,

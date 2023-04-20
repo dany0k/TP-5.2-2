@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.model
+package ru.vsu.cs.tp.richfamily.api.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
