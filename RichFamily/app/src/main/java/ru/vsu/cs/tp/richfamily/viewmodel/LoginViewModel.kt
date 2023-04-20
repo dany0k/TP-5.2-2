@@ -1,27 +1,35 @@
 package ru.vsu.cs.tp.richfamily.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import ru.vsu.cs.tp.richfamily.room.user.UserDB
-import ru.vsu.cs.tp.richfamily.room.AppDataBase
-import ru.vsu.cs.tp.richfamily.room.user.UserRepository
+import ru.vsu.cs.tp.richfamily.utils.SharedPrefUtils
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     val token = MutableLiveData<String>()
-    val user =  MutableLiveData<UserDB>()
-    private val repository: UserRepository
 
     init {
-        val dao = AppDataBase.getDatabase(application).getUserDao()
-        repository = UserRepository(dao)
-        user.value = repository.currentUser
+        Log.d("AAAA", "View model created!")
+        if (SharedPrefUtils.isEmpty(application.applicationContext)) {
+            Log.d("AAAA", "Data!")
+            token.value = SharedPrefUtils
+                .getToken(application.applicationContext)
+            Log.d("AAAA", "${token.value}")
+
+        } else {
+            Log.d("AAAA", "No data!")
+        }
     }
 
-    fun saveUser(userDB: UserDB) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(userDB)
+    fun isToken(): Boolean {
+        return token.value?.isNotEmpty() == true
+    }
+
+    fun saveToken(userToken: String) {
+        token.value = userToken
+        SharedPrefUtils.saveToken(
+            getApplication<Application>().applicationContext, userToken
+        )
     }
 }
