@@ -98,7 +98,11 @@
         android:id="@+id/categoryFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.category.CategoryFragment"
         android:label="Категории"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addWalletFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.wallet.AddEditWalletFragment"
@@ -119,9 +123,6 @@
         <action
             android:id="@+id/action_updateWalletFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
-        <argument
-            android:name="currentWallet"
-            app:argType="ru.vsu.cs.tp.richfamily.model.Wallet" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
