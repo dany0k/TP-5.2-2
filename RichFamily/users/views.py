@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
 from .models import AppUserProfile, GroupUser
-from .serializers import AppUserProfileSerializer
+from .serializers import AppUserProfileSerializer, UserSerializer
 from operations.serializers import AccountSerializer, CreditPaySerializer
 from groups.serializers import GroupSerializer
 
@@ -33,6 +33,30 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         user.appuserprofile.secret_word = make_password(body_data['secret_word'])
         user.save()
         return Response(AppUserProfileSerializer(user.appuserprofile).data)
+    
+    def update(self, request, *args, **kwargs):
+        """
+        Обновить базовую информацию профиля пользователя
+        В теле запроса указываются следующие данные:
+            "id": "id зарегистрированного пользователя",
+            "first_name": "имя",
+            "last_name": "фамилия",
+        """
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        user = User.objects.get(id=body_data['id'])
+        user.first_name = body_data['first_name']
+        user.last_name = body_data['last_name']
+        user.save()
+        return Response(UserSerializer(user).data) 
+
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        """
+        Получить информацию профиля зарегистрированного пользователя
+        """
+        serializer = UserSerializer(self.request.user)
+        return Response(serializer.data)
 
     @action(detail=True, methods=['get'])
     def accounts(self, request, pk=None):
