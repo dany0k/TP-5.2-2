@@ -1,0 +1,52 @@
+INSERT INTO User (id, name, surname, email, password, secret_word) 
+VALUES (1, 'Алексей', 'Попов', 'sonOfaPop@gmail.com', 'best_bogatyir', 'Popson');
+INSERT INTO User (id, name, surname, email, password, secret_word) 
+VALUES (2, 'Григорий', 'Распутин', 'R4sput@yandex.ru', 'LeninDontLikeMe', 'tsarskiyDrug');
+INSERT INTO Category (id, name) 
+VALUES (1, 'Продукты');
+INSERT INTO Category (id, name) 
+VALUES (2, 'Развлечения');
+INSERT INTO Category (id, name) 
+VALUES (3, 'Транспорт');
+INSERT INTO Category (id, name) 
+VALUES (4, 'Перевод');
+INSERT INTO Wallet (id, title, score, comment) 
+VALUES (1, 'Общий', 20000, 'Взял-Положи');
+INSERT INTO Wallet (id, title, score, comment) 
+VALUES (2, 'Пустой', 0, 'Буквально');
+INSERT INTO Wallet (id, title, score, comment) 
+VALUES (3, 'Заначка', 835406, 'На черный день');
+INSERT INTO Wallet (id, title, score, comment) 
+VALUES (4, 'На университет', 500000, '');
+INSERT INTO Operation (id, variant, date, account, recipient, category, sum, comment) 
+VALUES (1, 'расход', 2023-04-21 19:53:22.064, 2, 'Анастасия Н.', 4, 3000, 'Долг');
+INSERT INTO Operation (id, variant, date, account, recipient, category, sum, comment) 
+VALUES (2, 'расход', 2023-04-21 19:53:22.064, 1, 'ОАО Пятерочка', 1, 1280, '');
+INSERT INTO Operation (id, variant, date, account, recipient, category, sum, comment) 
+VALUES (3, 'доход', 2023-04-21 19:53:22.064, 2, 'Виктор Г.', 4, 9000, 'На месяц');
+INSERT INTO Operation (id, variant, date, account, recipient, category, sum, comment) 
+VALUES (4, 'расход', 2023-04-21 19:53:22.064, 2, 'Сергей Л.', 4, 10000, 'С др!');
+INSERT INTO Template (id, name, variant, recipient, category, sum) 
+VALUES (1, 'Перевод', 'доход', 'Виктор Г.', 4, 960);
+INSERT INTO Template (id, name, variant, recipient, category, sum) 
+VALUES (2, 'Проезд', 'расход', 'МинТранс', 3, 29);
+INSERT INTO Template (id, name, variant, recipient, category, sum) 
+VALUES (3, 'Кино', 'расход', 'ОАО Киномакс', 2, 1340);
+INSERT INTO Template (id, name, variant, recipient, category, sum) 
+VALUES (4, 'Поход в магазин', 'расход', 'ОАО Пятерочка', 1, 1590);
+INSERT INTO Group (id, name) 
+VALUES (1, 'Бюджет1');
+INSERT INTO Group (id, name) 
+VALUES (2, 'Бюджет2');
+INSERT INTO Group (id, name) 
+VALUES (3, 'Бюджет3');
+INSERT INTO Group (id, name) 
+VALUES (4, 'Бюджет4');
+INSERT INTO Credit (id, sum, firstPay, allSum, period, payType, user, monthPay, sumPlusPercents) 
+VALUES (1, 23000, 1526.94, 0.13, 18, 'дифференциальный', 1, 1277.78, 25367.08);
+INSERT INTO Credit (id, sum, firstPay, allSum, period, payType, user, monthPay, sumPlusPercents) 
+VALUES (2, 560000, 48210.26, 0.11, 13, 'дифференциальный', 2, 43076.92, 595933.33);
+INSERT INTO Credit (id, sum, firstPay, allSum, period, payType, user, monthPay, sumPlusPercents) 
+VALUES (3, 36900, 2736.75, 0.14, 16, 'дифференциальный', 2, 2306.25, 40559.25);
+INSERT INTO Credit (id, sum, firstPay, allSum, period, payType, user, monthPay, sumPlusPercents)  
+VALUES (4, 90000, 6508.13, 0.10, 12, 'дифференциальный', 1,  7500.00, 94875.00);
