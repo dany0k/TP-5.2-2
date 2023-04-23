@@ -42,13 +42,13 @@ class GroupViewSet(viewsets.ModelViewSet):
     def add_user(self, request, pk=None):
         """
         Добавить пользователя в группу с идентификатором id
-        В теле запроса указывается строка "user_id" : "идентификатор пользователя"
+        В теле запроса указывается строка "email" : "email пользователя"
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
         group = Group.objects.get(id=pk)
-        user_id = body_data['user_id']
-        user = User.objects.get(id=user_id)
+        user_email = body_data['email']
+        user = User.objects.get(email=user_email)
         GroupUser.objects.create(group=group, user=user)
         return Response({'success': 'true'})
 
@@ -56,12 +56,12 @@ class GroupViewSet(viewsets.ModelViewSet):
     def remove_user(self, request, pk=None):
         """
         Исключить пользователя из группы с идентификатором id
-        В теле запроса указывается строка "user_id" : "идентификатор пользователя"
+        В теле запроса указывается строка "email" : "email пользователя"
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
         group = Group.objects.get(id=pk)
-        user = User.objects.get(id=body_data['user_id'])
+        user = User.objects.get(email=body_data['email'])
         removed_user = GroupUser.objects.get(user=user, group=group)
         removed_user.delete()
         return Response({'success': 'true'})
