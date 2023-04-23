@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import ru.vsu.cs.tp.richfamily.api.model.*
 
-interface CategoryService {
+interface ServiceAPI {
 
     @POST("auth/token/login")
     suspend fun auth(@Body authRequest: AuthRequest): Response<User>
@@ -36,5 +36,14 @@ interface CategoryService {
         @Path("id") id: Int
     ) : Response<Category>
 
-    
+    @Headers("Content-type: application/json")
+    @GET("api/v1/accounts")
+    suspend fun getWallets(@Header("Authorization") token: String) : List<Wallet>
+
+    @Headers("Content-type: application/json")
+    @POST("api/v1/accounts/")
+    suspend fun addWallet(
+        @Header("Authorization") token: String,
+        @Body walletRequestBody: WalletRequestBody
+    ) : Response<Wallet>
 }
