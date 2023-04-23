@@ -54,10 +54,14 @@
             app:destination="@id/addOperationFragment" />
     </fragment>
     <fragment
-        android:id="@+id/groupFragment"
+        android:id="@+id/groupListFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.group.GroupListFragment"
         android:label="Группа"
-        tools:layout="@layout/fragment_group_list" />
+        tools:layout="@layout/fragment_group_list" >
+        <action
+            android:id="@+id/action_groupListFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+    </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.about.AboutFragment"
@@ -70,6 +74,9 @@
         <action
             android:id="@+id/action_creditListFragment_to_creditFragment"
             app:destination="@id/creditFragment" />
+        <action
+            android:id="@+id/action_creditListFragment_to_addCreditFragment"
+            app:destination="@id/addCreditFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCreditFragment"
@@ -82,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/creditFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.credit.AddCreditFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.credit.CreditFragment"
         android:label="Кредит"
         tools:layout="@layout/fragment_credit" >
         <action
@@ -105,7 +112,7 @@
     </fragment>
     <fragment
         android:id="@+id/addWalletFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.wallet.AddEditWalletFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.wallet.AddWalletFragment"
         android:label="Счет" >
         <action
             android:id="@+id/action_addWalletFragment_to_walletFragment"
@@ -140,11 +147,36 @@
         <action
             android:id="@+id/action_loginFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_recoveryFragment"
+            app:destination="@id/recoveryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addOperationFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.operation.AddOperationFragment"
-        android:label="fragment_add_operation"
+        android:label="Добавление операции"
         tools:layout="@layout/fragment_add_operation" />
+    <fragment
+        android:id="@+id/recoveryFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.auth.RecoveryFragment"
+        android:label="Восстановление пароля"
+        tools:layout="@layout/fragment_recovery" >
+        <action
+            android:id="@+id/action_recoveryFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.group.GroupFragment"
+        android:label="Группы"
+        tools:layout="@layout/fragment_group" >
+        <action
+            android:id="@+id/action_groupFragment_to_userOperationFragment"
+            app:destination="@id/userOperationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userOperationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.UserOperationFragment"
+        android:label="Участники" />
 
 </navigation>
