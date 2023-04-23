@@ -1,4 +1,5 @@
 from re import template
+from django.db.models.fields import return_None
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -53,6 +54,25 @@ class OperationViewSet(viewsets.ModelViewSet):
         response = generate_report(self.request.user)
         return Response(response)
 
+    @action(detail=False, methods=['get'])
+    def incomes(self, requset):
+        """
+        Получить доходы зарегистрированного пользователя
+        """
+        incomes = Operation.objects.filter(account__user=self.request.user,
+                                           op_variant='доход')
+        serializer = OperationSerializer(incomes, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def consumptions(self, requset):
+        """
+        Получить расходы зарегистрированного пользователя
+        """
+        consumptions = Operation.objects.filter(account__user=self.request.user,
+                                           op_variant='расход')
+        serializer = OperationSerializer(consumptions, many=True)
+        return Response(serializer.data)
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
