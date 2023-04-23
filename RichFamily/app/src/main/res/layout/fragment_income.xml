@@ -7,8 +7,11 @@
     android:id="@+id/incomeFragment"
     tools:context=".view.operation.IncomeFragment">
 
-    <include
-        layout="@layout/operation"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/wallets_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/operation_rv_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

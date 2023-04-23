@@ -29,21 +29,22 @@
                 android:textColor="@color/black"
                 tools:text="Шаблон 1"/>
             <TextView
-                android:id="@+id/template_sender"
+                android:id="@+id/template_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/template_name"
-                tools:text="Мама"/>
+                tools:text="Расход"/>
 
             <TextView
+                android:id="@+id/template_sum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="1000 руб."
-                android:textSize="16sp"
-                android:gravity="center"
-                android:layout_marginStart="@dimen/default_margin"
                 android:layout_alignParentTop="true"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/default_margin"
+                android:gravity="center"
+                android:textSize="16sp"
+                tools:text="1000 руб." />
             <ImageView
                 android:id="@+id/deleteTemplateIV"
                 android:layout_width="wrap_content"

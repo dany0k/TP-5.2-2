@@ -44,20 +44,29 @@
                 tools:text="09:30 PM"/>
 
             <TextView
+                android:id="@+id/consumption_sum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="1000 руб."
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/default_margin"
                 android:layout_toEndOf="@id/consumption_time"
                 android:textSize="16sp"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_alignParentTop="true"
-                android:layout_centerInParent="true"/>
+                tools:text="1000 руб." />
             <ImageView
                 android:id="@+id/deleteConsumptionIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete"
                 android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"/>
+            <ImageView
+                android:id="@+id/editConsumptionIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:src="@drawable/ic_edit"
+                android:layout_toStartOf="@+id/deleteConsumptionIV"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

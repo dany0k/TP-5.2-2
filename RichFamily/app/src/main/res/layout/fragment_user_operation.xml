@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/DefaultText"
-        android:text="Операции"
+        android:text="@string/operation_text_tv"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -25,15 +25,5 @@
         android:layout_marginTop="@dimen/default_margin"
         tools:listitem="@layout/operation_rv_item"
         app:layout_constraintTop_toBottomOf="@id/operation_tv"/>
-
-    <Button
-        android:id="@+id/saveReportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/save_report_button_label"
-        app:layout_constraintTop_toBottomOf="@id/operations_rv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,18 +5,24 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/creditListFragment"
-    tools:context=".view.credit.CreditFragment">
+    tools:context=".view.credit.CreditListFragment">
 
-    <include
-        android:id="@+id/credits"
-        layout="@layout/operation"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/credits_rv"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_marginTop="@dimen/default_margin"
+        tools:listitem="@layout/credit_rv_item"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/calculateCreditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calculate_text"
-        app:layout_constraintTop_toBottomOf="@id/credits"
+        app:layout_constraintTop_toBottomOf="@id/credits_rv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
