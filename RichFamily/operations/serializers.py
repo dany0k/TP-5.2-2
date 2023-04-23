@@ -20,7 +20,7 @@ class AccountSerializer(serializers.ModelSerializer):
     """ Сериализатор для счета пользователя """
     class Meta:
         model = Account
-        fields = ('id', 'user', 'acc_sum', 'acc_currency' ,'acc_comment')
+        fields = ('id', 'user', 'acc_name', 'acc_sum', 'acc_currency' ,'acc_comment')
 
 
 class OperationSerializer(serializers.ModelSerializer):

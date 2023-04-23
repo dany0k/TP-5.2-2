@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 class Account(models.Model):
     """ Модель счета пользователя """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    acc_name = models.CharField(max_length=20, default='Счет')
     acc_sum = models.FloatField()
     acc_currency = models.CharField(max_length=10)
     acc_comment = models.TextField()
