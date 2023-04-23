@@ -15,6 +15,7 @@ class Account(models.Model):
 
 class OperationCategory(models.Model):
     """ Модель категории операции """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     cat_name = models.CharField(max_length=30)
 
     class Meta:

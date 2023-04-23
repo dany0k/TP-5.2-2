@@ -1,3 +1,4 @@
+from re import template
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -12,6 +13,12 @@ class OperationCategoryViewSet(viewsets.ModelViewSet):
     queryset = OperationCategory.objects.all()
     serializer_class = OperationCategorySerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        return OperationCategory.objects.filter(user=self.request.user)
 
     @action(detail=True, methods=['get'])
     def operations(self, request, pk=None):
@@ -28,6 +35,9 @@ class OperationTemplateViewSet(viewsets.ModelViewSet):
     queryset = OperationTemplate.objects.all()
     serializer_class = OperationTemplateSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return OperationTemplate.objects.filter(category__user=self.request.user)
 
 
 class OperationViewSet(viewsets.ModelViewSet):

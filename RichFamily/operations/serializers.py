@@ -6,7 +6,7 @@ class OperationCategorySerializer(serializers.ModelSerializer):
     """ Сериализатор для категории операции """
     class Meta:
         model = OperationCategory
-        fields = ('id', 'cat_name',)
+        fields = ('id', 'user', 'cat_name',)
 
 
 class OperationTemplateSerializer(serializers.ModelSerializer):
