@@ -17,8 +17,10 @@ import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickEditInterface
 import ru.vsu.cs.tp.richfamily.adapter.CategoryRVAdapter
+import ru.vsu.cs.tp.richfamily.api.model.Category
 import ru.vsu.cs.tp.richfamily.api.model.CategoryRequestBody
-import ru.vsu.cs.tp.richfamily.app.App.Companion.categoryService
+import ru.vsu.cs.tp.richfamily.api.model.Wallet
+import ru.vsu.cs.tp.richfamily.app.App.Companion.serviceAPI
 import ru.vsu.cs.tp.richfamily.app.App
 import ru.vsu.cs.tp.richfamily.databinding.CategoryDialogBinding
 import ru.vsu.cs.tp.richfamily.databinding.FragmentCategoryBinding
@@ -36,7 +38,11 @@ class CategoryFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCategoryBinding.inflate(inflater, container, false)
+        binding = FragmentCategoryBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         loginViewModel = ViewModelProvider(requireActivity(),
             ViewModelProvider.AndroidViewModelFactory
                 .getInstance(requireActivity().application))[LoginViewModel::class.java]
@@ -78,7 +84,11 @@ class CategoryFragment :
 
     private fun getCategories() {
         CoroutineScope(Dispatchers.IO).launch {
-            val list = categoryService.getCategories(loginViewModel.token.value!!)
+//            val list = serviceAPI.getCategories(loginViewModel.token.value!!)
+            val list = mutableListOf(
+                Category(0, "Категория 1"),
+                Category(1, "Категория 2")
+            )
             requireActivity().runOnUiThread {
                 adapter.submitList(list)
             }
@@ -90,7 +100,7 @@ class CategoryFragment :
             return
         }
         CoroutineScope(Dispatchers.IO).launch {
-            categoryService.addCategory(
+            serviceAPI.addCategory(
                 loginViewModel.token.value!!,
                 CategoryRequestBody(catName)
             )
@@ -110,7 +120,7 @@ class CategoryFragment :
             return
         }
         CoroutineScope(Dispatchers.IO).launch {
-            categoryService.updateCategory(
+            serviceAPI.updateCategory(
                 loginViewModel.token.value!!,
                 CategoryRequestBody(catName),
                 id
@@ -137,7 +147,7 @@ class CategoryFragment :
 
     override fun onDeleteIconClick(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = categoryService.deleteCategory(loginViewModel.token.value!!, id)
+            val response = serviceAPI.deleteCategory(loginViewModel.token.value!!, id)
             if (response.isSuccessful) {
                 requireActivity().runOnUiThread {
                     Toast.makeText(

@@ -7,22 +7,18 @@ import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.vsu.cs.tp.richfamily.api.service.CategoryService
-import ru.vsu.cs.tp.richfamily.room.AppDataBase
+import ru.vsu.cs.tp.richfamily.api.service.ServiceAPI
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class App : Application() {
 
-    private lateinit var database: AppDataBase
-
     override fun onCreate() {
         super.onCreate()
-        database = AppDataBase.getDatabase(this)
     }
 
     companion object {
-        lateinit var categoryService: CategoryService
+        lateinit var serviceAPI: ServiceAPI
 
         fun initRetrofit() {
             val interceptor = HttpLoggingInterceptor()
@@ -36,7 +32,7 @@ class App : Application() {
                 .baseUrl("http://10.0.2.2:8000").client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            categoryService = retrofit.create(CategoryService::class.java)
+            serviceAPI = retrofit.create(ServiceAPI::class.java)
         }
 
         fun checkServerConnection(): Boolean {

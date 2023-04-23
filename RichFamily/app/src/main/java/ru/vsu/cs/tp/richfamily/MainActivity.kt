@@ -1,6 +1,7 @@
 package ru.vsu.cs.tp.richfamily
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -14,17 +15,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        val scope = CoroutineScope(Dispatchers.Default)
-//        scope.launch {
-//            AppDataBase.getDatabase(this@MainActivity).clearAllTables()
-//        }
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d("AAAA", "MA created")
         // Navigation
         binding.bottomNav.bottomNavigationView.background = null
         val bottomNavController = findNavController(R.id.nav_host_fragment_content_main)
@@ -40,7 +35,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.templateFragment,
                 R.id.consumptionFragment,
                 R.id.incomeFragment,
-                R.id.groupFragment,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

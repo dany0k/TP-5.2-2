@@ -25,5 +25,7 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.nameTv.text = "Иван"
+        binding.emailTv.text = "ivan@gmail.com"
     }
 }

@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.view.report
+package ru.vsu.cs.tp.richfamily.view.operation
 
 import android.os.Build
 import android.os.Bundle
@@ -11,30 +11,28 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ru.vsu.cs.tp.richfamily.adapter.*
-import ru.vsu.cs.tp.richfamily.api.model.Income
+import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
 import ru.vsu.cs.tp.richfamily.api.model.Operation
 import ru.vsu.cs.tp.richfamily.app.App
-import ru.vsu.cs.tp.richfamily.databinding.FragmentReportBinding
+import ru.vsu.cs.tp.richfamily.databinding.FragmentUserOperationBinding
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 
-class ReportFragment : Fragment() {
-    private lateinit var adapter: OperationRVAdapter
+class UserOperationFragment : Fragment() {
 
-    private lateinit var binding: FragmentReportBinding
+    private lateinit var binding: FragmentUserOperationBinding
+    private lateinit var adapter: OperationRVAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentReportBinding.inflate(
+        binding = FragmentUserOperationBinding.inflate(
             inflater,
             container,
             false
         )
-
         return binding.root
     }
 
@@ -43,11 +41,11 @@ class ReportFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         App.initRetrofit()
         initRcView()
-        getCons()
+        getOperations()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCons() {
+    private fun getOperations() {
         CoroutineScope(Dispatchers.IO).launch {
 //            val list = App.serviceAPI.getWallets(loginViewModel.token.value!!)
             val list = mutableListOf(
