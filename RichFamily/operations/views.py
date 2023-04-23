@@ -5,6 +5,7 @@ from rest_framework import permissions
 
 from .models import *
 from .serializers import * 
+from .services import generate_report
 
 
 class OperationCategoryViewSet(viewsets.ModelViewSet):
@@ -33,6 +34,14 @@ class OperationViewSet(viewsets.ModelViewSet):
     queryset = Operation.objects.all()
     serializer_class = OperationSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    @action(detail=False, methods=['get'])
+    def report(self, request):
+        """
+        Получить сгенерированный отчет по операциям
+        """
+        response = generate_report(self.request.user)
+        return Response(response)
 
 
 class AccountViewSet(viewsets.ModelViewSet):
