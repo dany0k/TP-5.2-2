@@ -22,4 +22,5 @@
 5. [Диаграммы](https://github.com/dany0k/TP-5.2-2/tree/main/diagrams)
 ## Аттестиация 2
 1. [Скриншоты экранов приложения](https://github.com/dany0k/TP-5.2-2/tree/main/Screens)
-2. [Ссылка на видео с демонстрацией](https://www.youtube.com/watch?v=gLD4avPq37w&feature=youtu.be)
+2. [Ссылка на видео с демонстрацией](https://www.youtube.com/watch?v=Gz9KgAsTt5E)
+##### Также скриншоты можно увидеть на miro
