@@ -7,7 +7,7 @@ from rest_framework import permissions
 
 from .models import *
 from .serializers import * 
-from .services import generate_report
+from .services import generate_report, save_report
 
 
 class OperationCategoryViewSet(viewsets.ModelViewSet):
@@ -53,6 +53,15 @@ class OperationViewSet(viewsets.ModelViewSet):
         """
         response = generate_report(self.request.user)
         return Response(response)
+
+    @action(detail=False, methods=['post'])
+    def save_report(self, request):
+        """
+        Сохранить сгенерированный пользователем отчет
+        """
+        report = generate_report(self.request.user)
+        save_report(report)
+        return Response({'success': True})
 
     @action(detail=False, methods=['get'])
     def incomes(self, requset):
