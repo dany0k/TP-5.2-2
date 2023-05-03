@@ -67,12 +67,4 @@ def save_report(report: dict):
                              expence['op_sum'], 
                              expence['op_comment']])
 
-def open_report():
-    """
-    Попытка открытия файла сгенерированного отчета
-    """
-    try:
-        file = open(_csv_filename, 'rb')
-        return file
-    except:
-        raise Exception('The report file can\'t be opened')
+
