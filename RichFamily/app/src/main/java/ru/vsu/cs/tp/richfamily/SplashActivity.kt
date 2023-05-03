@@ -21,7 +21,6 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("SP", "OnCreate")
 
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,11 +31,6 @@ class SplashActivity : AppCompatActivity() {
             binding.serverOfflineTv.visibility = View.GONE
             tryConnect()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("SP", "OnDestroy")
     }
 
     private fun tryConnect() {
