@@ -1,6 +1,6 @@
 package ru.vsu.cs.tp.richfamily.api.model
 
-data class AuthRequest (
+data class LoginRequest (
     val username: String,
     val password: String
     )
