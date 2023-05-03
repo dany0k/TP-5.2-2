@@ -12,13 +12,13 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     init {
         Log.d("AAAA", "View model created!")
         if (SharedPrefUtils.isEmpty(application.applicationContext)) {
-            Log.d("AAAA", "Data!")
+            Log.d("AAAA", "no Data!")
             token.value = SharedPrefUtils
                 .getToken(application.applicationContext)
             Log.d("AAAA", "${token.value}")
 
         } else {
-            Log.d("AAAA", "No data!")
+            Log.d("AAAA", "data!")
         }
     }
 

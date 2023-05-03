@@ -44,7 +44,20 @@
                 android:layout_marginStart="@dimen/default_margin"
                 android:gravity="center"
                 android:textSize="16sp"
-                tools:text="1000 руб." />
+                tools:text="1000" />
+
+            <TextView
+                android:id="@+id/wallet_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/half_margin"
+                android:layout_toEndOf="@+id/template_sum"
+                android:gravity="center"
+                android:text="Рублей"
+                android:textSize="16sp"
+                tools:text="Rub" />
+
             <ImageView
                 android:id="@+id/deleteTemplateIV"
                 android:layout_width="wrap_content"

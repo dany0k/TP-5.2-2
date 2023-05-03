@@ -53,6 +53,7 @@ class CategoryFragment :
         super.onViewCreated(view, savedInstanceState)
         App.initRetrofit()
         initRcView()
+        getCategories()
         if (loginViewModel.isToken()) {
             getCategories()
         }
@@ -84,11 +85,7 @@ class CategoryFragment :
 
     private fun getCategories() {
         CoroutineScope(Dispatchers.IO).launch {
-//            val list = serviceAPI.getCategories(loginViewModel.token.value!!)
-            val list = mutableListOf(
-                Category(0, "Категория 1"),
-                Category(1, "Категория 2")
-            )
+            val list = serviceAPI.getCategories(loginViewModel.token.value!!)
             requireActivity().runOnUiThread {
                 adapter.submitList(list)
             }

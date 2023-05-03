@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".view.template.AddTemplateFragment">
 
+    <EditText
+        android:id="@+id/operation_name_et"
+        style="@style/LabelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Название операции"
+        android:layout_marginTop="@dimen/half_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/operation_type_tv"
         style="@style/LabelText"
@@ -16,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/operation_name_et" />
 
     <RadioGroup
         android:id="@+id/consumption_income_rg"
@@ -49,7 +61,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        android:layout_margin="@dimen/half_margin"
         android:hint="@string/wallet_hint_text"
         app:layout_constraintTop_toBottomOf="@id/consumption_income_rg"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,22 +84,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
+        <EditText
             android:id="@+id/time_tv"
             style="@style/DefaultText"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:hint="hh:mm"
             tools:text="12:30" />
 
-        <TextView
+        <EditText
             android:id="@+id/date_tv"
             style="@style/DefaultText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:hint="dd/mm/yyyy"
             tools:text="12/11/2023" />
     </LinearLayout>
 
@@ -96,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/sender_hint_text"
-        android:layout_margin="@dimen/default_margin"
+        android:layout_margin="@dimen/half_margin"
         android:inputType="text"
         android:maxLength="10"
         app:layout_constraintTop_toBottomOf="@id/date_time_ll"
@@ -109,7 +123,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        android:layout_margin="@dimen/half_margin"
         android:hint="@string/category_hint_text"
         app:layout_constraintTop_toBottomOf="@id/sender_et"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/total_hint_text"
-        android:layout_margin="@dimen/default_margin"
+        android:layout_margin="@dimen/half_margin"
         android:inputType="numberDecimal"
         android:maxLength="12"
         app:layout_constraintTop_toBottomOf="@id/category_til"
@@ -148,14 +162,14 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:hint="@string/comment_hint_text"
-            android:lines="3"
+            android:lines="1"
             android:gravity="top"
             android:maxLength="100"
             android:overScrollMode="always"
             android:scrollbars="vertical"
             android:scrollbarStyle="insideInset"
             android:scrollHorizontally="false"
-            android:layout_margin="@dimen/default_margin" />
+            android:layout_margin="@dimen/half_margin" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -52,7 +52,20 @@
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_toEndOf="@id/income_time"
                 android:textSize="16sp"
-                tools:text="1000 руб." />
+                tools:text="1000" />
+
+            <TextView
+                android:id="@+id/wallet_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/income_sum"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:layout_marginStart="@dimen/half_margin"
+                android:text="Рублей"
+                tools:text="Rub" />
+
             <ImageView
                 android:id="@+id/deleteIncomeIV"
                 android:layout_width="wrap_content"

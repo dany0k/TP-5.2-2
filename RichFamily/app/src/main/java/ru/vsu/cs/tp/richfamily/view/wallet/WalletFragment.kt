@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.*
 import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.app.App
 import ru.vsu.cs.tp.richfamily.databinding.FragmentWalletBinding
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
@@ -43,11 +42,12 @@ class WalletFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        App.initRetrofit()
         initRcView()
+
         getWallets()
 
-//        if (loginViewModel.isToken()) {
+//        loginViewModel.token.observe(viewLifecycleOwner) {
+//            loginViewModel.saveToken(it)
 //        }
 
         binding.addWalletFab.setOnClickListener {
@@ -106,5 +106,7 @@ class WalletFragment :
     }
 
     override fun onEditIconClick(id: Int) {
+        findNavController()
+            .navigate(R.id.action_walletFragment_to_updateWalletFragment)
     }
 }

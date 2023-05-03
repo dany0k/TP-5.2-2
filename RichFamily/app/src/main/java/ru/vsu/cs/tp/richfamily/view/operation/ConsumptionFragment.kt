@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,5 +76,7 @@ class ConsumptionFragment :
     }
 
     override fun onEditIconClick(id: Int) {
+        findNavController()
+            .navigate(R.id.action_consumptionFragment_to_updateConsumptionFragment)
     }
 }

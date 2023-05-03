@@ -75,5 +75,7 @@ class TemplateFragment :
     }
 
     override fun onEditIconClick(id: Int) {
+        findNavController()
+            .navigate(R.id.action_templateFragment_to_updateTemplateFragment)
     }
 }

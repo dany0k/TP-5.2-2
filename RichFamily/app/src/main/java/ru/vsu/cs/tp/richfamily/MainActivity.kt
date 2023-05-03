@@ -1,7 +1,6 @@
 package ru.vsu.cs.tp.richfamily
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -19,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("AAAA", "MA created")
         // Navigation
         binding.bottomNav.bottomNavigationView.background = null
         val bottomNavController = findNavController(R.id.nav_host_fragment_content_main)

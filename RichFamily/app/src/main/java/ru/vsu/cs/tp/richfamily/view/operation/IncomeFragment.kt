@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,5 +79,7 @@ class IncomeFragment :
     }
 
     override fun onEditIconClick(id: Int) {
+        findNavController()
+            .navigate(R.id.action_incomeFragment_to_updateIncomeFragment)
     }
 }

@@ -58,7 +58,19 @@
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_toEndOf="@id/operation_time"
                 android:textSize="16sp"
-                tools:text="1000 руб." />
+                tools:text="1000" />
+
+            <TextView
+                android:id="@+id/wallet_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/operation_sum"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/half_margin"
+                android:textSize="16sp"
+                android:text="Рублей"
+                tools:text="Rub" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
