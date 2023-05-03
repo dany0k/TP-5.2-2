@@ -7,9 +7,6 @@
 # Python virtual env
 .venv/
 
-# Local report file
-OperationsReport.csv
-
 # Files for the ART/Dalvik VM
 *.dex
 
