@@ -20,7 +20,7 @@ class App : Application() {
     companion object {
         lateinit var serviceAPI: ServiceAPI
 
-        fun initRetrofit() {
+        fun getRetrofit(): Retrofit {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -32,8 +32,10 @@ class App : Application() {
                 .baseUrl("http://10.0.2.2:8000").client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-            serviceAPI = retrofit.create(ServiceAPI::class.java)
+            return retrofit
         }
+
+        fun initRetrofit() {}
 
         fun checkServerConnection(): Boolean {
             val okHttpClient = OkHttpClient.Builder()
