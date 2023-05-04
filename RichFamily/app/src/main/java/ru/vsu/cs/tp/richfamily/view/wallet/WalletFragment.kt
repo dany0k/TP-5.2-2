@@ -51,13 +51,6 @@ class WalletFragment :
 //        }
 
         binding.addWalletFab.setOnClickListener {
-            if (!loginViewModel.isToken()) {
-                findNavController()
-                    .navigate(R.id.action_walletFragment_to_registrationFragment)
-            } else {
-                findNavController()
-                    .navigate(R.id.action_walletFragment_to_addWalletFragment)
-            }
         }
     }
 

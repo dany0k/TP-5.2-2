@@ -21,7 +21,6 @@ class AccountFragment : Fragment() {
             container,
             false
         )
-        App.initRetrofit()
         return binding.root
     }
 

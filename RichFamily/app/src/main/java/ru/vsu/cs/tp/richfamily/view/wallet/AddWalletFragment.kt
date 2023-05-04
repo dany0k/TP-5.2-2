@@ -69,26 +69,5 @@ class AddWalletFragment : Fragment() {
         if (walletName.isEmpty()) {
             return
         }
-        CoroutineScope(Dispatchers.IO).launch {
-            App.serviceAPI.addWallet(
-                loginViewModel.token.value!!,
-                WalletRequestBody(
-                    user,
-                    walletName,
-                    walletTotal,
-                    walletCurrency,
-                    walletComment
-                )
-            )
-            requireActivity().runOnUiThread {
-                Toast.makeText(
-                    requireActivity(),
-                    R.string.succesful_add,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
     }
-
-
 }

@@ -46,7 +46,6 @@ class CreditListFragment :
         binding.calculateCreditButton.setOnClickListener {
             findNavController().navigate(R.id.action_creditListFragment_to_addCreditFragment)
         }
-        App.initRetrofit()
         initRcView()
         getCredits()
     }
