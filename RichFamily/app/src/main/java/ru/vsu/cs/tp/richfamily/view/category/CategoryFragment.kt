@@ -2,6 +2,7 @@ package ru.vsu.cs.tp.richfamily.view.category
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,13 +24,14 @@ import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.CategoryViewModelFactory
 
-class CategoryFragment :
+class CategoryFragment:
     Fragment(),
     CategoryClickDeleteInterface,
     CategoryClickEditInterface {
     private lateinit var adapter: CategoryRVAdapter
     private lateinit var catViewModel: CategoryViewModel
     private lateinit var binding: FragmentCategoryBinding
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +42,14 @@ class CategoryFragment :
             container,
             false
         )
-        val token = SessionManager.getToken(requireActivity())
-        if (!token.isNullOrBlank()) {
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
             val categoryApi = CategoryApi.getCategoryApi()!!
+
             val categoryRepository = CategoryRepository(categoryApi = categoryApi, token = token)
             catViewModel = ViewModelProvider(
                 this,
@@ -51,6 +58,22 @@ class CategoryFragment :
                     token = token
                 )
             )[CategoryViewModel::class.java]
+            if (token.isNotBlank()) {
+                catViewModel.catList.observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                }
+                catViewModel.errorMessage.observe(viewLifecycleOwner) {
+                    Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+                }
+                catViewModel.loading.observe(viewLifecycleOwner, Observer {
+                    if (it) {
+                        binding.progressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                    }
+                })
+                catViewModel.getAllCategories()
+            }
         }
         initRcView()
         return binding.root
@@ -58,27 +81,9 @@ class CategoryFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val token = SessionManager.getToken(requireActivity())
-        if (!token.isNullOrBlank()) {
-            catViewModel.catList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
-            }
-            catViewModel.errorMessage.observe(viewLifecycleOwner) {
-                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
-            }
-            catViewModel.loading.observe(viewLifecycleOwner, Observer {
-                if (it) {
-                    binding.progressBar.visibility = View.VISIBLE
-                } else {
-                    binding.progressBar.visibility = View.GONE
-                }
-            })
-            catViewModel.getAllCategories()
-        }
-
-
         binding.addCategoryFab.setOnClickListener {
-            if (token.isNullOrBlank()) {
+            Log.d("AAAA", "onViewCreated: $token")
+            if (token.isEmpty()) {
                 findNavController()
                     .navigate(R.id.action_categoryFragment_to_registrationFragment)
             } else {
