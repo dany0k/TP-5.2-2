@@ -9,9 +9,9 @@ import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
 class CategoryRepository(
     private val categoryApi: CategoryApi,
     private val token: String
-) : MainRepository<Category> {
+) {
 
-    override suspend fun getItem(): Response<List<Category>> {
+    suspend fun getAllCategories(): Response<List<Category>> {
         return categoryApi.getCategories(token = token)
     }
 

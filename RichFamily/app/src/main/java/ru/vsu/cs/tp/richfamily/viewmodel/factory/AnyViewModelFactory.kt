@@ -5,14 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 
-class CategoryViewModelFactory(
-    private val categoryRepository: CategoryRepository,
+class AnyViewModelFactory(
+    private val repository: Any,
     private val token: String
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
             CategoryViewModel(
-                categoryRepository = categoryRepository,
+                categoryRepository = repository as CategoryRepository,
                 token = token
             ) as T
         } else {

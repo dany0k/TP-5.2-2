@@ -21,7 +21,7 @@ class CategoryViewModel(
 
     fun getAllCategories() {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = categoryRepository.getItem()
+            val response = categoryRepository.getAllCategories()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     catList.postValue(response.body())

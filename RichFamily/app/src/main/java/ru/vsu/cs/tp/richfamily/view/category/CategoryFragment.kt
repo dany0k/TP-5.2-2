@@ -2,7 +2,6 @@ package ru.vsu.cs.tp.richfamily.view.category
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ import ru.vsu.cs.tp.richfamily.databinding.FragmentCategoryBinding
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
-import ru.vsu.cs.tp.richfamily.viewmodel.factory.CategoryViewModelFactory
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class CategoryFragment:
     Fragment(),
@@ -53,8 +52,8 @@ class CategoryFragment:
             val categoryRepository = CategoryRepository(categoryApi = categoryApi, token = token)
             catViewModel = ViewModelProvider(
                 this,
-                CategoryViewModelFactory(
-                    categoryRepository = categoryRepository,
+                AnyViewModelFactory(
+                    repository = categoryRepository,
                     token = token
                 )
             )[CategoryViewModel::class.java]
