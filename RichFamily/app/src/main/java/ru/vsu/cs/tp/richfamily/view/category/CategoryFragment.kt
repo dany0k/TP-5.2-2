@@ -58,22 +58,6 @@ class CategoryFragment:
                     token = token
                 )
             )[CategoryViewModel::class.java]
-            if (token.isNotBlank()) {
-                catViewModel.catList.observe(viewLifecycleOwner) {
-                    adapter.submitList(it)
-                }
-                catViewModel.errorMessage.observe(viewLifecycleOwner) {
-                    Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
-                }
-                catViewModel.loading.observe(viewLifecycleOwner, Observer {
-                    if (it) {
-                        binding.progressBar.visibility = View.VISIBLE
-                    } else {
-                        binding.progressBar.visibility = View.GONE
-                    }
-                })
-                catViewModel.getAllCategories()
-            }
         }
         initRcView()
         return binding.root
@@ -81,8 +65,23 @@ class CategoryFragment:
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (token.isNotBlank()) {
+            catViewModel.catList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
+            }
+            catViewModel.errorMessage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+            catViewModel.loading.observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            })
+            catViewModel.getAllCategories()
+        }
         binding.addCategoryFab.setOnClickListener {
-            Log.d("AAAA", "onViewCreated: $token")
             if (token.isEmpty()) {
                 findNavController()
                     .navigate(R.id.action_categoryFragment_to_registrationFragment)
