@@ -1,5 +1,6 @@
 package ru.vsu.cs.tp.richfamily.view.wallet
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,23 +9,21 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.WalletRVAdapter
-import ru.vsu.cs.tp.richfamily.api.model.Category
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.api.model.WalletRequestBody
-import ru.vsu.cs.tp.richfamily.app.App
+import ru.vsu.cs.tp.richfamily.api.service.WalletApi
+import ru.vsu.cs.tp.richfamily.databinding.CategoryDialogBinding
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddWalletBinding
-import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
+import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
+import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.WalletViewModelFactory
 
 class AddWalletFragment : Fragment() {
-
-    private lateinit var adapter: WalletRVAdapter
     private lateinit var binding: FragmentAddWalletBinding
-    private lateinit var loginViewModel : LoginViewModel
+    private lateinit var walletViewModel: WalletViewModel
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,10 +33,25 @@ class AddWalletFragment : Fragment() {
         binding = FragmentAddWalletBinding.inflate(
             inflater,
             container,
-            false)
-        loginViewModel = ViewModelProvider(requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory
-                .getInstance(requireActivity().application))[LoginViewModel::class.java]
+            false
+        )
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
+            val walletApi = WalletApi.getWalletApi()!!
+
+            val walletRepository = WalletRepository(walletApi = walletApi, token = token)
+            walletViewModel = ViewModelProvider(
+                requireActivity(),
+                WalletViewModelFactory(
+                    walletRepository = walletRepository,
+                    token = token
+                )
+            )[WalletViewModel::class.java]
+        }
         return binding.root
     }
 
@@ -45,29 +59,35 @@ class AddWalletFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.addWalletButton.setOnClickListener {
             val walletName = binding.walletNameEt.text.toString()
-            val walletTotal = (binding.totalEt.text.toString()).toFloat()
+            val walletTotal = binding.totalEt.text.toString()
             val walletCurrency = "RUB"
             val walletComment = binding.walletCommentTil.editText?.text.toString()
-            addWallet(
-                0,
-                walletName,
-                walletTotal,
-                walletCurrency,
-                walletComment)
-            findNavController().navigate(R.id.action_addWalletFragment_to_walletFragment)
+            if (inputCheck(walletName, walletTotal, walletComment)) {
+                walletViewModel.addWallet(
+                    accName = walletName,
+                    accSum = walletTotal.toFloat(),
+                    accCurrency = walletCurrency,
+                    accComment = walletComment
+                )
+                findNavController()
+                    .navigate(R.id.action_addWalletFragment_to_walletFragment)
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Заполните все поля!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
-
-    private fun addWallet(
-        user: Int,
+    private fun inputCheck(
         walletName: String,
-        walletTotal: Float,
-        walletCurrency: String,
+        walletTotal: String,
         walletComment: String
-    ) {
-        if (walletName.isEmpty()) {
-            return
-        }
+    ) : Boolean {
+        return (walletName.isNotBlank() &&
+                walletTotal.isNotBlank() &&
+                walletComment.isNotBlank())
     }
 }

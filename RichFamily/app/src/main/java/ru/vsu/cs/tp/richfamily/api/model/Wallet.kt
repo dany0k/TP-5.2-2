@@ -1,5 +1,9 @@
 package ru.vsu.cs.tp.richfamily.api.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Wallet(
     val id: Int,
     val user: Int,
@@ -7,4 +11,4 @@ data class Wallet(
     val acc_sum: Float,
     val acc_currency: String,
     val acc_comment: String
-)
+) : Parcelable
