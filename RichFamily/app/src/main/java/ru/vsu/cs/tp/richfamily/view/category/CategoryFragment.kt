@@ -7,32 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickEditInterface
 import ru.vsu.cs.tp.richfamily.adapter.CategoryRVAdapter
-import ru.vsu.cs.tp.richfamily.api.model.Category
-import ru.vsu.cs.tp.richfamily.api.model.CategoryRequestBody
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.app.App.Companion.serviceAPI
-import ru.vsu.cs.tp.richfamily.app.App
+import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
 import ru.vsu.cs.tp.richfamily.databinding.CategoryDialogBinding
 import ru.vsu.cs.tp.richfamily.databinding.FragmentCategoryBinding
-import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
+import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
-class CategoryFragment :
+class CategoryFragment:
     Fragment(),
     CategoryClickDeleteInterface,
     CategoryClickEditInterface {
     private lateinit var adapter: CategoryRVAdapter
-    private lateinit var loginViewModel : LoginViewModel
+    private lateinit var catViewModel: CategoryViewModel
     private lateinit var binding: FragmentCategoryBinding
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,23 +41,47 @@ class CategoryFragment :
             container,
             false
         )
-        loginViewModel = ViewModelProvider(requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory
-                .getInstance(requireActivity().application))[LoginViewModel::class.java]
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
+            val categoryApi = CategoryApi.getCategoryApi()!!
+
+            val categoryRepository = CategoryRepository(categoryApi = categoryApi, token = token)
+            catViewModel = ViewModelProvider(
+                this,
+                AnyViewModelFactory(
+                    repository = categoryRepository,
+                    token = token
+                )
+            )[CategoryViewModel::class.java]
+        }
+        initRcView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        App.initRetrofit()
-        initRcView()
-        getCategories()
-        if (loginViewModel.isToken()) {
-            getCategories()
+        if (token.isNotBlank()) {
+            catViewModel.catList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
+            }
+            catViewModel.errorMessage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+            catViewModel.loading.observe(viewLifecycleOwner, Observer {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            })
+            catViewModel.getAllCategories()
         }
-
         binding.addCategoryFab.setOnClickListener {
-            if (!loginViewModel.isToken()) {
+            if (token.isEmpty()) {
                 findNavController()
                     .navigate(R.id.action_categoryFragment_to_registrationFragment)
             } else {
@@ -72,63 +94,12 @@ class CategoryFragment :
                 builder.setView(dialogBinding.root)
                 builder.setPositiveButton(R.string.add) { _, _ ->
                     val catName = dialogBinding.categoryNameEt.text.toString()
-                    addCategory(catName)
-                    getCategories()
+                    catViewModel.addCategory(catName);
                 }
                 builder.setNegativeButton(R.string.cancel) { _, _ ->
                     onDestroyView()
                 }
                 builder.show()
-            }
-        }
-    }
-
-    private fun getCategories() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val list = serviceAPI.getCategories(loginViewModel.token.value!!)
-            requireActivity().runOnUiThread {
-                adapter.submitList(list)
-            }
-        }
-    }
-
-    private fun addCategory(catName: String) {
-        if (catName.isEmpty()) {
-            return
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            serviceAPI.addCategory(
-                loginViewModel.token.value!!,
-                CategoryRequestBody(catName)
-            )
-            requireActivity().runOnUiThread {
-
-                Toast.makeText(
-                    requireActivity(),
-                    R.string.succesful_add,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-    private fun updateCategory(catName: String, id: Int) {
-        if (catName.isEmpty()) {
-            return
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            serviceAPI.updateCategory(
-                loginViewModel.token.value!!,
-                CategoryRequestBody(catName),
-                id
-            )
-            requireActivity().runOnUiThread {
-
-                Toast.makeText(
-                    requireActivity(),
-                    R.string.succesful_update,
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
@@ -143,25 +114,7 @@ class CategoryFragment :
     }
 
     override fun onDeleteIconClick(id: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = serviceAPI.deleteCategory(loginViewModel.token.value!!, id)
-            if (response.isSuccessful) {
-                requireActivity().runOnUiThread {
-                    Toast.makeText(
-                        requireActivity(),
-                        R.string.succesful_delete,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    getCategories()
-                }
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    R.string.error_delete,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+        catViewModel.deleteCategory(id = id)
     }
 
     override fun onEditIconClick(id: Int) {
@@ -174,8 +127,7 @@ class CategoryFragment :
         builder.setView(dialogBinding.root)
         builder.setPositiveButton(R.string.edit_button_label) { _, _ ->
             val catName = dialogBinding.categoryNameEt.text.toString()
-            updateCategory(catName, id)
-            getCategories()
+            catViewModel.editCategory(catName = catName, id = id)
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
