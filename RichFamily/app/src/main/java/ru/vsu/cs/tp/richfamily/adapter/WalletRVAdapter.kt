@@ -51,7 +51,7 @@ class WalletRVAdapter(
             walletClickDeleteInterface.onDeleteIconClick(id)
         }
         holder.editWalIV.setOnClickListener {
-            walletClickEditInterface.onEditIconClick(id)
+            walletClickEditInterface.onEditIconClick(position)
         }
     }
 }
