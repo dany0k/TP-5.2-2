@@ -7,6 +7,9 @@
 # Python virtual env
 .venv/
 
+# Python cache files
+__pycache__/
+
 # Files for the ART/Dalvik VM
 *.dex
 
