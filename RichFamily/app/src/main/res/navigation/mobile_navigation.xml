@@ -130,6 +130,9 @@
         <action
             android:id="@+id/action_addWalletFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
+        <argument
+            android:name="wallet"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
     </fragment>
     <fragment
         android:id="@+id/addTemplateFragment"
@@ -143,6 +146,9 @@
         <action
             android:id="@+id/action_updateWalletFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
+        <argument
+            android:name="wallet"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"

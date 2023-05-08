@@ -1,7 +1,6 @@
-package ru.vsu.cs.tp.richfamily.api.model
+package ru.vsu.cs.tp.richfamily.api.model.wallet
 
-data class Wallet(
-    val id: Int,
+data class WalletRequestBody(
     val user: Int,
     val acc_name: String,
     val acc_sum: Float,

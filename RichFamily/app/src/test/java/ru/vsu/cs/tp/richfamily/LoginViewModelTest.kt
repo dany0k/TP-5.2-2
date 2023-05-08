@@ -2,16 +2,13 @@ package ru.vsu.cs.tp.richfamily
 
 import android.app.Application
 import androidx.lifecycle.Observer
-import okhttp3.ResponseBody
+import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.jupiter.api.AfterEach
-import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
-import org.robolectric.RobolectricTestRunner
 import retrofit2.Response
 import ru.vsu.cs.tp.richfamily.api.model.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.LoginRequest
@@ -19,7 +16,6 @@ import ru.vsu.cs.tp.richfamily.api.model.User
 import ru.vsu.cs.tp.richfamily.repository.UserRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
-@RunWith(RobolectricTestRunner::class)
 class LoginViewModelTest {
 
     @Mock
@@ -30,7 +26,7 @@ class LoginViewModelTest {
 
     lateinit var viewModel: LoginViewModel
 
-    @AfterEach
+    @After
     fun tearDown() {
     }
 
