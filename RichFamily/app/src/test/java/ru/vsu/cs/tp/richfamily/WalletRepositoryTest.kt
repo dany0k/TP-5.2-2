@@ -18,15 +18,10 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
-import ru.vsu.cs.tp.richfamily.api.model.Category
-import ru.vsu.cs.tp.richfamily.api.model.CategoryRequestBody
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.api.model.WalletRequestBody
-import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
+import ru.vsu.cs.tp.richfamily.api.model.wallet.WalletRequestBody
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
-import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
-import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 
 @ExperimentalCoroutinesApi
@@ -98,13 +93,15 @@ class WalletRepositoryTest {
                 acc_comment = ""
             )
             Mockito.`when`(walletApi.updateWallet("token", walletRequestBody, 0))
-                .thenReturn(Response.success(Wallet(
+                .thenReturn(Response.success(
+                    Wallet(
                     id = 1,
                     user = 1,
                     acc_name = "acc1",
                     acc_sum = 4660.0F,
                     acc_currency = "RUB",
-                    acc_comment = "")))
+                    acc_comment = "")
+                ))
             val response = walletRepository.editWallet(walletRequestBody, 0).isSuccessful
             Assert.assertTrue(response)
         }

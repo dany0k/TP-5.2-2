@@ -2,8 +2,8 @@ package ru.vsu.cs.tp.richfamily.repository
 
 import okhttp3.ResponseBody
 import retrofit2.Response
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.api.model.WalletRequestBody
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
+import ru.vsu.cs.tp.richfamily.api.model.wallet.WalletRequestBody
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
 
 class WalletRepository(
@@ -16,7 +16,8 @@ class WalletRepository(
 
     suspend fun addWallet(
         token: String,
-        walletRequestBody: WalletRequestBody): Response<Wallet> {
+        walletRequestBody: WalletRequestBody
+    ): Response<Wallet> {
         return walletApi.addWallet(token = token, walletRequestBody = walletRequestBody)
     }
 

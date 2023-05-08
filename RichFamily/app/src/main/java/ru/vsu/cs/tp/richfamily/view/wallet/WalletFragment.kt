@@ -20,7 +20,7 @@ import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
-import ru.vsu.cs.tp.richfamily.viewmodel.factory.WalletViewModelFactory
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class WalletFragment :
     Fragment(),
@@ -51,8 +51,8 @@ class WalletFragment :
             val walletRepository = WalletRepository(walletApi = walletApi, token = token)
             walletViewModel = ViewModelProvider(
                 requireActivity(),
-                WalletViewModelFactory(
-                    walletRepository = walletRepository,
+                AnyViewModelFactory(
+                    repository = walletRepository,
                     token = token
                 )
             )[WalletViewModel::class.java]

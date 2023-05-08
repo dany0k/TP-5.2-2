@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.api.model
+package ru.vsu.cs.tp.richfamily.api.model.wallet
 
 data class WalletRequestBody(
     val user: Int,

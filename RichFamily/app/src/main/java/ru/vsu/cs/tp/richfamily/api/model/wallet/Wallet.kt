@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.api.model
+package ru.vsu.cs.tp.richfamily.api.model.wallet
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

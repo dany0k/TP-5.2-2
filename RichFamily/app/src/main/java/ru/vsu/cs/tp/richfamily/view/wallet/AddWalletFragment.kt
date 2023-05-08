@@ -1,6 +1,5 @@
 package ru.vsu.cs.tp.richfamily.view.wallet
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.adapter.WalletRVAdapter
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
-import ru.vsu.cs.tp.richfamily.databinding.CategoryDialogBinding
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddWalletBinding
-import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
-import ru.vsu.cs.tp.richfamily.viewmodel.factory.WalletViewModelFactory
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class AddWalletFragment : Fragment() {
     private lateinit var binding: FragmentAddWalletBinding
@@ -46,8 +42,8 @@ class AddWalletFragment : Fragment() {
             val walletRepository = WalletRepository(walletApi = walletApi, token = token)
             walletViewModel = ViewModelProvider(
                 requireActivity(),
-                WalletViewModelFactory(
-                    walletRepository = walletRepository,
+                AnyViewModelFactory(
+                    repository = walletRepository,
                     token = token
                 )
             )[WalletViewModel::class.java]

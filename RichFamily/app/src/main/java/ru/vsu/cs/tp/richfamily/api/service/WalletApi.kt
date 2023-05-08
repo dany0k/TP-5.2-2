@@ -3,8 +3,8 @@ package ru.vsu.cs.tp.richfamily.api.service
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.api.model.WalletRequestBody
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
+import ru.vsu.cs.tp.richfamily.api.model.wallet.WalletRequestBody
 
 interface WalletApi {
 

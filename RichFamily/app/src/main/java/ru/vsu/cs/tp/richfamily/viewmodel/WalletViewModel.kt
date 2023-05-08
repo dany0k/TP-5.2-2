@@ -3,8 +3,8 @@ package ru.vsu.cs.tp.richfamily.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.api.model.WalletRequestBody
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
+import ru.vsu.cs.tp.richfamily.api.model.wallet.WalletRequestBody
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 
 class WalletViewModel(

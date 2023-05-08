@@ -10,13 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentUpdateWalletBinding
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
-import ru.vsu.cs.tp.richfamily.viewmodel.factory.WalletViewModelFactory
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class UpdateWalletFragment : Fragment() {
 
@@ -46,8 +45,8 @@ class UpdateWalletFragment : Fragment() {
             val walletRepository = WalletRepository(walletApi = walletApi, token = token)
             walletViewModel = ViewModelProvider(
                 requireActivity(),
-                WalletViewModelFactory(
-                    walletRepository = walletRepository,
+                AnyViewModelFactory(
+                    repository = walletRepository,
                     token = token
                 )
             )[WalletViewModel::class.java]

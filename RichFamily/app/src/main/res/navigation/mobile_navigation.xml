@@ -132,7 +132,7 @@
             app:destination="@id/walletFragment" />
         <argument
             android:name="wallet"
-            app:argType="ru.vsu.cs.tp.richfamily.api.model.Wallet" />
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
     </fragment>
     <fragment
         android:id="@+id/addTemplateFragment"
@@ -148,7 +148,7 @@
             app:destination="@id/walletFragment" />
         <argument
             android:name="wallet"
-            app:argType="ru.vsu.cs.tp.richfamily.api.model.Wallet" />
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"

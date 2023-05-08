@@ -18,15 +18,9 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
-import ru.vsu.cs.tp.richfamily.api.model.Category
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
-import ru.vsu.cs.tp.richfamily.api.model.WalletRequestBody
-import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
-import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
-import ru.vsu.cs.tp.richfamily.repository.UserRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
-import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 
 @ExperimentalCoroutinesApi
@@ -59,12 +53,16 @@ class WalletViewModelTest {
     fun `get all wallet test`(){
         runBlocking {
             Mockito.`when`(walletRepository.getAllWallets())
-                .thenReturn(Response.success(listOf(Wallet(1, 1, "acc1",
-                    4660.0F, "RUB", ""))))
+                .thenReturn(Response.success(listOf(
+                    Wallet(1, 1, "acc1",
+                    4660.0F, "RUB", "")
+                )))
             walletViewModel.getAllWallets()
             val actual = walletViewModel.walletList.getOrAwaitValue {}
-            val expected = listOf(Wallet(1, 1, "acc1", 4660.0F,
-                "RUB", ""))
+            val expected = listOf(
+                Wallet(1, 1, "acc1", 4660.0F,
+                "RUB", "")
+            )
             Assert.assertEquals(expected, actual)
         }
     }
