@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.api.model.Operation
+import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.databinding.OperationRvItemBinding
 
-class OperationRVAdapter() : ListAdapter<Operation, OperationRVAdapter.Holder>(Comparator()) {
+class OperationRVAdapter(
+    private val operationClickDeleteInterface: OperationClickDeleteInterface,
+    private val operationClickEditInterface: OperationClickEditInterface
+) : ListAdapter<Operation, OperationRVAdapter.Holder>(Comparator()) {
     class Holder(binding: OperationRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val opName: TextView = binding.operationName
         private val opType: TextView = binding.operationType
@@ -18,11 +21,11 @@ class OperationRVAdapter() : ListAdapter<Operation, OperationRVAdapter.Holder>(C
         private val opDate: TextView = binding.operationDate
         private val opTime: TextView = binding.operationTime
         fun bind(operation: Operation) {
-            opName.text = operation.opName
-            opType.text = operation.opType
-            opSum.text = operation.opSum.toString()
-            opDate.text = operation.opDate.toString()
-            opTime.text = operation.opTime.toString()
+//            opName.text = operation.
+            opType.text = operation.op_variant
+            opSum.text = operation.op_sum.toString()
+            opDate.text = operation.op_date.toString()
+//            opTime.text = operation..toString()
         }
     }
 

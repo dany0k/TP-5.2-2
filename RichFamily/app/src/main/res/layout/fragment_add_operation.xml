@@ -69,6 +69,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/filled_score"
+            android:inputType="none"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -85,22 +86,24 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <EditText
-            android:id="@+id/time_tv"
+            android:id="@+id/time_et"
             style="@style/DefaultText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:inputType="time"
             android:hint="hh:mm"
             tools:text="12:30" />
 
         <EditText
-            android:id="@+id/date_tv"
+            android:id="@+id/date_et"
             style="@style/DefaultText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:inputType="date"
             android:hint="dd/mm/yyyy"
             tools:text="12/11/2023" />
 
@@ -133,6 +136,7 @@
         <AutoCompleteTextView
             android:id="@+id/filled_category"
             android:layout_width="match_parent"
+            android:inputType="none"
             android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>

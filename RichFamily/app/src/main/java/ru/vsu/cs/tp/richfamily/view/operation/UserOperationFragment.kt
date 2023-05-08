@@ -12,12 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
-import ru.vsu.cs.tp.richfamily.api.model.Operation
-import ru.vsu.cs.tp.richfamily.app.App
 import ru.vsu.cs.tp.richfamily.databinding.FragmentUserOperationBinding
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.temporal.ChronoUnit
 
 class UserOperationFragment : Fragment() {
 
@@ -46,25 +41,12 @@ class UserOperationFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getOperations() {
         CoroutineScope(Dispatchers.IO).launch {
-//            val list = App.serviceAPI.getWallets(loginViewModel.token.value!!)
-            val list = mutableListOf(
-                Operation(0, "Расход 1", "Расход:",1000f, LocalDate.now(), LocalTime.now().truncatedTo(
-                    ChronoUnit.MINUTES)),
-                Operation(0, "Доход 1", "Доход:", 299f, LocalDate.now(), LocalTime.now().truncatedTo(
-                    ChronoUnit.MINUTES)),
-                Operation(0, "Расход 2", "Расход:",1012300f, LocalDate.now(), LocalTime.now().truncatedTo(
-                    ChronoUnit.MINUTES)),
-                Operation(0, "Доход 2", "Доход:", 29329f, LocalDate.now(), LocalTime.now().truncatedTo(
-                    ChronoUnit.MINUTES)),
-            )
             requireActivity().runOnUiThread {
-                adapter.submitList(list)
             }
         }
     }
 
     private fun initRcView() = with(binding) {
-        adapter = OperationRVAdapter()
         operationsRv.layoutManager = LinearLayoutManager(context)
         operationsRv.adapter = adapter
     }
