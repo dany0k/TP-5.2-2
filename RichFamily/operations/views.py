@@ -1,4 +1,5 @@
 from re import template
+from django.core.exceptions import ValidationError
 from django.db.models.fields import return_None
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -41,10 +42,51 @@ class OperationTemplateViewSet(viewsets.ModelViewSet):
         return OperationTemplate.objects.filter(category__user=self.request.user)
 
 
+def _change_account(serializer):
+        """
+        Изменить состояние счета при создании или изменении операции
+        """
+        account = Account.objects.get(id=serializer.validated_data['account'].id)
+        if serializer.validated_data['op_variant'] == 'доход':
+            account.acc_sum += serializer.validated_data['op_sum']
+        else:
+            if account.acc_sum - serializer.validated_data['op_sum'] >= 0:
+                account.acc_sum -= serializer.validated_data['op_sum']
+            else:
+                raise ValidationError("На вашем счете недостаточное количество средств")
+        account.save()
+
+
+def _rollback_account(instance):
+    """
+    Откатить счет до состояния предыдущей операции
+    """
+    prev_sum = instance.op_sum
+    acc = instance.account
+    if instance.op_variant == 'доход':
+        acc.acc_sum -= prev_sum
+    else:
+        acc.acc_sum += prev_sum
+    acc.save()
+
+
 class OperationViewSet(viewsets.ModelViewSet):
     queryset = Operation.objects.all()
     serializer_class = OperationSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def perform_create(self, serializer: OperationSerializer):
+        _change_account(serializer)
+        serializer.save()
+
+    def perform_update(self, serializer: OperationSerializer):
+        _rollback_account(serializer.instance) 
+        _change_account(serializer)
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        _rollback_account(instance)
+        instance.delete()
 
     @action(detail=False, methods=['get'])
     def report(self, request):
@@ -82,6 +124,7 @@ class OperationViewSet(viewsets.ModelViewSet):
                                            op_variant='расход')
         serializer = OperationSerializer(consumptions, many=True)
         return Response(serializer.data)
+
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
