@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_incomeFragment_to_updateOperationFragment"
             app:destination="@id/updateOperationFragment" />
+        <action
+            android:id="@+id/action_incomeFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/groupListFragment"

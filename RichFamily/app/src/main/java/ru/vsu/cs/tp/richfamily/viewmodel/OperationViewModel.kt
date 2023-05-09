@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.model.operation.OperationRequestBody
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 
 class OperationViewModel(
     private val operationRepository: OperationRepository,
@@ -39,8 +40,12 @@ class OperationViewModel(
             val response = operationRepository.getAllOperations()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    consList.postValue(response.body()!!.filter { it.op_variant == "РАСХОД" })
-                    inList.postValue(response.body()!!.filter { it.op_variant == "ДОХОД" })
+                    consList.postValue(response.body()!!.filter {
+                        it.op_variant == Constants.CONS_TEXT
+                    })
+                    inList.postValue(response.body()!!.filter {
+                        it.op_variant == Constants.INCOME_TEXT
+                    })
                     loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")

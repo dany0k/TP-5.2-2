@@ -1,72 +1,92 @@
 package ru.vsu.cs.tp.richfamily.view.operation
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.adapter.*
-import ru.vsu.cs.tp.richfamily.api.model.Income
-import ru.vsu.cs.tp.richfamily.app.App
+import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
+import ru.vsu.cs.tp.richfamily.adapter.OperationClickEditInterface
+import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
+import ru.vsu.cs.tp.richfamily.api.service.OperationApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentIncomeBinding
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.temporal.ChronoUnit
+import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class IncomeFragment :
     Fragment(),
-    IncomeClickDeleteInterface,
-    IncomeClickEditInterface {
-    private lateinit var adapter: IncomeRVAdapter
-
-    lateinit var binding: FragmentIncomeBinding
+    OperationClickDeleteInterface,
+    OperationClickEditInterface {
+    private lateinit var adapter: OperationRVAdapter
+    private lateinit var opViewModel: OperationViewModel
+    private lateinit var binding: FragmentIncomeBinding
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentIncomeBinding.inflate(inflater, container, false)
-        binding.fab.setOnClickListener {
-            Navigation.findNavController(it)
-                .navigate(R.id.action_incomeFragment_to_addOperationFragment)
+        initRcView()
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
+            val operationApi = OperationApi.getOperationApi()!!
+            val opRepository = OperationRepository(operationApi = operationApi, token = token)
+            opViewModel = ViewModelProvider(
+                requireActivity(),
+                AnyViewModelFactory(
+                    repository = opRepository,
+                    token = token
+                )
+            )[OperationViewModel::class.java]
         }
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRcView()
-        getCons()
-    }
+        if (token.isNotBlank()) {
+            opViewModel.inList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
+            }
+            opViewModel.errorMessage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+            opViewModel.loading.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+            opViewModel.getAllOperations()
+        }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCons() {
-        CoroutineScope(Dispatchers.IO).launch {
-//            val list = App.serviceAPI.getWallets(loginViewModel.token.value!!)
-            val list = mutableListOf(
-                Income(0, "Доход 1", 1000f, LocalDate.now(), LocalTime.now().truncatedTo(
-                    ChronoUnit.MINUTES)),
-                Income(0, "Доход 2", 299f, LocalDate.now(), LocalTime.now().truncatedTo(
-                    ChronoUnit.MINUTES)),
-            )
-            requireActivity().runOnUiThread {
-                adapter.submitList(list)
+        binding.fab.setOnClickListener {
+            if (token.isEmpty()) {
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_incomeFragment_to_registrationFragment)
+            } else {
+                Navigation.findNavController(it)
+                    .navigate(R.id.action_incomeFragment_to_addOperationFragment)
             }
         }
     }
 
     private fun initRcView() = with(binding) {
-        adapter = IncomeRVAdapter(
+        adapter = OperationRVAdapter(
             this@IncomeFragment,
             this@IncomeFragment
         )
@@ -75,9 +95,11 @@ class IncomeFragment :
     }
 
     override fun onDeleteIconClick(id: Int) {
+        opViewModel.deleteOperation(id = id)
     }
 
     override fun onEditIconClick(id: Int) {
+        opViewModel.getOperationById(id = id)
         findNavController()
             .navigate(R.id.action_incomeFragment_to_updateOperationFragment)
     }
