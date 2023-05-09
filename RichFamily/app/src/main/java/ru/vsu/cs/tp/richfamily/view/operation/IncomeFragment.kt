@@ -79,6 +79,6 @@ class IncomeFragment :
 
     override fun onEditIconClick(id: Int) {
         findNavController()
-            .navigate(R.id.action_incomeFragment_to_updateIncomeFragment)
+            .navigate(R.id.action_incomeFragment_to_updateOperationFragment)
     }
 }

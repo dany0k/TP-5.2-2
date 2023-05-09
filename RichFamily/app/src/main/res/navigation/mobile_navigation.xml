@@ -51,11 +51,11 @@
             android:id="@+id/action_consumptionFragment_to_addOperationFragment"
             app:destination="@id/addOperationFragment" />
         <action
-            android:id="@+id/action_consumptionFragment_to_updateConsumptionFragment"
-            app:destination="@id/updateConsumptionFragment" />
-        <action
             android:id="@+id/action_consumptionFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_consumptionFragment_to_updateOperationFragment"
+            app:destination="@id/updateOperationFragment" />
     </fragment>
     <fragment
         android:id="@+id/incomeFragment"
@@ -66,8 +66,8 @@
             android:id="@+id/action_incomeFragment_to_addOperationFragment"
             app:destination="@id/addOperationFragment" />
         <action
-            android:id="@+id/action_incomeFragment_to_updateIncomeFragment"
-            app:destination="@id/updateIncomeFragment" />
+            android:id="@+id/action_incomeFragment_to_updateOperationFragment"
+            app:destination="@id/updateOperationFragment" />
     </fragment>
     <fragment
         android:id="@+id/groupListFragment"
@@ -213,17 +213,21 @@
         android:label="Редактирвоание"
         tools:layout="@layout/fragment_edit_account" />
     <fragment
-        android:id="@+id/updateIncomeFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.operation.UpdateIncomeFragment"
-        android:label="Редактирваоние дохода" />
-    <fragment
-        android:id="@+id/updateConsumptionFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.operation.UpdateConsumptionFragment"
-        android:label="Редактирваоние расхода" />
-    <fragment
         android:id="@+id/updateTemplateFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.template.UpdateTemplateFragment"
         android:label="Редактирваоние шаблона"
         tools:layout="@layout/fragment_update_template" />
+    <fragment
+        android:id="@+id/updateOperationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.UpdateOperationFragment"
+        android:label="Редактирование операции"
+        tools:layout="@layout/fragment_update_operation" >
+        <action
+            android:id="@+id/action_updateOperationFragment_to_consumptionFragment"
+            app:destination="@id/consumptionFragment" />
+        <action
+            android:id="@+id/action_updateOperationFragment_to_incomeFragment"
+            app:destination="@id/incomeFragment" />
+    </fragment>
 
 </navigation>

@@ -29,6 +29,7 @@ class ConsumptionFragment :
     private lateinit var opViewModel: OperationViewModel
     private lateinit var binding: FragmentConsumptionBinding
     private lateinit var token: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +44,7 @@ class ConsumptionFragment :
             val operationApi = OperationApi.getOperationApi()!!
             val opRepository = OperationRepository(operationApi = operationApi, token = token)
             opViewModel = ViewModelProvider(
-                this,
+                requireActivity(),
                 AnyViewModelFactory(
                     repository = opRepository,
                     token = token
@@ -98,7 +99,8 @@ class ConsumptionFragment :
     }
 
     override fun onEditIconClick(id: Int) {
+        opViewModel.getOperationById(id = id)
         findNavController()
-            .navigate(R.id.action_consumptionFragment_to_updateConsumptionFragment)
+            .navigate(R.id.action_consumptionFragment_to_updateOperationFragment)
     }
 }

@@ -10,8 +10,6 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
-import ru.vsu.cs.tp.richfamily.api.model.Category
-import ru.vsu.cs.tp.richfamily.api.model.CategoryRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.model.operation.OperationRequestBody
 
@@ -22,6 +20,11 @@ interface OperationApi {
     suspend fun getOperations(@Header("Authorization") token: String) : Response<List<Operation>>
 
     @Headers("Content-type: application/json")
+    @GET("api/v1/operations/{id}")
+    suspend fun getOperationById(@Header("Authorization") token: String,
+                                 @Path("id") id: Int
+    ) : Response<Operation>
+    @Headers("Content-type: application/json")
     @DELETE("api/v1/operations/{id}/")
     suspend fun deleteOperation(
         @Header("Authorization") token: String,
@@ -30,18 +33,18 @@ interface OperationApi {
 
     @Headers("Content-type: application/json")
     @POST("api/v1/operations/")
-    suspend fun addCategory(
+    suspend fun addOperation(
         @Header("Authorization") token: String,
         @Body operationRequestBody: OperationRequestBody
     ) : Response<Operation>
 
     @Headers("Content-type: application/json")
-    @PUT("api/v1/categories/{id}/")
-    suspend fun updateCategory(
+    @PUT("api/v1/operations/{id}/")
+    suspend fun updateOperation(
         @Header("Authorization") token: String,
-        @Body categoryRequestBody: CategoryRequestBody,
+        @Body operationRequestBody: OperationRequestBody,
         @Path("id") id: Int
-    ) : Response<Category>
+    ) : Response<Operation>
 
     companion object {
         fun getOperationApi() : OperationApi? {

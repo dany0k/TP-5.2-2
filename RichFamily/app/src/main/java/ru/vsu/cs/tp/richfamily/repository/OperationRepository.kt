@@ -15,9 +15,13 @@ class OperationRepository(
         return operationApi.getOperations(token = token)
     }
 
+    suspend fun getOperationById(id: Int): Response<Operation> {
+        return operationApi.getOperationById(token = token, id = id)
+    }
+
     suspend fun addOperation(operationRequestBody: OperationRequestBody
     ): Response<Operation> {
-        return operationApi.addCategory(
+        return operationApi.addOperation(
             token = token,
             operationRequestBody = operationRequestBody
         )
@@ -25,6 +29,17 @@ class OperationRepository(
 
     suspend fun deleteOperation(token: String, id: Int): Response<ResponseBody> {
         return operationApi.deleteOperation(token = token, id = id)
+    }
+
+    suspend fun editOperation(
+        operationRequestBody: OperationRequestBody,
+        id: Int
+    ) : Response<Operation> {
+        return operationApi.updateOperation(
+            token = token,
+            operationRequestBody = operationRequestBody,
+            id = id
+        )
     }
 
 }
