@@ -1,6 +1,3 @@
-from re import template
-from django.core.exceptions import ValidationError
-from django.db.models.fields import return_None
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -47,13 +44,10 @@ def _change_account(serializer):
         Изменить состояние счета при создании или изменении операции
         """
         account = Account.objects.get(id=serializer.validated_data['account'].id)
-        if serializer.validated_data['op_variant'] == 'доход':
+        if serializer.validated_data['op_variant'] == 'ДОХОД':
             account.acc_sum += serializer.validated_data['op_sum']
         else:
-            if account.acc_sum - serializer.validated_data['op_sum'] >= 0:
-                account.acc_sum -= serializer.validated_data['op_sum']
-            else:
-                raise ValidationError("На вашем счете недостаточное количество средств")
+            account.acc_sum -= serializer.validated_data['op_sum']
         account.save()
 
 
@@ -63,7 +57,7 @@ def _rollback_account(instance):
     """
     prev_sum = instance.op_sum
     acc = instance.account
-    if instance.op_variant == 'доход':
+    if instance.op_variant == 'ДОХОД':
         acc.acc_sum -= prev_sum
     else:
         acc.acc_sum += prev_sum
@@ -111,7 +105,7 @@ class OperationViewSet(viewsets.ModelViewSet):
         Получить доходы зарегистрированного пользователя
         """
         incomes = Operation.objects.filter(account__user=self.request.user,
-                                           op_variant='доход')
+                                           op_variant='ДОХОД')
         serializer = OperationSerializer(incomes, many=True)
         return Response(serializer.data)
 
@@ -121,7 +115,7 @@ class OperationViewSet(viewsets.ModelViewSet):
         Получить расходы зарегистрированного пользователя
         """
         consumptions = Operation.objects.filter(account__user=self.request.user,
-                                           op_variant='расход')
+                                           op_variant='РАСХОД')
         serializer = OperationSerializer(consumptions, many=True)
         return Response(serializer.data)
 
