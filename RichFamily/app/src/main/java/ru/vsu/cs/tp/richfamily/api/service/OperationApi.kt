@@ -22,8 +22,8 @@ interface OperationApi {
     suspend fun getOperations(@Header("Authorization") token: String) : Response<List<Operation>>
 
     @Headers("Content-type: application/json")
-    @DELETE("api/v1/categories/{id}/")
-    suspend fun deleteCategory(
+    @DELETE("api/v1/operations/{id}/")
+    suspend fun deleteOperation(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ) : Response<ResponseBody>

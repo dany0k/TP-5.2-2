@@ -133,6 +133,9 @@
         <action
             android:id="@+id/action_addWalletFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
+        <argument
+            android:name="wallet"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
     </fragment>
     <fragment
         android:id="@+id/addTemplateFragment"
@@ -146,6 +149,9 @@
         <action
             android:id="@+id/action_updateWalletFragment_to_walletFragment"
             app:destination="@id/walletFragment" />
+        <argument
+            android:name="wallet"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
@@ -171,7 +177,14 @@
         android:id="@+id/addOperationFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.operation.AddOperationFragment"
         android:label="Добавление операции"
-        tools:layout="@layout/fragment_add_operation" />
+        tools:layout="@layout/fragment_add_operation" >
+        <action
+            android:id="@+id/action_addOperationFragment_to_incomeFragment"
+            app:destination="@id/incomeFragment" />
+        <action
+            android:id="@+id/action_addOperationFragment_to_consumptionFragment"
+            app:destination="@id/consumptionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recoveryFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.auth.RecoveryFragment"

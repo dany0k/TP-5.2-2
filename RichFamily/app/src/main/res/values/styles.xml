@@ -23,7 +23,7 @@
     <style name="RadioButton" parent="TextAppearance.AppCompat">
        <item name="android:gravity">center</item>
         <item name="fontFamily">@font/comfortaa</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
        <item name="android:background">@color/primary</item>
        <item name="android:layout_margin">16dp</item>
        <item name="android:button">@null</item>

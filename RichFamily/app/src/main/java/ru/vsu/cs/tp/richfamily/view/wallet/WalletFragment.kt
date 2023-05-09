@@ -1,29 +1,35 @@
 package ru.vsu.cs.tp.richfamily.view.wallet
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.adapter.*
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
+import ru.vsu.cs.tp.richfamily.adapter.WalletClickDeleteInterface
+import ru.vsu.cs.tp.richfamily.adapter.WalletClickEditInterface
+import ru.vsu.cs.tp.richfamily.adapter.WalletRVAdapter
+import ru.vsu.cs.tp.richfamily.api.service.WalletApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentWalletBinding
-import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
+import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
+import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class WalletFragment :
     Fragment(),
     WalletClickDeleteInterface,
     WalletClickEditInterface {
     private lateinit var adapter: WalletRVAdapter
-    private lateinit var loginViewModel : LoginViewModel
     private lateinit var binding: FragmentWalletBinding
+    private lateinit var walletViewModel: WalletViewModel
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,37 +40,75 @@ class WalletFragment :
             container,
             false
         )
-        loginViewModel = ViewModelProvider(requireActivity(),
-            ViewModelProvider.AndroidViewModelFactory
-                .getInstance(requireActivity().application))[LoginViewModel::class.java]
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
+            val walletApi = WalletApi.getWalletApi()!!
+
+            val walletRepository = WalletRepository(walletApi = walletApi, token = token)
+            walletViewModel = ViewModelProvider(
+                requireActivity(),
+                AnyViewModelFactory(
+                    repository = walletRepository,
+                    token = token
+                )
+            )[WalletViewModel::class.java]
+        }
+        initRcView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRcView()
-
-        getWallets()
-
-//        loginViewModel.token.observe(viewLifecycleOwner) {
-//            loginViewModel.saveToken(it)
-//        }
+        if (token.isNotBlank()) {
+            walletViewModel.walletList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
+            }
+            walletViewModel.errorMessage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+            walletViewModel.loading.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+            walletViewModel.getAllWallets()
+        }
 
         binding.addWalletFab.setOnClickListener {
+            if (token.isEmpty()) {
+                findNavController()
+                    .navigate(R.id.action_walletFragment_to_registrationFragment)
+            } else {
+                findNavController()
+                    .navigate(R.id.action_walletFragment_to_addWalletFragment)
+            }
         }
     }
 
-    private fun getWallets() {
-        CoroutineScope(Dispatchers.IO).launch {
-//            val list = App.serviceAPI.getWallets(loginViewModel.token.value!!)
-            val list = mutableListOf(
-                Wallet(0, 0, "Счет 1", 1000f, "RUB", "AAA"),
-                Wallet(1, 0, "Счет 2", 10000f, "RUB", "AAA"),
-            )
-            requireActivity().runOnUiThread {
-                adapter.submitList(list)
-            }
+    private fun createDialog(id: Int) {
+        val builder = AlertDialog.Builder(context)
+        val dialogBinding = SubmitDialogBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+        builder.setView(dialogBinding.root)
+        val submitText: String = "При удалении счета, также удалятся все расходы и доходы, " +
+                "записанные на этот счет.\nВы уверены?"
+        dialogBinding.textToSubmit.text = submitText
+        builder.setPositiveButton(R.string.accept) { _, _ ->
+            walletViewModel.deleteWallet(id = id)
         }
+        builder.setNegativeButton(R.string.cancel) { _, _ ->
+            onDestroyView()
+        }
+        builder.show()
     }
 
     private fun initRcView() = with(binding) {
@@ -77,29 +121,13 @@ class WalletFragment :
     }
 
     override fun onDeleteIconClick(id: Int) {
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val response = App.serviceAPI.deleteWallet(loginViewModel.token.value!!, id)
-//            if (response.isSuccessful) {
-//                requireActivity().runOnUiThread {
-//                    Toast.makeText(
-//                        requireActivity(),
-//                        R.string.succesful_delete,
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    getWallets()
-//                }
-//            } else {
-//                Toast.makeText(
-//                    requireActivity(),
-//                    R.string.error_delete,
-//                    Toast.LENGTH_SHORT
-//                ).show()
-//            }
-//        }
+        createDialog(id)
     }
 
     override fun onEditIconClick(id: Int) {
+        val action = WalletFragmentDirections
+            .actionWalletFragmentToUpdateWalletFragment(adapter.currentList[id])
         findNavController()
-            .navigate(R.id.action_walletFragment_to_updateWalletFragment)
+            .navigate(action)
     }
 }

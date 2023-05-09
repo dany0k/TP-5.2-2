@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 
 class AnyViewModelFactory(
     private val repository: Any,
@@ -16,6 +18,11 @@ class AnyViewModelFactory(
             modelClass.isAssignableFrom(CategoryViewModel::class.java) ->
                 CategoryViewModel(
                     categoryRepository = repository as CategoryRepository,
+                    token = token
+                ) as T
+            modelClass.isAssignableFrom(WalletViewModel::class.java) ->
+                WalletViewModel(
+                    walletRepository = repository as WalletRepository,
                     token = token
                 ) as T
             modelClass.isAssignableFrom(OperationViewModel::class.java) ->

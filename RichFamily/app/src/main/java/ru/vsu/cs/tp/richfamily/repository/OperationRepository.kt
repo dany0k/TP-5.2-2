@@ -1,5 +1,6 @@
 package ru.vsu.cs.tp.richfamily.repository
 
+import okhttp3.ResponseBody
 import retrofit2.Response
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.model.operation.OperationRequestBody
@@ -21,4 +22,9 @@ class OperationRepository(
             operationRequestBody = operationRequestBody
         )
     }
+
+    suspend fun deleteOperation(token: String, id: Int): Response<ResponseBody> {
+        return operationApi.deleteOperation(token = token, id = id)
+    }
+
 }

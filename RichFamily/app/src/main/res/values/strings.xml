@@ -90,4 +90,6 @@
         implied, including, without limitation, any warranties or conditions
         of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
         PARTICULAR PURPOSE.</string>
+    <string name="accept">Подтвердить</string>
+    <string name="rub_text">Руб.</string>
 </resources>

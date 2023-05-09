@@ -65,6 +65,19 @@ class OperationViewModel(
         }
     }
 
+    fun deleteOperation(id: Int) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = operationRepository.deleteOperation(token = token, id = id)
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    onError("Error : ${response.message()} ")
+                } else {
+                    getAllOperations()
+                }
+            }
+        }
+    }
+
     private fun onError(message: String) {
         errorMessage.value = message
         loading.value = false

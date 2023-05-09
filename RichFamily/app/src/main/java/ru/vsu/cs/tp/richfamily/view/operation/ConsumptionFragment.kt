@@ -94,6 +94,7 @@ class ConsumptionFragment :
     }
 
     override fun onDeleteIconClick(id: Int) {
+        opViewModel.deleteOperation(id = id)
     }
 
     override fun onEditIconClick(id: Int) {

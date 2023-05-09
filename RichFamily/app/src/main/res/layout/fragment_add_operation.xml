@@ -6,21 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".view.operation.AddOperationFragment">
 
-    <EditText
-        android:id="@+id/operation_name_et"
-        style="@style/LabelText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Название операции"
-        android:layout_marginTop="@dimen/half_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/operation_type_tv"
         style="@style/LabelText"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/operation_type_label"
@@ -28,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/operation_name_et" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <RadioGroup
         android:id="@+id/consumption_income_rg"
@@ -45,7 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/consumption_text" />
+            android:text="@string/consumption_text"
+            android:background="@drawable/radiobutton_bg_selector"/>
 
         <RadioButton
             android:id="@+id/income_rb"
@@ -53,7 +43,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/income_text" />
+            android:text="@string/income_text"
+            android:background="@drawable/radiobutton_bg_selector" />
+
     </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,6 +64,7 @@
             android:inputType="none"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -163,6 +156,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/comment_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"

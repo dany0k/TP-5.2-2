@@ -2,10 +2,13 @@ package ru.vsu.cs.tp.richfamily.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.databinding.OperationRvItemBinding
@@ -15,17 +18,36 @@ class OperationRVAdapter(
     private val operationClickEditInterface: OperationClickEditInterface
 ) : ListAdapter<Operation, OperationRVAdapter.Holder>(Comparator()) {
     class Holder(binding: OperationRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val opName: TextView = binding.operationName
-        private val opType: TextView = binding.operationType
+        private val opRec: TextView = binding.operationRec
         private val opSum: TextView = binding. operationSum
         private val opDate: TextView = binding.operationDate
         private val opTime: TextView = binding.operationTime
+        val deleteOpIV: ImageView = binding.deleteOpIV
+        val editOpIV: ImageView = binding.editOpIV
         fun bind(operation: Operation) {
-//            opName.text = operation.
-            opType.text = operation.op_variant
-            opSum.text = operation.op_sum.toString()
-            opDate.text = operation.op_date.toString()
-//            opTime.text = operation..toString()
+            val sum: String = if (operation.op_variant == "ДОХОД") {
+                operation.op_sum.toString()
+            } else {
+                "-${operation.op_sum}"
+            }
+            opRec.text = operation.op_recipient
+            opSum.text = sum
+            opDate.text = getDate(operation.op_date)
+            opTime.text = getTime(operation.op_date)
+        }
+
+        private fun getTime(dateTimeString: String): String {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            val dateTime = LocalDateTime.parse(dateTimeString, formatter)
+            val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+            return dateTime.format(timeFormatter)
+        }
+
+        private fun getDate(dateTimeString: String): String {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            val dateTime = LocalDateTime.parse(dateTimeString, formatter)
+            val dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
+            return dateTime.format(dateFormatter)
         }
     }
 
@@ -49,6 +71,13 @@ class OperationRVAdapter(
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         holder.bind(getItem(position))
+        val id = getItem(position).id
+        holder.deleteOpIV.setOnClickListener {
+            operationClickDeleteInterface.onDeleteIconClick(id = id)
+        }
+        holder.editOpIV.setOnClickListener {
+            operationClickEditInterface.onEditIconClick(id = id)
+        }
     }
 }
 

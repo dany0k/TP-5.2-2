@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.api.model.Wallet
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
 import ru.vsu.cs.tp.richfamily.databinding.WalletRvItemBinding
 
 class WalletRVAdapter(
@@ -51,7 +51,7 @@ class WalletRVAdapter(
             walletClickDeleteInterface.onDeleteIconClick(id)
         }
         holder.editWalIV.setOnClickListener {
-            walletClickEditInterface.onEditIconClick(id)
+            walletClickEditInterface.onEditIconClick(position)
         }
     }
 }
