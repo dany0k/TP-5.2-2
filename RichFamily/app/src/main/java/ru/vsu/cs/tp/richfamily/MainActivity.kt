@@ -33,6 +33,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.templateFragment,
                 R.id.consumptionFragment,
                 R.id.incomeFragment,
+                R.id.creditListFragment,
+                R.id.categoryFragment,
+                R.id.reportFragment,
+                R.id.groupListFragment,
+                R.id.accountFragment,
+                R.id.aboutFragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

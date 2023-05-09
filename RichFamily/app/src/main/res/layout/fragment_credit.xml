@@ -18,6 +18,7 @@
             />
 
         <TextView
+            android:id="@+id/monthly_sum_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -37,6 +38,7 @@
             android:text="@string/interest_charges_text" />
 
         <TextView
+            android:id="@+id/percentage_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
@@ -57,6 +59,7 @@
             />
 
         <TextView
+            android:id="@+id/total_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"

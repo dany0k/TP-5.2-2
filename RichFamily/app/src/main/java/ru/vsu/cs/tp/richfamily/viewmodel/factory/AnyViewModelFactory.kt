@@ -3,8 +3,10 @@ package ru.vsu.cs.tp.richfamily.viewmodel.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
+import ru.vsu.cs.tp.richfamily.repository.CreditRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 
 class AnyViewModelFactory(
@@ -21,6 +23,11 @@ class AnyViewModelFactory(
             modelClass.isAssignableFrom(WalletViewModel::class.java) ->
                 WalletViewModel(
                     walletRepository = repository as WalletRepository,
+                    token = token
+                ) as T
+            modelClass.isAssignableFrom(CreditViewModel::class.java) ->
+                CreditViewModel(
+                    creditRepository = repository as CreditRepository,
                     token = token
                 ) as T
             else -> throw IllegalArgumentException("ViewModel Not Found")
