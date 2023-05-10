@@ -5,6 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/placeholder"
+            android:title=""/>
+        <item
             android:id="@+id/categoryFragment"
             android:icon="@drawable/ic_category"
             android:title="@string/categories_title" />
@@ -17,7 +20,7 @@
             android:icon="@drawable/ic_credit"
             android:title="@string/credits_title" />
         <item
-            android:id="@+id/groupFragment"
+            android:id="@+id/groupListFragment"
             android:icon="@drawable/ic_group"
             android:title="@string/group_title" />
         <item

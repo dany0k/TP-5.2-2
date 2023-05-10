@@ -14,15 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        val scope = CoroutineScope(Dispatchers.Default)
-//        scope.launch {
-//            AppDataBase.getDatabase(this@MainActivity).clearAllTables()
-//        }
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Navigation
@@ -40,7 +33,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.templateFragment,
                 R.id.consumptionFragment,
                 R.id.incomeFragment,
-                R.id.groupFragment,
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

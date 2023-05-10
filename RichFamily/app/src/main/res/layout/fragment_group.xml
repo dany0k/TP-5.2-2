@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".view.group.GroupFragment">
 
-    <include
-        android:id="@+id/user_list"
-        layout="@layout/operation"
-        app:layout_constraintEnd_toEndOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/users_rv"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_marginTop="@dimen/default_margin"
+        tools:listitem="@layout/group_user_rv_item"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +23,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_list">
+        app:layout_constraintTop_toBottomOf="@+id/users_rv">
 
     <TextView
         android:id="@+id/invite_user_tv"

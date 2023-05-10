@@ -23,7 +23,8 @@
             android:layout_weight="0"
             style="@style/DefaultText"
             android:layout_gravity="center"
-            tools:text="7000 руб."/>
+            tools:text="7000 руб."
+            android:text="22 666,67 Руб"/>
     </TableRow>
 
     <TableRow
@@ -33,8 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             style="@style/DefaultText"
-            android:text="@string/interest_charges_text"
-            />
+            android:text="@string/interest_charges_text" />
 
         <TextView
             android:layout_width="match_parent"
@@ -42,7 +42,8 @@
             android:layout_weight="0"
             style="@style/DefaultText"
             android:layout_gravity="center"
-            tools:text="300000 руб."/>
+            tools:text="300000 руб."
+            android:text="111 000,00 Руб"/>
     </TableRow>
 
     <TableRow
@@ -61,10 +62,12 @@
             android:layout_weight="0"
             style="@style/DefaultText"
             android:layout_gravity="center"
-            tools:text="800000 руб."/>
+            tools:text="800000 руб."
+            android:text="711 000,00 Руб"/>
     </TableRow>
 
     <Button
+        android:id="@+id/continueButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"

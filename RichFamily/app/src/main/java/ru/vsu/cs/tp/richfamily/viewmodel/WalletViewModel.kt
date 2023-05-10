@@ -1,34 +1,103 @@
 package ru.vsu.cs.tp.richfamily.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import ru.vsu.cs.tp.richfamily.model.Wallet
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.*
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
+import ru.vsu.cs.tp.richfamily.api.model.wallet.WalletRequestBody
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
-import ru.vsu.cs.tp.richfamily.room.AppDataBase
 
-class WalletViewModel(application: Application) : AndroidViewModel(application) {
-    val allWallets: LiveData<List<Wallet>>
-    private val repository: WalletRepository
+class WalletViewModel(
+    private val walletRepository: WalletRepository,
+    private val token: String
+) : ViewModel() {
+    val errorMessage = MutableLiveData<String>()
+    val walletList = MutableLiveData<List<Wallet>>()
+    var job: Job? = null
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        onError("Exception handled: ${throwable.localizedMessage}")
+    }
+    val loading = MutableLiveData<Boolean>()
 
-    init {
-        val dao = AppDataBase.getDatabase(application).getWalletsDao()
-        repository = WalletRepository(dao)
-        allWallets = repository.allWallets
+    fun getAllWallets() {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = walletRepository.getAllWallets()
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    walletList.postValue(response.body())
+                    loading.value = false
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+
     }
 
-    fun deleteWallet(wallet: Wallet) = viewModelScope.launch(Dispatchers.IO) {
-        repository.delete(wallet)
+    private fun onError(message: String) {
+        errorMessage.value = message
+        loading.value = false
     }
 
-    fun updateWallet(wallet: Wallet) = viewModelScope.launch(Dispatchers.IO) {
-        repository.update(wallet)
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
     }
 
-    fun addWallet(wallet: Wallet) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(wallet)
+    fun addWallet(accName: String, accCurrency: String, accSum: Float, accComment: String) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = walletRepository.addWallet(
+                token,
+                WalletRequestBody(
+                    user = 1,
+                    acc_name = accName,
+                    acc_currency = accCurrency,
+                    acc_sum = accSum,
+                    acc_comment = accComment
+                    )
+            )
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    onError("Error : ${response.message()} ")
+                } else {
+                    getAllWallets()
+                }
+            }
+        }
+    }
+
+    fun deleteWallet(id: Int) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = walletRepository.deleteWallet(token = token, id = id)
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    onError("Error : ${response.message()} ")
+                } else {
+                    getAllWallets()
+                }
+            }
+        }
+    }
+
+    fun editWallet(id: Int, accName: String, accCurrency: String, accSum: Float, accComment: String) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = walletRepository.editWallet(
+                walletRequestBody = WalletRequestBody(
+                    user = 1,
+                    acc_name = accName,
+                    acc_currency = accCurrency,
+                    acc_sum = accSum,
+                    acc_comment = accComment
+                ),
+                id = id
+            )
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    onError("Error : ${response.message()} ")
+                } else {
+                    getAllWallets()
+                }
+            }
+        }
     }
 }

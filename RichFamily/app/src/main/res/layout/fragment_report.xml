@@ -9,22 +9,30 @@
     tools:context=".view.report.ReportFragment">
 
     <TextView
-        android:id="@+id/operationsList"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:text="@string/hello_blank_fragment"
+        android:id="@+id/operation_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/DefaultText"
+        android:text="Операции"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/operations_rv"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_marginTop="@dimen/default_margin"
+        tools:listitem="@layout/operation_rv_item"
+        app:layout_constraintTop_toBottomOf="@id/operation_tv"/>
 
     <Button
         android:id="@+id/saveReportButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
         android:layout_gravity="center"
         android:text="@string/save_report_button_label"
-        app:layout_constraintTop_toBottomOf="@id/operationsList"
+        app:layout_constraintTop_toBottomOf="@id/operations_rv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

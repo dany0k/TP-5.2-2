@@ -7,14 +7,18 @@
         android:id="@+id/templateFragment"
         tools:context=".view.template.TemplateFragment">
 
-        <include layout="@layout/operation"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/wallets_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/template_rv_item"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_plus"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="@dimen/default_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginVertical="@dimen/default_margin"/>

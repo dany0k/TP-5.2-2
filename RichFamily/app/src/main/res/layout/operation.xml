@@ -7,15 +7,9 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/logger"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Output:\n" />
     </ScrollView>
 
     <androidx.recyclerview.widget.RecyclerView

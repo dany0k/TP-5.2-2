@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:importantForAutofill="no"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:maxLength="9"/>
 
     <com.google.android.material.textfield.TextInputLayout
