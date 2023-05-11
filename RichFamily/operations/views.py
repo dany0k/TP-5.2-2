@@ -7,7 +7,7 @@ from rest_framework import permissions
 
 from .models import *
 from .serializers import * 
-from .services import generate_report, save_report
+from .services import generate_report, save_report, calc_payment
 
 
 class OperationCategoryViewSet(viewsets.ModelViewSet):
@@ -83,6 +83,7 @@ class OperationViewSet(viewsets.ModelViewSet):
         serializer = OperationSerializer(consumptions, many=True)
         return Response(serializer.data)
 
+
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
@@ -107,3 +108,13 @@ class CreditPayViewSet(viewsets.ModelViewSet):
     serializer_class = CreditPaySerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+    def perform_create(self, serializer):
+        payment = calc_payment(serializer.validated_data['cr_all_sum'],
+                                serializer.validated_data['cr_percent'],
+                                serializer.validated_data['cr_period'])
+        all_sum = payment * serializer.validated_data['cr_period']
+        percents_sum = all_sum - serializer.validated_data['cr_all_sum']
+        serializer.save(user=self.request.user,
+                        cr_month_pay=payment,
+                        cr_percents_sum=percents_sum,
+                        cr_sum_plus_percents=all_sum)

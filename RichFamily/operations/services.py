@@ -23,9 +23,11 @@ def generate_report(authorizated_user):
     result = {"incomes": incomes, "expenses": expenses}
     return result
 
+
 def _convert_date_str(date: str) -> tuple:
     tokens = date.split('T')
     return (tokens[0], tokens[1].split('.')[0])
+
 
 def save_report(report: dict):
     """
@@ -68,3 +70,12 @@ def save_report(report: dict):
                              expence['op_comment']])
 
 
+def calc_payment(ost, month_percent, month_count) -> float:
+    """
+    Расчет ежемесячного платежа
+    input:
+        ost -> остаток по кредиту
+        month_percent -> процент годовых
+        month_count -> период выплаты кредита (в месяцах)
+    """
+    return ost * (month_percent / (100 * 12)) / (1 - (1 + month_percent / (100 * 12))**(-month_count))
