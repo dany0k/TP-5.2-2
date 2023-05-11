@@ -34,6 +34,6 @@ class CreditPaySerializer(serializers.ModelSerializer):
     """ Сериализатор для кредитного платежа """
     class Meta:
         model = CreditPay
-        fields = ('id', 'user', 'cr_all_sum', 'cr_first_pay', 'cr_percent', 'cr_period' , 'cr_month_pay', 'cr_percents_sum' ,'cr_sum_plus_percents')
+        fields = ('id', 'user', 'cr_name', 'cr_all_sum', 'cr_percent', 'cr_period' , 'cr_month_pay', 'cr_percents_sum' ,'cr_sum_plus_percents')
 
 
