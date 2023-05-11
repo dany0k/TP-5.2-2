@@ -2,6 +2,7 @@ package ru.vsu.cs.tp.richfamily.app
 
 import android.app.Application
 import android.util.Log
+import com.jakewharton.threetenabp.AndroidThreeTen
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
@@ -11,6 +12,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
     }
 
     companion object {
