@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_templateFragment_to_updateTemplateFragment"
             app:destination="@id/updateTemplateFragment" />
+        <action
+            android:id="@+id/action_templateFragment_to_addOperationFragment"
+            app:destination="@id/addOperationFragment" />
     </fragment>
 
     <fragment
@@ -144,7 +147,11 @@
         android:id="@+id/addTemplateFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.template.AddTemplateFragment"
         android:label="Шаблон"
-        tools:layout="@layout/fragment_add_template" />
+        tools:layout="@layout/fragment_add_template" >
+        <action
+            android:id="@+id/action_addTemplateFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/updateWalletFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.wallet.UpdateWalletFragment"
@@ -183,10 +190,17 @@
         tools:layout="@layout/fragment_add_operation" >
         <action
             android:id="@+id/action_addOperationFragment_to_incomeFragment"
+            app:popUpTo="@id/walletFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/incomeFragment" />
         <action
             android:id="@+id/action_addOperationFragment_to_consumptionFragment"
+            app:popUpTo="@id/walletFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/consumptionFragment" />
+        <argument
+            android:name="template"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.template.Template" />
     </fragment>
     <fragment
         android:id="@+id/recoveryFragment"
@@ -219,7 +233,11 @@
         android:id="@+id/updateTemplateFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.template.UpdateTemplateFragment"
         android:label="Редактирваоние шаблона"
-        tools:layout="@layout/fragment_update_template" />
+        tools:layout="@layout/fragment_update_template" >
+        <argument
+            android:name="template"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.template.Template" />
+    </fragment>
     <fragment
         android:id="@+id/updateOperationFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.operation.UpdateOperationFragment"

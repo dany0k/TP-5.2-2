@@ -10,7 +10,10 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavGraph
+import androidx.navigation.NavGraphNavigator
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.Category
 import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
@@ -40,6 +43,7 @@ class AddOperationFragment : Fragment(){
     private lateinit var catList: List<Category>
     private lateinit var walList: List<Wallet>
 
+    private val args by navArgs<AddOperationFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,12 +66,53 @@ class AddOperationFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        catViewModel.catList.observe(viewLifecycleOwner) {
-            catList = it
-        }
         walViewModel.walletList.observe(viewLifecycleOwner) {
-            walList = it
+            catViewModel.catList.observe(viewLifecycleOwner) { it1 ->
+                walList = it
+                catList = it1
+                initAdapters()
+                if (!requireArguments().isEmpty) {
+                    setOperation()
+                }
+                catViewModel.catList.removeObserver { }
+                walViewModel.walletList.removeObserver { }
+            }
         }
+        process()
+    }
+
+    private fun setOperation() = with(binding) {
+        val curTemp = args.template
+        totalEt.setText(curTemp.temp_sum.toString())
+        commentEt.setText(curTemp.temp_comment)
+        senderEt.setText(curTemp.temp_recipient)
+        if (curTemp.temp_variant == Constants.CONS_TEXT) {
+            consumptionRb.isChecked = true
+        } else {
+            incomeRb.isChecked = true
+        }
+        filledScore.setText(findWalletById(curTemp.account))
+        filledCategory.setText(findCategoryById(curTemp.category))
+        initAdapters()
+    }
+
+    private fun findWalletById(id: Int): String {
+        val selectedClass = walList.find {
+            it.id == id
+        }
+        return "${selectedClass!!.acc_name} " +
+                "${selectedClass.acc_sum} " +
+                "${selectedClass.acc_currency}"
+    }
+
+    private fun findCategoryById(id: Int): String {
+        val selectedClass = catList.find {
+            it.id == id
+        }
+        return selectedClass!!.cat_name
+    }
+
+    private fun process() {
         binding.timeEt.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             setTime(hasFocus)
         }
@@ -119,11 +164,12 @@ class AddOperationFragment : Fragment(){
         if (rbText == Constants.CONS_TEXT) {
             findNavController()
                 .navigate(R.id.action_addOperationFragment_to_consumptionFragment)
-        } else {
+        } else if (rbText == Constants.INCOME_TEXT) {
             findNavController()
                 .navigate(R.id.action_addOperationFragment_to_incomeFragment)
         }
     }
+
     private fun inputCheck(
         wallet: String,
         category: String,
@@ -188,6 +234,7 @@ class AddOperationFragment : Fragment(){
                 }, year, month, dayOfMonth
             )
             datePickerDialog.show()
+            binding.dateEt.clearFocus()
         }
     }
 

@@ -92,4 +92,5 @@
         PARTICULAR PURPOSE.</string>
     <string name="accept">Подтвердить</string>
     <string name="rub_text">Руб.</string>
+    <string name="template_name_hint_et">Название шаблона</string>
 </resources>
