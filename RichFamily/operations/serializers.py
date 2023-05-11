@@ -13,7 +13,7 @@ class OperationTemplateSerializer(serializers.ModelSerializer):
     """ Сериализатор для шаблона операции """
     class Meta:
         model = OperationTemplate
-        fields = ('id', 'category', 'temp_name', 'temp_variant', 'temp_recipient', 'temp_sum')
+        fields = ('id', 'category', 'account', 'temp_name', 'temp_variant', 'temp_recipient', 'temp_sum', 'temp_comment')
 
 
 class AccountSerializer(serializers.ModelSerializer):

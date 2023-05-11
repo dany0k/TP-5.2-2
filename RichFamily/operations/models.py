@@ -25,10 +25,12 @@ class OperationCategory(models.Model):
 class OperationTemplate(models.Model):
     """ Модель шаблона операции """
     category = models.ForeignKey(OperationCategory, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     temp_name = models.CharField(max_length=40)
     temp_variant = models.CharField(max_length=10)
     temp_recipient = models.CharField(max_length=100)
     temp_sum = models.FloatField()
+    temp_comment = models.TextField(default='') 
 
     class Meta:
         db_table = 'templates'
