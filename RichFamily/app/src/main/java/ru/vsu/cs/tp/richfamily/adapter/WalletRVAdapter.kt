@@ -1,67 +1,65 @@
 package ru.vsu.cs.tp.richfamily.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ru.vsu.cs.tp.richfamily.R
+import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
 import ru.vsu.cs.tp.richfamily.databinding.WalletRvItemBinding
-import ru.vsu.cs.tp.richfamily.model.Wallet
-import ru.vsu.cs.tp.richfamily.view.wallet.WalletFragment
-import ru.vsu.cs.tp.richfamily.view.wallet.WalletFragmentDirections
 
 class WalletRVAdapter(
-    val context: WalletFragment,
     private val walletClickDeleteInterface: WalletClickDeleteInterface,
-    ) : RecyclerView.Adapter<WalletRVAdapter.WalletViewHolder>() {
-
-    private val allWallet = ArrayList<Wallet>()
-
-    inner class WalletViewHolder(
-        binding: WalletRvItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-        var walletText: TextView = binding.walletTitle
-        var walletScore: TextView = binding.walletScore
-        var delete: ImageView = binding.deleteWallet
-     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : WalletViewHolder {
-        val binding = WalletRvItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false)
-        return WalletViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: WalletViewHolder, position: Int) {
-        holder.walletText.text = allWallet[position].walletTitle
-        holder.walletScore.text = allWallet[position].walletScore.toString()
-        holder.delete.setOnClickListener {
-            walletClickDeleteInterface.onDeleteIconClick(allWallet[position])
-        }
-        holder.itemView.setOnClickListener {
-           val action = WalletFragmentDirections.
-           actionWalletFragmentToUpdateWalletFragment(allWallet[position])
-            holder.itemView.findNavController().navigate(action)
+    private val walletClickEditInterface: WalletClickEditInterface
+) : ListAdapter<Wallet, WalletRVAdapter.Holder>(Comparator()) {
+    class Holder(binding: WalletRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        private val walletName: TextView = binding.walletName
+        private val walletTotal: TextView = binding.walletTotal
+        val deleteWalIV: ImageView = binding.deleteWalletIV
+        val editWalIV: ImageView = binding.editWalletIV
+        fun bind(wallet: Wallet) {
+            walletName.text = wallet.acc_name
+            walletTotal.text = wallet.acc_sum.toString()
         }
     }
 
-    override fun getItemCount() : Int {
-        return allWallet.size
+    class Comparator: DiffUtil.ItemCallback<Wallet>() {
+        override fun areItemsTheSame(oldItem: Wallet, newItem: Wallet): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Wallet, newItem: Wallet): Boolean {
+            return oldItem == newItem
+        }
+
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateList(newList: List<Wallet>) {
-        allWallet.clear()
-        allWallet.addAll(newList)
-        notifyDataSetChanged()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.wallet_rv_item, parent, false)
+        val binding = WalletRvItemBinding.bind(view)
+        return Holder(binding)
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.bind(getItem(position))
+        val id = getItem(position).id
+        holder.deleteWalIV.setOnClickListener {
+            walletClickDeleteInterface.onDeleteIconClick(id)
+        }
+        holder.editWalIV.setOnClickListener {
+            walletClickEditInterface.onEditIconClick(position)
+        }
     }
 }
 
 interface WalletClickDeleteInterface {
-    fun onDeleteIconClick(wallet: Wallet)
+    fun onDeleteIconClick(id: Int)
 }
 
-interface WalletClickInterface {
-    fun onNoteClick(wallet: Wallet)
+interface WalletClickEditInterface {
+    fun onEditIconClick(id: Int)
 }

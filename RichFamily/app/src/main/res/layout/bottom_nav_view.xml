@@ -18,6 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginEnd="16dp"
+            app:labelVisibilityMode="labeled"
             app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             android:background="@android:color/transparent"
             app:menu="@menu/bottom_nav_menu"/>
