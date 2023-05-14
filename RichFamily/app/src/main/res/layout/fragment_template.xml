@@ -7,6 +7,17 @@
         android:id="@+id/templateFragment"
         tools:context=".view.template.TemplateFragment">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/wallets_rv"
             android:layout_width="match_parent"

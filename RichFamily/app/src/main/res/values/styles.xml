@@ -2,6 +2,7 @@
 <resources>
     <style name="DefaultText" parent="TextAppearance.AppCompat">
         <item name="android:textSize" type="">25sp</item>
+        <item name="android:textColor">@color/black</item>
         <item name="fontFamily">@font/comfortaa</item>
         <item name="android:layout_marginStart">16dp</item>
     </style>
@@ -9,7 +10,7 @@
         <item name="android:textSize" type="">15sp</item>
         <item name="fontFamily">@font/comfortaa</item>
         <item name="android:textStyle">italic</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:layout_marginStart">8dp</item>
     </style>
     <style name="LinkText" parent="ShapeAppearanceOverlay.Material3.Button">
