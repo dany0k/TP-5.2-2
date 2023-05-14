@@ -21,7 +21,7 @@ class CreditRVAdapter(
         val deleteTemplateIV: ImageView = binding.deleteCreditIV
         fun bind(credit: Credit) {
             // creditName
-            creditName.text = credit.cr_all_sum.toString()
+            creditName.text = credit.cr_name.toString()
             creditSum.text = credit.cr_all_sum.toString()
         }
     }

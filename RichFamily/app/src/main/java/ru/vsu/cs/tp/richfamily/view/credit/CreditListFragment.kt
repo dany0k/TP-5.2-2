@@ -75,9 +75,11 @@ class CreditListFragment:
                     binding.progressBar.visibility = View.GONE
                 }
             }
-            creditViewModel.getAllCredit()
+            creditViewModel.getAllCredits()
         }
         binding.calculateCreditButton.setOnClickListener {
+            findNavController()
+                .navigate(R.id.action_creditListFragment_to_addCreditFragment)
         }
     }
 

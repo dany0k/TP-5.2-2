@@ -8,7 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import retrofit2.Response
+import ru.vsu.cs.tp.richfamily.api.model.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.credit.Credit
+import ru.vsu.cs.tp.richfamily.api.model.credit.CreditRequestBody
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
 
 class CreditViewModel(
@@ -23,7 +27,7 @@ class CreditViewModel(
     }
     val loading = MutableLiveData<Boolean>()
 
-    fun getAllCredit() {
+    fun getAllCredits() {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = creditRepository.getAllCredits()
             withContext(Dispatchers.Main) {
@@ -36,6 +40,50 @@ class CreditViewModel(
             }
         }
 
+    }
+
+    fun addCredit(
+        crName: String,
+        crAllSum: Float,
+        crPerc: Int,
+        crPeriod: Int,
+        crMonthPay: Float,
+        crPercSum: Float,
+        crTotalSum: Float) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = creditRepository.addCredit(
+                token,
+                CreditRequestBody(
+                    cr_name = crName,
+                    cr_all_sum = crAllSum,
+                    cr_percent = crPerc,
+                    cr_period = crPeriod,
+                    cr_month_pay = crMonthPay,
+                    cr_percents_sum = crPercSum,
+                    cr_sum_plus_percents = crTotalSum
+                )
+            )
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    onError("Error : ${response.message()} ")
+                } else {
+                    getAllCredits()
+                }
+            }
+        }
+    }
+
+    fun deleteCategory(id: Int) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = creditRepository.deleteCredit(token = token, id = id)
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    onError("Error : ${response.message()} ")
+                } else {
+                    getAllCredits()
+                }
+            }
+        }
     }
 
     private fun onError(message: String) {

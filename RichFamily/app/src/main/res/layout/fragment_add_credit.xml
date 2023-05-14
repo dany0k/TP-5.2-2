@@ -8,6 +8,7 @@
     tools:context=".view.credit.AddCreditFragment">
 
     <EditText
+        android:id="@+id/cr_name_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
@@ -18,6 +19,7 @@
         android:importantForAutofill="no" />
 
     <EditText
+        android:id="@+id/cr_perc_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
@@ -28,6 +30,7 @@
         android:importantForAutofill="no" />
 
     <EditText
+        android:id="@+id/cr_first_pay_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
@@ -38,6 +41,7 @@
         android:importantForAutofill="no" />
 
     <EditText
+        android:id="@+id/cr_sum_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_margin"
@@ -53,6 +57,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/cr_perion_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -69,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_gravity="bottom"
-            android:text="@string/years_text" />
+            android:text="@string/month_text" />
 
     </LinearLayout>
 

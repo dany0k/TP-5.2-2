@@ -56,7 +56,7 @@
     <string name="first_pay_hint_text">Первоначальный взнос</string>
     <string name="credit_total_hint_text">Сумма кредита</string>
     <string name="credit_term_hint_text">Срок кредита</string>
-    <string name="years_text">лет</string>
+    <string name="month_text">месяцев</string>
     <string name="calculate_button_label">Рассчитать</string>
     <string name="monthly_payment_text">Ежемесячный платеж</string>
     <string name="continue_button_label">Продолжить</string>

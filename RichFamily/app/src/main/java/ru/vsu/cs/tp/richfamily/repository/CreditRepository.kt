@@ -1,7 +1,9 @@
 package ru.vsu.cs.tp.richfamily.repository
 
+import okhttp3.ResponseBody
 import retrofit2.Response
 import ru.vsu.cs.tp.richfamily.api.model.credit.Credit
+import ru.vsu.cs.tp.richfamily.api.model.credit.CreditRequestBody
 import ru.vsu.cs.tp.richfamily.api.service.CreditApi
 
 class CreditRepository(
@@ -10,5 +12,19 @@ class CreditRepository(
 ) {
     suspend fun getAllCredits(): Response<List<Credit>> {
         return creditApi.getCredits(token = token)
+    }
+
+    suspend fun addCredit(
+        token: String,
+        creditRequestBody: CreditRequestBody
+    ): Response<Credit> {
+        return creditApi.addCredit(token = token, creditRequestBody = creditRequestBody)
+    }
+
+    suspend fun deleteCredit(
+        token: String,
+        id: Int
+    ) : Response<ResponseBody> {
+        return creditApi.deleteCredit(token = token, id = id)
     }
 }
