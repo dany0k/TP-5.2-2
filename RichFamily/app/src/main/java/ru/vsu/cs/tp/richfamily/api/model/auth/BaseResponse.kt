@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.api.model
+package ru.vsu.cs.tp.richfamily.api.model.auth
 
 sealed class BaseResponse<out T> {
     data class Success<out T>(val data: T? = null) : BaseResponse<T>()

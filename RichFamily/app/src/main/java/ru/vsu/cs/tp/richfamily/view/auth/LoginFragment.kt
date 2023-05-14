@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.api.model.BaseResponse
-import ru.vsu.cs.tp.richfamily.api.model.User
+import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
+import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.databinding.FragmentLoginBinding
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
