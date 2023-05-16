@@ -143,7 +143,6 @@ class AccountViewSet(viewsets.ModelViewSet):
 class CreditPayViewSet(viewsets.ModelViewSet):
     queryset = CreditPay.objects.all()
     serializer_class = CreditPaySerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
         payment = calc_payment(serializer.validated_data['cr_all_sum'],
