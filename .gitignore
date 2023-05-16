@@ -7,6 +7,9 @@
 # Python virtual env
 .venv/
 
+# Local report file
+OperationsReport.csv
+
 # Python cache files
 __pycache__/
 
