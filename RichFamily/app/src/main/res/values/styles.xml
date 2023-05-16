@@ -5,6 +5,36 @@
         <item name="fontFamily">@font/comfortaa</item>
         <item name="android:layout_marginStart">16dp</item>
     </style>
+    <style name="DefaultTextNoMargin" parent="TextAppearance.AppCompat">
+        <item name="android:textSize" type="">25sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+    </style>
+    <style name="CardText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize" type="">16sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="CardLabelTextSmall" parent="TextAppearance.AppCompat">
+        <item name="android:textSize" type="">16sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+    <style name="CardLabelTextMedium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize" type="">18sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+    <style name="CardTextMedium" parent="TextAppearance.AppCompat">
+        <item name="android:textSize" type="">20sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+    </style>
+    <style name="CardLabelText" parent="TextAppearance.AppCompat">
+        <item name="android:textSize" type="">20sp</item>
+        <item name="fontFamily">@font/comfortaa</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="LabelText" parent="TextAppearance.AppCompat">
         <item name="android:textSize" type="">15sp</item>
         <item name="fontFamily">@font/comfortaa</item>

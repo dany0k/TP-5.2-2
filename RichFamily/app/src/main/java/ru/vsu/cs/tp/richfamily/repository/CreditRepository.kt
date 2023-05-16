@@ -21,6 +21,12 @@ class CreditRepository(
         return creditApi.addCredit(token = token, creditRequestBody = creditRequestBody)
     }
 
+    suspend fun addCreditNotAuth(
+        creditNotAuthRequestBody: CreditRequestBody
+    ): Response<Credit> {
+        return creditApi.addCreditNotAuth(creditNotAuthRequestBody = creditNotAuthRequestBody)
+    }
+
     suspend fun deleteCredit(
         token: String,
         id: Int

@@ -111,6 +111,9 @@
         <argument
             android:name="credit"
             app:argType="ru.vsu.cs.tp.richfamily.api.model.credit.Credit" />
+        <argument
+            android:name="isAuth"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/reportFragment"

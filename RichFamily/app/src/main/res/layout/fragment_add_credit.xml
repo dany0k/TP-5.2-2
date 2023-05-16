@@ -15,7 +15,7 @@
         android:layout_marginHorizontal="@dimen/default_margin"
         android:hint="@string/credit_name_hint_text"
         android:inputType="text"
-        android:maxLength="20"
+        android:maxLength="13"
         android:importantForAutofill="no" />
 
     <EditText
@@ -65,7 +65,7 @@
             android:layout_marginTop="@dimen/default_margin"
             android:hint="@string/credit_term_hint_text"
             android:inputType="number"
-            android:maxLength="2"
+            android:maxLength="3"
             android:importantForAutofill="no" />
 
         <TextView

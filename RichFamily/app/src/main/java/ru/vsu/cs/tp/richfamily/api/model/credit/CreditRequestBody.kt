@@ -1,6 +1,7 @@
 package ru.vsu.cs.tp.richfamily.api.model.credit
 
 data class CreditRequestBody (
+    val user: Int,
     val cr_name: String,
     val cr_all_sum: Float,
     val cr_percent: Int,

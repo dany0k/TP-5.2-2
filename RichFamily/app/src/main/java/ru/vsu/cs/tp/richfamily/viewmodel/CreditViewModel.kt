@@ -1,5 +1,6 @@
 package ru.vsu.cs.tp.richfamily.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -8,9 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import retrofit2.Response
-import ru.vsu.cs.tp.richfamily.api.model.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.credit.Credit
 import ru.vsu.cs.tp.richfamily.api.model.credit.CreditRequestBody
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
@@ -22,6 +20,7 @@ class CreditViewModel(
     val errorMessage = MutableLiveData<String>()
     val creditList = MutableLiveData<List<Credit>>()
     var job: Job? = null
+    var curCredit = MutableLiveData<Credit>()
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
@@ -54,6 +53,7 @@ class CreditViewModel(
             val response = creditRepository.addCredit(
                 token,
                 CreditRequestBody(
+                    user = 1,
                     cr_name = crName,
                     cr_all_sum = crAllSum,
                     cr_percent = crPerc,
@@ -67,13 +67,42 @@ class CreditViewModel(
                 if (!response.isSuccessful) {
                     onError("Error : ${response.message()} ")
                 } else {
-                    getAllCredits()
+                    curCredit.value = response.body()
                 }
             }
         }
     }
 
-    fun deleteCategory(id: Int) {
+    fun addCreditNotAuth(
+        crName: String,
+        crAllSum: Float,
+        crPerc: Int,
+        crPeriod: Int
+    ) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = creditRepository.addCreditNotAuth(
+                CreditRequestBody(
+                    user = -1,
+                    cr_name = crName,
+                    cr_all_sum = crAllSum,
+                    cr_percent = crPerc,
+                    cr_period = crPeriod,
+                    cr_month_pay = 0F,
+                    cr_percents_sum = 0F,
+                    cr_sum_plus_percents = 0F
+                )
+            )
+            withContext(Dispatchers.Main) {
+                if (!response.isSuccessful) {
+                    onError("Error : ${response.message()} ")
+                } else {
+                    curCredit.value = response.body()
+                }
+            }
+        }
+    }
+
+    fun deleteCredit(id: Int) {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = creditRepository.deleteCredit(token = token, id = id)
             withContext(Dispatchers.Main) {

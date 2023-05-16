@@ -93,13 +93,14 @@ class CreditListFragment:
     }
 
     override fun onDeleteIconClick(id: Int) {
-        TODO("Not yet implemented")
+        creditViewModel.deleteCredit(id = id)
     }
 
     override fun onItemClick(id: Int) {
         val action = CreditListFragmentDirections
-            .actionCreditListFragmentToCreditFragment(adapter.currentList[id])
+            .actionCreditListFragmentToCreditFragment(adapter.currentList[id], true)
         findNavController()
             .navigate(action)
     }
 }
+

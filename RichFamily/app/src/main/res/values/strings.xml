@@ -91,4 +91,6 @@
         of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
         PARTICULAR PURPOSE.</string>
     <string name="accept">Подтвердить</string>
+    <string name="period_text_tv">Период</string>
+    <string name="rub_sign">₽</string>
 </resources>

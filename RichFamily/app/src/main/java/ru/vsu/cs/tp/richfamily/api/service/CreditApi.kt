@@ -31,6 +31,12 @@ interface CreditApi {
         @Body creditRequestBody: CreditRequestBody
     ) : Response<Credit>
 
+    @Headers("Content-type: application/json")
+    @POST("api/v1/credits/calc_credit/")
+    suspend fun addCreditNotAuth(
+        @Body creditNotAuthRequestBody: CreditRequestBody
+    ) : Response<Credit>
+
     companion object {
         fun getCreditApi() : CreditApi? {
             return ClientApi.client?.create(CreditApi::class.java)
