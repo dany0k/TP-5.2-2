@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import permissions
+from django.forms.utils import json
 
 from .models import *
 from .serializers import * 
@@ -142,7 +143,6 @@ class AccountViewSet(viewsets.ModelViewSet):
 class CreditPayViewSet(viewsets.ModelViewSet):
     queryset = CreditPay.objects.all()
     serializer_class = CreditPaySerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
     def perform_create(self, serializer):
         payment = calc_payment(serializer.validated_data['cr_all_sum'],
@@ -154,3 +154,16 @@ class CreditPayViewSet(viewsets.ModelViewSet):
                         cr_month_pay=payment,
                         cr_percents_sum=percents_sum,
                         cr_sum_plus_percents=all_sum)
+
+    @action(methods=['post'], detail=False)
+    def calc_credit(self, request):
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        payment = calc_payment(body_data['cr_all_sum'],
+                                body_data['cr_percent'],
+                                body_data['cr_period'])
+        all_sum = payment * body_data['cr_period']
+        percents_sum = all_sum - body_data['cr_all_sum']
+        return Response({'cr_name': body_data['cr_name'], 'cr_month_pay': payment, 'cr_percents_sum': percents_sum, 'cr_sum_plus_percents': all_sum})
+
+     
