@@ -4,9 +4,11 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from django.forms.utils import json
 
+
 from .models import *
 from .serializers import * 
-from .services import generate_report, save_report, calc_payment
+from .services import generate_report, save_report, calc_payment, open_report
+from django.http.response import FileResponse
 
 
 class OperationCategoryViewSet(viewsets.ModelViewSet):
@@ -99,6 +101,18 @@ class OperationViewSet(viewsets.ModelViewSet):
         report = generate_report(self.request.user)
         save_report(report)
         return Response({'success': True})
+
+    @action(detail=False, methods=['get'])
+    def send_report(self, request):
+        """
+        Отправить сгенерированный отчет пользователю
+        В случае ошибки: отправляется 503 код (сервис недоступен) и сообщение об ошибке message
+        """
+        try:
+           file = open_report()
+           return FileResponse(file, content_type='text/csv')
+        except Exception as e:
+           return Response({'message': e}, status=503)
 
     @action(detail=False, methods=['get'])
     def incomes(self, requset):
