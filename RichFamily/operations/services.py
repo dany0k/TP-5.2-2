@@ -117,7 +117,6 @@ def open_report():
     except:
         raise Exception('The report file can\'t be opened')
 
-
 def get_operations_by_account(account_id):
     """
     Получить операции с определенного счета
@@ -128,12 +127,13 @@ def get_operations_by_account(account_id):
     return serializer.data
 
 
-def calc_payment(ost, month_percent, month_count) -> float:
+def calc_payment(ost, month_percent, month_count, first_pay) -> float:
     """
     Расчет ежемесячного платежа
     input:
         ost -> остаток по кредиту
         month_percent -> процент годовых
         month_count -> период выплаты кредита (в месяцах)
+        first_pay -> первоначальный взнос
     """
-    return ost * (month_percent / (100 * 12)) / (1 - (1 + month_percent / (100 * 12))**(-month_count))
+    return (ost - first_pay) * (month_percent / (100 * 12)) / (1 - (1 + month_percent / (100 * 12))**(-month_count))
