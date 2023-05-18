@@ -12,6 +12,7 @@ import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.databinding.FragmentLoginBinding
+import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
@@ -58,6 +59,14 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.forgotPasswordButton.setOnClickListener {
+            findNavController()
+                .navigate(R.id.action_loginFragment_to_recoveryFragment)
+        }
+    }
+
     private fun processLogin(data: User?) {
         showToast("Success:" + data?.auth_token)
         if (!data?.auth_token.isNullOrEmpty()) {
@@ -78,7 +87,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun processError(msg: String?) {
-        showToast("Error: $msg")
+        showToast(Constants.INVALID_DATA)
     }
 
     private fun stopLoading() { }

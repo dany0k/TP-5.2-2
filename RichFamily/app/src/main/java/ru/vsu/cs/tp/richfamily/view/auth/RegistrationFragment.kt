@@ -43,7 +43,7 @@ class RegistrationFragment : Fragment() {
                     processRegistration(it.data)
                 }
                 is BaseResponse.Error -> {
-                    processError(it.msg)
+                    processError()
                 }
                 else -> {
                     stopLoading()
@@ -81,10 +81,10 @@ class RegistrationFragment : Fragment() {
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
         if (inputCheck(email, pwd, firstname, lastname, secretWord)) {
-            if (!isValidEmail(email)) {
-                showToast(Constants.NOT_VALID_EMAIL)
+            if (!viewModel.isValidEmail(email)) {
+                showToast(Constants.INVALID_EMAIL)
             }
-            if (comparePwd(pwd, subPwd)) {
+            if (viewModel.comparePwd(pwd, subPwd)) {
                 viewModel.registerUser(
                     email = email,
                     pwd = pwd,
@@ -100,9 +100,6 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun isValidEmail(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
     private fun inputCheck(
         username: String,
         pwd: String,
@@ -117,16 +114,13 @@ class RegistrationFragment : Fragment() {
                 secretWord.isNotBlank()
     }
 
-    private fun comparePwd(pwd: String, subPwd: String): Boolean {
-        return pwd == subPwd
-    }
     private fun navigateHome() {
         findNavController()
             .navigate(R.id.action_registrationFragment_to_walletFragment)
     }
 
-    private fun processError(msg: String?) {
-        showToast("Ошибка: $msg")
+    private fun processError() {
+        showToast(Constants.INVALID_DATA)
     }
 
     private fun stopLoading() { }

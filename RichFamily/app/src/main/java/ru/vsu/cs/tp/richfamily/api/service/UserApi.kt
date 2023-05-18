@@ -9,6 +9,7 @@ import ru.vsu.cs.tp.richfamily.api.model.auth.BaseRegistrationRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseUser
 import ru.vsu.cs.tp.richfamily.api.model.auth.LoginRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.RegisterRequest
+import ru.vsu.cs.tp.richfamily.api.model.auth.ResetPwdRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 
 interface UserApi {
@@ -27,6 +28,11 @@ interface UserApi {
     suspend fun registerUser(
         @Body registerRequest: RegisterRequest
     ) : Response<User>
+
+    @POST("api/v1/users/reset_password/")
+    suspend fun resetPwd(
+        @Body resetPwdRequestBody: ResetPwdRequestBody
+    ) : Response<ResponseBody>
 
     companion object {
         fun getUserApi() : UserApi? {

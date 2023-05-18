@@ -6,6 +6,7 @@ import ru.vsu.cs.tp.richfamily.api.model.auth.BaseRegistrationRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseUser
 import ru.vsu.cs.tp.richfamily.api.model.auth.LoginRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.RegisterRequest
+import ru.vsu.cs.tp.richfamily.api.model.auth.ResetPwdRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.api.service.UserApi
 
@@ -20,7 +21,7 @@ class UserRepository {
 
     suspend fun registerBase(
         baseRegistrationRequest: BaseRegistrationRequest
-    ): Response<BaseUser>? {
+    ) : Response<BaseUser>? {
         return UserApi.getUserApi()?.registerBase(
             baseRegistrationRequest = baseRegistrationRequest
         )
@@ -28,7 +29,13 @@ class UserRepository {
 
     suspend fun registerUser(
         registrationRequest: RegisterRequest
-    ): Response<User>? {
+    ) : Response<User>? {
         return UserApi.getUserApi()?.registerUser(registerRequest = registrationRequest)
+    }
+
+    suspend fun resetPwd(
+        resetPwdRequestBody: ResetPwdRequestBody
+    ) : Response<ResponseBody>? {
+        return UserApi.getUserApi()?.resetPwd(resetPwdRequestBody = resetPwdRequestBody)
     }
 }

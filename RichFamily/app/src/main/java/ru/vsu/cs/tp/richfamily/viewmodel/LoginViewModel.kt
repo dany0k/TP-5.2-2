@@ -10,6 +10,7 @@ import ru.vsu.cs.tp.richfamily.api.model.auth.BaseRegistrationRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.LoginRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.RegisterRequest
+import ru.vsu.cs.tp.richfamily.api.model.auth.ResetPwdRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.repository.UserRepository
 
@@ -20,6 +21,7 @@ class LoginViewModel(application: Application) :
     val userRepo = UserRepository()
     val loginResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
     val regResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
+    val resetResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
     val logoutResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
 
     fun loginUser(username: String, pwd: String) {
@@ -109,5 +111,36 @@ class LoginViewModel(application: Application) :
                 loginResult.value = BaseResponse.Error(ex.message)
             }
         }
+    }
+
+    fun resetPwd(email: String, secretWord: String, newPassword: String) {
+        viewModelScope.launch {
+            try {
+                val resetPwdRequestBody = ResetPwdRequestBody(
+                    email = email,
+                    new_password = newPassword,
+                    secret_word = secretWord
+                )
+                val response = userRepo.resetPwd(
+                    resetPwdRequestBody = resetPwdRequestBody
+                )
+                if (response?.code() == 200) {
+                    resetResult.value =
+                        BaseResponse.Success(response.body())
+                } else {
+                    resetResult.value =
+                        BaseResponse.Error(response?.message())
+                }
+            } catch (ex: java.lang.Exception) {
+                resetResult.value = BaseResponse.Error(ex.message)
+            }
+        }
+    }
+    fun comparePwd(pwd: String, subPwd: String): Boolean {
+        return pwd == subPwd
+    }
+
+    fun isValidEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 }

@@ -5,6 +5,7 @@ object Constants {
     const val INCOME_TEXT = "ДОХОД"
     const val COMP_FIELDS_TOAST = "Заполните все поля!"
     const val PWD_NOT_COMPARE = "Пароли не совпадают!"
-    const val NOT_VALID_EMAIL = "Неверно заполнено поле email!"
+    const val INVALID_EMAIL = "Неверно заполнено поле email!"
     const val SUCCESS_LOGIN = "Успешно!"
+    const val INVALID_DATA = "Неверные данные"
 }
