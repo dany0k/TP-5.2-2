@@ -97,9 +97,4 @@ class LoginFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
 }
