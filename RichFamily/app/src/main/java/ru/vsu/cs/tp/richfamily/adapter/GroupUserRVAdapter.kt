@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ItemClickInterface
-import ru.vsu.cs.tp.richfamily.api.model.GroupUser
+import ru.vsu.cs.tp.richfamily.api.model.group.GroupUser
 import ru.vsu.cs.tp.richfamily.databinding.GroupUserRvItemBinding
 
 class GroupUserRVAdapter(

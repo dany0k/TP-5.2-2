@@ -7,12 +7,22 @@
     android:id="@+id/groupFragment"
     tools:context=".view.group.GroupListFragment">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groups_rv"
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_marginTop="@dimen/default_margin"
-        tools:listitem="@layout/credit_rv_item"
+        tools:listitem="@layout/group_rv_item"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

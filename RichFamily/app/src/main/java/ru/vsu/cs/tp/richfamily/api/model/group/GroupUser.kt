@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.api.model
+package ru.vsu.cs.tp.richfamily.api.model.group
 
 data class GroupUser (
     val id: Int,

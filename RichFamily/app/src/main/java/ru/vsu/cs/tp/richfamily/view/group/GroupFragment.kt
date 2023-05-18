@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +17,13 @@ import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.GroupUserRVAdapter
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ItemClickInterface
-import ru.vsu.cs.tp.richfamily.api.model.GroupUser
-import ru.vsu.cs.tp.richfamily.app.App
+import ru.vsu.cs.tp.richfamily.api.model.group.GroupUser
+import ru.vsu.cs.tp.richfamily.api.service.GroupApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentGroupBinding
+import ru.vsu.cs.tp.richfamily.repository.GroupRepository
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class GroupFragment :
     Fragment(),
@@ -27,6 +32,8 @@ class GroupFragment :
 
     private lateinit var binding: FragmentGroupBinding
     private lateinit var adapter: GroupUserRVAdapter
+    private lateinit var grViewModel: GroupViewModel
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +44,22 @@ class GroupFragment :
             container,
             false
         )
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
+            val groupApi = GroupApi.getGroupApi()!!
+            val grRepository = GroupRepository(groupApi = groupApi, token = token)
+            grViewModel = ViewModelProvider(
+                requireActivity(),
+                AnyViewModelFactory(
+                    repository = grRepository,
+                    token = token
+                )
+            )[GroupViewModel::class.java]
+        }
         return binding.root
     }
 

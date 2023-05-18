@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ItemClickInterface
-import ru.vsu.cs.tp.richfamily.api.model.Group
+import ru.vsu.cs.tp.richfamily.api.model.group.Group
 import ru.vsu.cs.tp.richfamily.databinding.GroupRvItemBinding
 
 class GroupListRVAdapter(
@@ -21,7 +21,7 @@ class GroupListRVAdapter(
         private val groupName: TextView = binding.groupName
         val exitGroupIV: ImageView = binding.exitGroupIV
         fun bind(group: Group) {
-            groupName.text = group.groupName
+            groupName.text = group.gr_name
         }
     }
 
