@@ -31,6 +31,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         result = get_users(pk)
         return Response(result)
 
+    @action(detail=True, methods=['get'])
+    def is_leader(self, request, pk=None):
+        """
+        Проверить, является ли авторизованный пользователь лидером группы
+        """
+        leader = get_leader(pk)
+        return Response({'is_leader': leader == self.request.user})
+
     @action(detail=True, methods=['post'])
     def add_user(self, request, pk=None):
         """
