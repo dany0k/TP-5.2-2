@@ -7,7 +7,7 @@ from django.forms.utils import json
 
 from .models import *
 from .serializers import * 
-from .services import generate_report, save_report, calc_payment, open_report
+from .services import change_account, generate_report, get_operations_by_account, get_operations_by_category, rollback_account, save_report, calc_payment, open_report
 from django.http.response import FileResponse
 
 
@@ -27,10 +27,7 @@ class OperationCategoryViewSet(viewsets.ModelViewSet):
         """
         Получить все операции пользователей определенной категории
         """
-        category = OperationCategory.objects.get(pk=pk)
-        queryset = Operation.objects.filter(category=category)
-        serializer = OperationSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response(get_operations_by_category(pk))
 
 
 class OperationTemplateViewSet(viewsets.ModelViewSet):
@@ -42,47 +39,25 @@ class OperationTemplateViewSet(viewsets.ModelViewSet):
         return OperationTemplate.objects.filter(category__user=self.request.user)
 
 
-def _change_account(serializer):
-        """
-        Изменить состояние счета при создании или изменении операции
-        """
-        account = Account.objects.get(id=serializer.validated_data['account'].id)
-        if serializer.validated_data['op_variant'] == 'ДОХОД':
-            account.acc_sum += serializer.validated_data['op_sum']
-        else:
-            account.acc_sum -= serializer.validated_data['op_sum']
-        account.save()
-
-
-def _rollback_account(instance):
-    """
-    Откатить счет до состояния предыдущей операции
-    """
-    prev_sum = instance.op_sum
-    acc = instance.account
-    if instance.op_variant == 'ДОХОД':
-        acc.acc_sum -= prev_sum
-    else:
-        acc.acc_sum += prev_sum
-    acc.save()
-
-
 class OperationViewSet(viewsets.ModelViewSet):
     queryset = Operation.objects.all()
     serializer_class = OperationSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+    def get_queryset(self):
+        return Operation.objects.filter(category__user=self.request.user)
+
     def perform_create(self, serializer: OperationSerializer):
-        _change_account(serializer)
+        change_account(serializer)
         serializer.save()
 
     def perform_update(self, serializer: OperationSerializer):
-        _rollback_account(serializer.instance) 
-        _change_account(serializer)
+        rollback_account(serializer.instance) 
+        change_account(serializer)
         serializer.save()
 
     def perform_destroy(self, instance):
-        _rollback_account(instance)
+        rollback_account(instance)
         instance.delete()
 
     @action(detail=False, methods=['get'])
@@ -114,31 +89,14 @@ class OperationViewSet(viewsets.ModelViewSet):
         except Exception as e:
            return Response({'message': e}, status=503)
 
-    @action(detail=False, methods=['get'])
-    def incomes(self, requset):
-        """
-        Получить доходы зарегистрированного пользователя
-        """
-        incomes = Operation.objects.filter(account__user=self.request.user,
-                                           op_variant='ДОХОД')
-        serializer = OperationSerializer(incomes, many=True)
-        return Response(serializer.data)
-
-    @action(detail=False, methods=['get'])
-    def consumptions(self, requset):
-        """
-        Получить расходы зарегистрированного пользователя
-        """
-        consumptions = Operation.objects.filter(account__user=self.request.user,
-                                           op_variant='РАСХОД')
-        serializer = OperationSerializer(consumptions, many=True)
-        return Response(serializer.data)
-
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return Account.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -148,15 +106,15 @@ class AccountViewSet(viewsets.ModelViewSet):
         """
         Получить операции с определенного счета
         """
-        acc = Account.objects.get(pk=pk)
-        queryset = acc.operation_set.all()
-        serializer = OperationSerializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response(get_operations_by_account(pk))
 
 
 class CreditPayViewSet(viewsets.ModelViewSet):
     queryset = CreditPay.objects.all()
     serializer_class = CreditPaySerializer
+
+    def get_queryset(self):
+        return CreditPay.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         payment = calc_payment(serializer.validated_data['cr_all_sum'],
