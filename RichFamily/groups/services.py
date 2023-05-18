@@ -17,12 +17,12 @@ def create_group(data, user: User):
     serializer = GroupSerializer(group)
     return serializer.data
 
-def remove_user(username, group_id) -> None:
+def remove_user(user_id, group_id) -> None:
     """
     Исключить пользователя с логином username из группы с идентификатором id
     """
     group = Group.objects.get(id=group_id)
-    user = User.objects.get(username=username)
+    user = User.objects.get(id=user_id)
     removed_user = GroupUser.objects.get(user=user, group=group)
     removed_user.delete()
 

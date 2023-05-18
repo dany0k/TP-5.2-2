@@ -31,6 +31,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         result = get_users(pk)
         return Response(result)
 
+    @action(detail=True, methods=['get'])
+    def is_leader(self, request, pk=None):
+        """
+        Проверить, является ли авторизованный пользователь лидером группы
+        """
+        leader = get_leader(pk)
+        return Response({'is_leader': leader == self.request.user})
+
     @action(detail=True, methods=['post'])
     def add_user(self, request, pk=None):
         """
@@ -49,12 +57,12 @@ class GroupViewSet(viewsets.ModelViewSet):
     def remove_user(self, request, pk=None):
         """
         Исключить пользователя из группы с идентификатором id
-        В теле запроса указывается строка "username" : "email пользователя"
+        В теле запроса указывается строка "user_id" : "id пользователя"
         """
         if self.request.user == get_leader(pk):
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
-            remove_user(body_data['username'], pk)
+            remove_user(body_data['user_id'], pk)
             return Response({'success': 'true'})
         else:
             return Response({'message': 'Вы не являетесь лидером группы'}, status=403)
@@ -65,7 +73,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         """
         Выйти зарегистрированному пользователю из группы с номером id
         """
-        remove_user(self.request.user.username, pk)
+        remove_user(self.request.user.id, pk)
         return Response({'success': 'true'})
 
 

@@ -21,6 +21,16 @@ def get_operations_by_category(id):
     return serializer.data
 
 
+def get_operations_by_user(user: User):
+    """
+    Получить все операции для опеределенного user
+    """
+    categories = OperationCategory.objects.filter(user=user)
+    operations = Operation.objects.filter(category__in=categories)
+    serializer = OperationSerializer(operations, many=True)
+    return serializer.data
+
+
 def change_account(serializer):
     """
     Изменить состояние счета при создании или изменении операции

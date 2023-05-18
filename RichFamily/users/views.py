@@ -1,15 +1,13 @@
-from logging import exception
-from django.db.models import Model
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import permissions
 from django.forms.utils import json
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 from djoser.utils import login_user
 from djoser.serializers import TokenSerializer
 
+from operations.services import get_operations_by_user
 from .models import AppUserProfile, GroupUser
 from .serializers import AppUserProfileSerializer, UserSerializer
 from operations.serializers import AccountSerializer, CreditPaySerializer
@@ -76,6 +74,15 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         queryset = user.account_set.all()
         serializer = AccountSerializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def operations(self, request, pk=None):
+        """
+        Получить все операции определенного пользователя с идентификатором pk
+        """
+        user = User.objects.get(id=pk)
+        data = get_operations_by_user(user)
+        return Response(data)
 
     @action(detail=False, methods=['get'])
     def credits(self, request):
