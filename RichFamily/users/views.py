@@ -1,9 +1,11 @@
+from logging import exception
+from django.db.models import Model
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import permissions
 from django.forms.utils import json
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 
 from .models import AppUserProfile, GroupUser
@@ -93,15 +95,24 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         serializer = GroupSerializer(result, many=True)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['get'])
-    def check_secret_word(self, request):
+    @action(detail=False, methods=['post'])
+    def reset_password(self, request):
         """
-        Проверить секретное слово при смене пароля
-        В заголовках запроса требуется секретное слово с ключом secret_word
+        Восстановить пароль пользователя
+        В качестве тела запроса указывается:
+            "email": "username пользователя",
+            "secret_word": "секретное слово",
+            "new_password": "новый пароль"
         """
-        secret_hashed = make_password(request.GET.get('secret_word'))
-        profile = AppUserProfile.objects.get(user=self.request.user)
-        if secret_hashed == profile.secret_word:
-            return Response({'success': 'true'})
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        try:
+            user: User = User.objects.get(username=body_data['email'])
+        except:
+            return Response({'message': 'Такой пользователь на зарегистрирован'}, status=403)
+        if check_password(body_data['secret_word'], user.appuserprofile.secret_word):
+            user.set_password(body_data['new_password'])
+            user.save()
+            return Response({'message': 'Пароль был изменен успешно'})
         else:
-            return Response({'success': 'false'})
+            return Response({'message': 'Введено неправильное секретное слово'}, status=403)
