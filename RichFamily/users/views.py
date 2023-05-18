@@ -7,6 +7,8 @@ from rest_framework import permissions
 from django.forms.utils import json
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
+from djoser.utils import login_user
+from djoser.serializers import TokenSerializer
 
 from .models import AppUserProfile, GroupUser
 from .serializers import AppUserProfileSerializer, UserSerializer
@@ -34,7 +36,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         user.last_name = body_data['last_name']
         user.appuserprofile.secret_word = make_password(body_data['secret_word'])
         user.save()
-        return Response(AppUserProfileSerializer(user.appuserprofile).data)
+        token = login_user(request, user)
+        return Response(TokenSerializer(token).data)
     
     def update(self, request, *args, **kwargs):
         """
