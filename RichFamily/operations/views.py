@@ -161,9 +161,10 @@ class CreditPayViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         payment = calc_payment(serializer.validated_data['cr_all_sum'],
                                 serializer.validated_data['cr_percent'],
-                                serializer.validated_data['cr_period'])
+                                serializer.validated_data['cr_period'],
+                                serializer.validated_data['cr_first_pay'])
         all_sum = payment * serializer.validated_data['cr_period']
-        percents_sum = all_sum - serializer.validated_data['cr_all_sum']
+        percents_sum = all_sum - (serializer.validated_data['cr_all_sum'] - serializer.validated_data['cr_first_pay'])
         serializer.save(user=self.request.user,
                         cr_month_pay=payment,
                         cr_percents_sum=percents_sum,
@@ -175,7 +176,11 @@ class CreditPayViewSet(viewsets.ModelViewSet):
         body_data = json.loads(body_unicode)
         payment = calc_payment(body_data['cr_all_sum'],
                                 body_data['cr_percent'],
-                                body_data['cr_period'])
+                                body_data['cr_period'],
+                                body_data['cr_first_pay'])
         all_sum = payment * body_data['cr_period']
-        percents_sum = all_sum - body_data['cr_all_sum']
-        return Response({'cr_name': body_data['cr_name'], 'cr_month_pay': payment, 'cr_percents_sum': percents_sum, 'cr_sum_plus_percents': all_sum})
+        percents_sum = all_sum - (body_data['cr_all_sum'] - body_data['cr_first_pay'])
+        return Response({'cr_name': body_data['cr_name'], 
+                         'cr_month_pay': payment, 
+                         'cr_percents_sum': percents_sum, 
+                         'cr_sum_plus_percents': all_sum})

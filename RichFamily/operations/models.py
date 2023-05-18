@@ -55,6 +55,7 @@ class CreditPay(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cr_name = models.CharField(max_length=255, default='Кредит')
     cr_all_sum = models.FloatField()
+    cr_first_pay = models.FloatField(default=0.0)
     cr_percent = models.IntegerField()
     cr_period = models.IntegerField()
     cr_month_pay = models.FloatField(null=True)
