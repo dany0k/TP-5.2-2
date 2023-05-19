@@ -63,3 +63,13 @@ def get_leader(group_id) -> User:
     group_user = GroupUser.objects.get(group=group, is_leader=True)
     return group_user.user
 
+
+def destroy_group(group_id):
+    """
+    Освободить участников группы и удалить группу
+    """
+    group = Group.objects.get(id=group_id)
+    user_list = get_users(group_id) 
+    for user in user_list:
+        remove_user(user['id'], group_id)
+    group.delete()
