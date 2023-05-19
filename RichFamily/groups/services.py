@@ -3,6 +3,8 @@
 """
 from django.contrib.auth.models import User
 
+from operations.services import get_last_operation_for_user
+
 from .serializers import GroupSerializer
 from .models import Group
 from users.models import GroupUser
@@ -13,9 +15,11 @@ def create_group(data, user: User):
     Создать новую группу
     """
     group = Group.objects.create(gr_name = data['gr_name'])
-    GroupUser.objects.create(user=user, group=group, is_leader=True)
+    operation = get_last_operation_for_user(user)
+    GroupUser.objects.create(user=user, group=group, is_leader=True, last_operation_id=operation.id)
     serializer = GroupSerializer(group)
     return serializer.data
+
 
 def remove_user(user_id, group_id) -> None:
     """
@@ -27,13 +31,24 @@ def remove_user(user_id, group_id) -> None:
     removed_user.delete()
 
 
+def select_group_operations(operations, user, group_id): 
+    """
+    Отсортировать операции для просмотра в группе
+    """
+    group = Group.objects.get(id=group_id)
+    group_user = GroupUser.objects.get(group=group, user=user)
+    result = operations.filter(id__gt=group_user.last_operation_id)
+    return result
+
+
 def add_user(username, group_id) -> None:
     """
     Добавить пользователя под логином username в группу с идентификатором id
     """
     group = Group.objects.get(id=group_id)
     user = User.objects.get(username=username)
-    GroupUser.objects.create(group=group, user=user)
+    operation = get_last_operation_for_user(user)
+    GroupUser.objects.create(group=group, user=user, last_operation_id=operation.first().id)
 
 
 def get_users(group_id) -> list:
@@ -63,3 +78,13 @@ def get_leader(group_id) -> User:
     group_user = GroupUser.objects.get(group=group, is_leader=True)
     return group_user.user
 
+
+def destroy_group(group_id):
+    """
+    Освободить участников группы и удалить группу
+    """
+    group = Group.objects.get(id=group_id)
+    user_list = get_users(group_id) 
+    for user in user_list:
+        remove_user(user['id'], group_id)
+    group.delete()
