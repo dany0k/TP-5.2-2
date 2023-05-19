@@ -22,24 +22,6 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 tools:text="Группа 1"/>
-
-            <ImageView
-                android:id="@+id/exitGroupIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_exit"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"/>
-
-            <ImageView
-                android:id="@+id/deleteGroupIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete"
-                android:visibility="gone"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"/>
-
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

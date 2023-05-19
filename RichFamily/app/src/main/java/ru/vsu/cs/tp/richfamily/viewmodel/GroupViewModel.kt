@@ -13,15 +13,18 @@ import ru.vsu.cs.tp.richfamily.api.model.group.Group
 import ru.vsu.cs.tp.richfamily.api.model.group.GroupRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.group.GroupUser
 import ru.vsu.cs.tp.richfamily.api.model.group.GroupUserRequestBody
+import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.repository.GroupRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 
 class GroupViewModel(
     private val groupRepository: GroupRepository,
-    private val token: String
 ) : ViewModel() {
     val errorMessage = MutableLiveData<String>()
     val groupList = MutableLiveData<List<Group>>()
+    val opList = MutableLiveData<List<Operation>>()
     val usersList = MutableLiveData<List<GroupUser>>()
+    val leaderUser = MutableLiveData<GroupUser>()
     val isLeader = MutableLiveData<Boolean>()
     var job: Job? = null
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -48,7 +51,8 @@ class GroupViewModel(
             val response = groupRepository.getAllUsersFromGroup(id = id)
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    usersList.postValue(response.body())
+                    usersList.postValue(response.body()!!.filter { !it.is_leader })
+                    leaderUser.postValue(response.body()!!.first { it.is_leader })
                     loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
@@ -69,7 +73,7 @@ class GroupViewModel(
                     loading.value = false
                     getAllUsersFromGroup(id = id)
                 } else {
-                    onError("Error : ${response.message()} ")
+                    onError(Constants.NO_SUCH_USER)
                 }
             }
         }
@@ -93,6 +97,21 @@ class GroupViewModel(
         }
     }
 
+    fun deleteGroup(groupId: Int) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = groupRepository.deleteGroup(
+                groupId = groupId
+            )
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    loading.value = false
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+    }
+
     fun addGroup(grName: String) {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = groupRepository.addGroup(
@@ -103,8 +122,9 @@ class GroupViewModel(
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     loading.value = false
+                    getUsersGroup()
                 } else {
-                    onError("Error : ${response.message()} ")
+                    onError("Error : ${response.errorBody()} ")
                 }
             }
         }
@@ -134,6 +154,23 @@ class GroupViewModel(
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     getUsersGroup()
+                    loading.value = false
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
+            }
+        }
+    }
+
+    fun getUsersOperations(userId: Int, groupId: Int) {
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = groupRepository.getUsersOperations(
+                userId = userId,
+                groupId = groupId
+            )
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    opList.postValue(response.body())
                     loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")

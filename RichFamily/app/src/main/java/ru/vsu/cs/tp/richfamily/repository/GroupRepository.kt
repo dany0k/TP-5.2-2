@@ -8,6 +8,7 @@ import ru.vsu.cs.tp.richfamily.api.model.group.GroupUser
 import ru.vsu.cs.tp.richfamily.api.model.group.GroupUserRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.group.DeleteUserRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.group.Leader
+import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.service.GroupApi
 
 class GroupRepository(
@@ -57,6 +58,19 @@ class GroupRepository(
             token = token,
             id = groupId
         )
+    }
+
+    suspend fun deleteGroup(
+        groupId: Int,
+    ): Response<ResponseBody> {
+        return groupApi.deleteGroup(
+            token = token,
+            id = groupId
+        )
+    }
+
+    suspend fun getUsersOperations(userId: Int, groupId: Int): Response<List<Operation>> {
+        return groupApi.getUsersOperations(token = token, userId = userId, groupId = groupId)
     }
 
     suspend fun isLeader(groupId: Int): Response<Leader> {

@@ -36,7 +36,6 @@ class GroupUserRVAdapter(
         override fun areContentsTheSame(oldItem: GroupUser, newItem: GroupUser): Boolean {
             return oldItem == newItem
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {

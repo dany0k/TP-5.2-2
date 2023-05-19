@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickEditInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
-import ru.vsu.cs.tp.richfamily.api.service.OperationApi
+import ru.vsu.cs.tp.richfamily.api.service.GroupApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentUserOperationBinding
-import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.repository.GroupRepository
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
-import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class UserOperationFragment :
@@ -26,7 +26,7 @@ class UserOperationFragment :
 
     private lateinit var binding: FragmentUserOperationBinding
     private lateinit var adapter: OperationRVAdapter
-    private lateinit var opViewModel: OperationViewModel
+    private lateinit var grViewModel: GroupViewModel
     private val args by navArgs<UserOperationFragmentArgs>()
     private lateinit var token: String
 
@@ -44,15 +44,15 @@ class UserOperationFragment :
             container,
             false
         )
-        val operationApi = OperationApi.getOperationApi()!!
-        val opRepository = OperationRepository(operationApi = operationApi, token = token)
-        opViewModel = ViewModelProvider(
+        val groupApi = GroupApi.getGroupApi()!!
+        val grRepository = GroupRepository(groupApi = groupApi, token = token)
+        grViewModel = ViewModelProvider(
             requireActivity(),
             AnyViewModelFactory(
-                repository = opRepository,
+                repository = grRepository,
                 token = token
             )
-        )[OperationViewModel::class.java]
+        )[GroupViewModel::class.java]
         return binding.root
     }
 
@@ -60,20 +60,20 @@ class UserOperationFragment :
         super.onViewCreated(view, savedInstanceState)
         initRcView()
         if (token.isNotBlank()) {
-            opViewModel.opList.observe(viewLifecycleOwner) {
+            grViewModel.opList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
-            opViewModel.errorMessage.observe(viewLifecycleOwner) {
+            grViewModel.errorMessage.observe(viewLifecycleOwner) {
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
             }
-            opViewModel.loading.observe(viewLifecycleOwner) {
+            grViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
                 } else {
                     binding.progressBar.visibility = View.GONE
                 }
             }
-            opViewModel.getAllOperations()
+            grViewModel.getUsersOperations(args.userId, args.groupId)
         }
     }
 

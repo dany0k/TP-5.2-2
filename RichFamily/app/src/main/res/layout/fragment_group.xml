@@ -78,4 +78,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginVertical="@dimen/default_margin"/>
 
+    <Button
+        android:id="@+id/leaveGroupButton"
+        style=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/leave_group_button_label"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/users_rv"/>
+
+    <Button
+        android:id="@+id/deleteGroupButton"
+        style=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_group_button_label"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/users_rv"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

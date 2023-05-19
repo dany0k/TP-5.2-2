@@ -27,43 +27,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <LinearLayout
-        android:id="@+id/add_group_ll"
-        android:visibility="gone"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/default_margin"
-        android:orientation="vertical"
+        android:src="@drawable/ic_plus"
+        android:layout_marginEnd="@dimen/default_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/groups_rv">
-
-        <TextView
-            android:id="@+id/create_group_tv"
-            style="@style/LabelText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/create_group_text" />
-
-        <EditText
-            android:id="@+id/group_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/default_margin"
-            android:hint="@string/group_name_hint_text"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:maxLength="15" />
-
-        <Button
-            android:id="@+id/createGroupButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/create_group_button_label" />
-
-    </LinearLayout>
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginVertical="@dimen/default_margin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
