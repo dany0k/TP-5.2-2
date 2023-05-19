@@ -39,6 +39,7 @@ class UserRepository {
         resetPwdRequestBody: ResetPwdRequestBody
     ) : Response<ResponseBody>? {
         return UserApi.getUserApi()?.resetPwd(resetPwdRequestBody = resetPwdRequestBody)
+    }
     suspend fun getUserInfo(token: String): Response<UserProfile>? {
         return UserApi.getUserApi()?.getUser(token = token)
     }

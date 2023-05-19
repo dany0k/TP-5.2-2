@@ -59,6 +59,7 @@ class AddCreditFragment : Fragment() {
                         crPerc = crPercEt.text.toString().toInt(),
                         crPercSum = 0F,
                         crPeriod = crPerionEt.text.toString().toInt(),
+                        crFirstPay = crFirstPayEt.text.toString().toFloat(),
                         crTotalSum = 0F,
                     )
                     creditViewModel.curCredit.observe(viewLifecycleOwner) {
@@ -75,7 +76,8 @@ class AddCreditFragment : Fragment() {
                         crName = crNameEt.text.toString(),
                         crAllSum = crSumEt.text.toString().toFloat(),
                         crPeriod = crPerionEt.text.toString().toInt(),
-                        crPerc = crPercEt.text.toString().toInt()
+                        crPerc = crPercEt.text.toString().toInt(),
+                        crFirstPay = crFirstPayEt.text.toString().toFloat(),
                     )
                     creditViewModel.curCredit.observe(viewLifecycleOwner) {
                         val action = AddCreditFragmentDirections

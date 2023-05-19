@@ -46,6 +46,7 @@ class CreditViewModel(
         crAllSum: Float,
         crPerc: Int,
         crPeriod: Int,
+        crFirstPay: Float,
         crMonthPay: Float,
         crPercSum: Float,
         crTotalSum: Float) {
@@ -57,6 +58,7 @@ class CreditViewModel(
                     cr_name = crName,
                     cr_all_sum = crAllSum,
                     cr_percent = crPerc,
+                    cr_first_pay = crFirstPay,
                     cr_period = crPeriod,
                     cr_month_pay = crMonthPay,
                     cr_percents_sum = crPercSum,
@@ -77,7 +79,8 @@ class CreditViewModel(
         crName: String,
         crAllSum: Float,
         crPerc: Int,
-        crPeriod: Int
+        crPeriod: Int,
+        crFirstPay: Float
     ) {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = creditRepository.addCreditNotAuth(
@@ -87,6 +90,7 @@ class CreditViewModel(
                     cr_all_sum = crAllSum,
                     cr_percent = crPerc,
                     cr_period = crPeriod,
+                    cr_first_pay = crFirstPay,
                     cr_month_pay = 0F,
                     cr_percents_sum = 0F,
                     cr_sum_plus_percents = 0F

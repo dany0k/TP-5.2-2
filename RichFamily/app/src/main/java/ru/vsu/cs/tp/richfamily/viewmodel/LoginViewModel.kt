@@ -124,6 +124,9 @@ class LoginViewModel(application: Application) :
                 }
             } catch (ex: java.lang.Exception) {
                 loginResult.value = BaseResponse.Error(ex.message)
+            }
+        }
+    }
 
     fun getUserInformation(token: String) {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
@@ -172,7 +175,8 @@ class LoginViewModel(application: Application) :
 
     fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-        
+    }
+
     fun updateUserInformation(token: String, id: Int, firstname: String, lastname: String) {
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {

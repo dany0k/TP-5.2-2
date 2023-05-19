@@ -4,6 +4,7 @@ data class CreditRequestBody (
     val user: Int,
     val cr_name: String,
     val cr_all_sum: Float,
+    val cr_first_pay: Float,
     val cr_percent: Int,
     val cr_period: Int,
     val cr_month_pay: Float,
