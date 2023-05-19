@@ -22,16 +22,23 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@color/black"
+                android:maxLength="13"
                 tools:text="Кредит"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toLeftOf="@id/credit_total"
+                android:text="@string/rub_sign" />
 
             <TextView
                 android:id="@+id/credit_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="@dimen/default_margin"
                 android:textSize="16sp"
-                tools:text="1000 руб." />
+                tools:text="1000" />
 
             <ImageView
                 android:id="@+id/deleteCreditIV"
