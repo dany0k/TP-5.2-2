@@ -27,8 +27,15 @@ def get_operations_by_user(user: User):
     """
     categories = OperationCategory.objects.filter(user=user)
     operations = Operation.objects.filter(category__in=categories)
-    serializer = OperationSerializer(operations, many=True)
-    return serializer.data
+    return operations
+
+def get_last_operation_for_user(user: User):
+    """
+    Получить последнюю операцию для пользователя
+    """
+    categories = OperationCategory.objects.filter(user=user)
+    operation = Operation.objects.filter(category__in=categories).order_by('-id')[:1]
+    return operation
 
 
 def change_account(serializer):

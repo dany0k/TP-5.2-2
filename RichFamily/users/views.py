@@ -6,11 +6,12 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 from djoser.utils import login_user
 from djoser.serializers import TokenSerializer
+from groups.services import select_group_operations
 
 from operations.services import get_operations_by_user
 from .models import AppUserProfile, GroupUser
 from .serializers import AppUserProfileSerializer, UserSerializer
-from operations.serializers import AccountSerializer, CreditPaySerializer
+from operations.serializers import AccountSerializer, CreditPaySerializer, OperationSerializer
 from groups.serializers import GroupSerializer
 
 
@@ -79,10 +80,14 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     def operations(self, request, pk=None):
         """
         Получить все операции определенного пользователя с идентификатором pk
+        Чтобы сделать выборку по группе, необходимо указать в параметрах запроса group=id группы
         """
         user = User.objects.get(id=pk)
         data = get_operations_by_user(user)
-        return Response(data)
+        if request.GET.get('group') != None:
+            data = select_group_operations(data, user, request.GET['group'])
+        serializer = OperationSerializer(data, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['get'])
     def credits(self, request):
