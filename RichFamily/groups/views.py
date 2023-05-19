@@ -34,16 +34,22 @@ class GroupViewSet(viewsets.ModelViewSet):
         """
         Получить список пользователей группы с идентификатором id
         """ 
-        result = get_users(pk)
-        return Response(result)
+        try:
+            result = get_users(pk)
+            return Response(result)
+        except:
+            return Response({'message': 'Такой группы не существует'}, status=500)
 
     @action(detail=True, methods=['get'])
     def is_leader(self, request, pk=None):
         """
         Проверить, является ли авторизованный пользователь лидером группы
         """
-        leader = get_leader(pk)
-        return Response({'is_leader': leader == self.request.user})
+        try:
+            leader = get_leader(pk) 
+            return Response({'is_leader': leader == self.request.user})
+        except:
+            return Response({'message': 'Такого пользователя не существует'}, status=500)
 
     @action(detail=True, methods=['post'])
     def add_user(self, request, pk=None):
@@ -54,8 +60,11 @@ class GroupViewSet(viewsets.ModelViewSet):
         if self.request.user == get_leader(pk):
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
-            add_user(body_data['username'], pk)
-            return Response({'success': 'true'})
+            try:
+                add_user(body_data['username'], pk)
+                return Response({'success': 'true'})
+            except:
+                return Response({'message': 'Такого пользователя не существует'}, status=500)
         else:
             return Response({'message': 'Вы не являетесь лидером группы'}, status=403)
 
@@ -68,8 +77,11 @@ class GroupViewSet(viewsets.ModelViewSet):
         if self.request.user == get_leader(pk):
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
-            remove_user(body_data['user_id'], pk)
-            return Response({'success': 'true'})
+            try:
+                remove_user(body_data['user_id'], pk)
+                return Response({'success': 'true'})
+            except:
+                return Response({'message': 'Такого пользователя не существует'}, status=500)
         else:
             return Response({'message': 'Вы не являетесь лидером группы'}, status=403)
 
