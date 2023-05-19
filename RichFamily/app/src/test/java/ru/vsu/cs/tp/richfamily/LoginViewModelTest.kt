@@ -10,9 +10,9 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
 import retrofit2.Response
-import ru.vsu.cs.tp.richfamily.api.model.BaseResponse
-import ru.vsu.cs.tp.richfamily.api.model.LoginRequest
-import ru.vsu.cs.tp.richfamily.api.model.User
+import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
+import ru.vsu.cs.tp.richfamily.api.model.auth.LoginRequest
+import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.repository.UserRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 

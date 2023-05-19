@@ -95,6 +95,7 @@
         app:layout_constraintTop_toBottomOf="@id/user_secret_word_et"/>
 
     <Button
+        android:id="@+id/regButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit_button_label"

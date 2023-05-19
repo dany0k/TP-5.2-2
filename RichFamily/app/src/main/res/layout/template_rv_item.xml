@@ -65,14 +65,15 @@
                 android:src="@drawable/ic_delete"
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"/>
+
             <ImageView
                 android:id="@+id/editTemplateIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_marginEnd="@dimen/default_margin"
-                android:src="@drawable/ic_edit"
                 android:layout_toStartOf="@+id/deleteTemplateIV"
-                android:layout_centerInParent="true"/>
+                android:src="@drawable/ic_edit" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

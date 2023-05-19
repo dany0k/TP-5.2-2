@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.TemplateRvItemBinding
-import ru.vsu.cs.tp.richfamily.model.Template
+import ru.vsu.cs.tp.richfamily.api.model.template.Template
 
 class TemplateRVAdapter(
     private val templateClickDeleteInterface: TemplateClickDeleteInterface,
-    private val templateClickEditInterface: TemplateClickEditInterface
+    private val templateClickEditInterface: TemplateClickEditInterface,
+    private val templateItemClickInterface: TemplateItemClickInterface
 ) : ListAdapter<Template, TemplateRVAdapter.Holder>(Comparator()) {
     class Holder(binding: TemplateRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val templateName: TextView = binding.templateName
@@ -53,13 +54,20 @@ class TemplateRVAdapter(
             templateClickDeleteInterface.onDeleteIconClick(id)
         }
         holder.editTemplateIV.setOnClickListener {
-            templateClickEditInterface.onEditIconClick(id)
+            templateClickEditInterface.onEditIconClick(position)
+        }
+        holder.itemView.setOnClickListener {
+            templateItemClickInterface.onItemClick(position)
         }
     }
 }
 
 interface TemplateClickDeleteInterface {
     fun onDeleteIconClick(id: Int)
+}
+
+interface TemplateItemClickInterface {
+    fun onItemClick(id: Int)
 }
 
 interface TemplateClickEditInterface {

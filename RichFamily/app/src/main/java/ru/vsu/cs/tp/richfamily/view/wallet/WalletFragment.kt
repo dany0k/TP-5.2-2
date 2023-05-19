@@ -81,8 +81,13 @@ class WalletFragment :
         }
 
         binding.addWalletFab.setOnClickListener {
-            findNavController()
-                .navigate(R.id.action_walletFragment_to_addWalletFragment)
+            if (token.isEmpty()) {
+                findNavController()
+                    .navigate(R.id.action_walletFragment_to_registrationFragment)
+            } else {
+                findNavController()
+                    .navigate(R.id.action_walletFragment_to_addWalletFragment)
+            }
         }
     }
 

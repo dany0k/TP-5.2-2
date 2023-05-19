@@ -4,66 +4,88 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.*
+import ru.vsu.cs.tp.richfamily.api.service.TemplateApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentTemplateBinding
-import ru.vsu.cs.tp.richfamily.model.Template
+import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class TemplateFragment :
     Fragment(),
     TemplateClickDeleteInterface,
-    TemplateClickEditInterface {
+    TemplateClickEditInterface,
+    TemplateItemClickInterface {
 
     private lateinit var adapter: TemplateRVAdapter
-    lateinit var binding: FragmentTemplateBinding
+    private lateinit var binding: FragmentTemplateBinding
+    private lateinit var temViewModel: TemplateViewModel
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_template,
             container,
             false
         )
-
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
+            val templateApi = TemplateApi.getTemplatesApi()!!
+            val temRepository = TemplateRepository(templateApi = templateApi, token = token)
+            temViewModel = ViewModelProvider(
+                requireActivity(),
+                AnyViewModelFactory(
+                    repository = temRepository,
+                    token = token
+                )
+            )[TemplateViewModel::class.java]
+        }
+        initRcView()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRcView()
-        getTemplates()
+        temViewModel.templatesList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+        temViewModel.errorMessage.observe(viewLifecycleOwner) {
+            Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+        }
+        temViewModel.loading.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        }
+        temViewModel.getAllTemplates()
         binding.fab.setOnClickListener {
             findNavController()
                 .navigate(R.id.action_templateFragment_to_addTemplateFragment)
         }
     }
 
-    private fun getTemplates() {
-        CoroutineScope(Dispatchers.IO).launch {
-//            val list = App.serviceAPI.getWallets(loginViewModel.token.value!!)
-            val list = mutableListOf(
-                Template(0, 0, "Шаблон 1", "Расход", "Мама", 1000f),
-                Template(0, 1, "Шаблон 2", "Расход", "Мама", 1200f),
-                Template(0, 2, "Шаблон 3", "Доход", "Мама", 1300f),
-            )
-            requireActivity().runOnUiThread {
-                adapter.submitList(list)
-            }
-        }
-    }
-
     private fun initRcView() = with(binding) {
         adapter = TemplateRVAdapter(
+            this@TemplateFragment,
             this@TemplateFragment,
             this@TemplateFragment
         )
@@ -72,10 +94,20 @@ class TemplateFragment :
     }
 
     override fun onDeleteIconClick(id: Int) {
+        temViewModel.deleteTemplate(id = id)
     }
 
     override fun onEditIconClick(id: Int) {
+        val action = TemplateFragmentDirections
+            .actionTemplateFragmentToUpdateTemplateFragment(adapter.currentList[id])
         findNavController()
-            .navigate(R.id.action_templateFragment_to_updateTemplateFragment)
+            .navigate(action)
+    }
+
+    override fun onItemClick(id: Int) {
+        val action = TemplateFragmentDirections
+            .actionTemplateFragmentToAddOperationFragment(adapter.currentList[id])
+        findNavController()
+            .navigate(action)
     }
 }

@@ -17,28 +17,20 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/operation_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                tools:text="Расход"/>
-
-            <TextView
-                android:id="@+id/operation_name"
+                android:id="@+id/operation_rec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_marginStart="@dimen/half_margin"
-                android:layout_toEndOf="@id/operation_type"
                 tools:text="Расход"/>
 
             <TextView
                 android:id="@+id/operation_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/operation_name"
+                android:layout_below="@id/operation_rec"
+                android:layout_marginStart="@dimen/half_margin"
                 tools:text="29/06/2021"/>
 
             <TextView
@@ -47,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/operation_date"
-                android:layout_below="@id/operation_name"
+                android:layout_below="@id/operation_rec"
                 tools:text="09:30 PM"/>
 
             <TextView
@@ -69,8 +61,24 @@
                 android:gravity="center"
                 android:layout_marginStart="@dimen/half_margin"
                 android:textSize="16sp"
-                android:text="Рублей"
-                tools:text="Rub" />
+                android:text="@string/rub_text" />
+
+            <ImageView
+                android:id="@+id/deleteOpIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"/>
+
+            <ImageView
+                android:id="@+id/editOpIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_toStartOf="@+id/deleteOpIV"
+                android:src="@drawable/ic_edit" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

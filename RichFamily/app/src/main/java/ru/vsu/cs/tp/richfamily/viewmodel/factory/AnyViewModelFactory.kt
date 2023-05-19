@@ -7,6 +7,12 @@ import ru.vsu.cs.tp.richfamily.repository.CreditRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
+import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
+import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 
 class AnyViewModelFactory(
@@ -28,6 +34,14 @@ class AnyViewModelFactory(
             modelClass.isAssignableFrom(CreditViewModel::class.java) ->
                 CreditViewModel(
                     creditRepository = repository as CreditRepository,
+            modelClass.isAssignableFrom(OperationViewModel::class.java) ->
+                OperationViewModel(
+                    operationRepository = repository as OperationRepository,
+                    token = token
+                ) as T
+            modelClass.isAssignableFrom(TemplateViewModel::class.java) ->
+                TemplateViewModel(
+                    templateRepository = repository as TemplateRepository,
                     token = token
                 ) as T
             else -> throw IllegalArgumentException("ViewModel Not Found")
