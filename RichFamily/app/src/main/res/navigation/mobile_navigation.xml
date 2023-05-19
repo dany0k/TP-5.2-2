@@ -42,8 +42,8 @@
         android:label="Аккаунт"
         tools:layout="@layout/fragment_account" >
         <action
-            android:id="@+id/action_accountFragment_to_editAccountFragment"
-            app:destination="@id/editAccountFragment" />
+            android:id="@+id/action_accountFragment_to_updateAccountFragment"
+            app:destination="@id/updateAccountFragment" />
         <action
             android:id="@+id/action_accountFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -231,10 +231,17 @@
         android:name="ru.vsu.cs.tp.richfamily.view.operation.UserOperationFragment"
         android:label="Участники" />
     <fragment
-        android:id="@+id/editAccountFragment"
-        android:name="ru.vsu.cs.tp.richfamily.view.account.EditAccountFragment"
+        android:id="@+id/updateAccountFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.account.UpdateAccountFragment"
         android:label="Редактирвоание"
-        tools:layout="@layout/fragment_edit_account" />
+        tools:layout="@layout/fragment_update_account" >
+        <argument
+            android:name="user"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.auth.UserProfile" />
+        <action
+            android:id="@+id/action_updateAccountFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
     <fragment
         android:id="@+id/updateTemplateFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.template.UpdateTemplateFragment"
