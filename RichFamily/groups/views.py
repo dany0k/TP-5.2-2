@@ -4,10 +4,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import permissions
 
-from groups.services import create_group, get_leader, remove_user, add_user, get_users
+from groups.services import create_group, destroy_group, get_leader, remove_user, add_user, get_users
 from .models import Group
 from .serializers import GroupSerializer
-from users.models import GroupUser
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -22,6 +21,13 @@ class GroupViewSet(viewsets.ModelViewSet):
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
         return Response(create_group(body_data, self.request.user))
+    
+    def destroy(self, request, pk=None):
+        if self.request.user == get_leader(pk):
+            destroy_group(pk)
+            return Response(status=204)
+        else:
+            return Response({'message': 'Вы не являетесь лидером группы'}, status=403)
 
     @action(detail=True, methods=['get'])
     def users(self, request, pk=None):
