@@ -16,7 +16,7 @@ def create_group(data, user: User):
     """
     group = Group.objects.create(gr_name = data['gr_name'])
     operation = get_last_operation_for_user(user)
-    GroupUser.objects.create(user=user, group=group, is_leader=True, last_operation_id=operation.id)
+    GroupUser.objects.create(user=user, group=group, is_leader=True, last_operation_id=operation.first().id)
     serializer = GroupSerializer(group)
     return serializer.data
 
