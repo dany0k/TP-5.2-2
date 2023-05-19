@@ -106,9 +106,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         queryset = GroupUser.objects.filter(user=self.request.user)
         result = list()
         for q in queryset:
-            result.append(q.group)
-        serializer = GroupSerializer(result, many=True)
-        return Response(serializer.data)
+            data = GroupSerializer(q.group).data
+            data['is_leader'] = q.is_leader 
+            result.append(data)
+        return Response(result)
 
     @action(detail=False, methods=['post'])
     def reset_password(self, request):
