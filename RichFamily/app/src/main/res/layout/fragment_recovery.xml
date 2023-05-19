@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email_hint_text"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/secret_word_hint_text"
+        android:maxLength="32"
         app:layout_constraintTop_toBottomOf="@+id/email_et"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -30,6 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password_hint_text"
+        android:inputType="textPassword"
+        android:maxLength="32"
         app:layout_constraintTop_toBottomOf="@+id/secret_word_et"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -39,6 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/submit_password_hint_text"
+        android:inputType="textPassword"
+        android:maxLength="32"
         app:layout_constraintTop_toBottomOf="@+id/password_et"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
