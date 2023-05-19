@@ -8,8 +8,6 @@ import ru.vsu.cs.tp.richfamily.api.model.auth.LoginRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.RegisterRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.ResetPwdRequestBody
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
-import ru.vsu.cs.tp.richfamily.api.model.auth.UserProfile
-import ru.vsu.cs.tp.richfamily.api.model.auth.UserRequestBody
 import ru.vsu.cs.tp.richfamily.api.service.UserApi
 
 class UserRepository {
@@ -39,18 +37,5 @@ class UserRepository {
         resetPwdRequestBody: ResetPwdRequestBody
     ) : Response<ResponseBody>? {
         return UserApi.getUserApi()?.resetPwd(resetPwdRequestBody = resetPwdRequestBody)
-    suspend fun getUserInfo(token: String): Response<UserProfile>? {
-        return UserApi.getUserApi()?.getUser(token = token)
-    }
-
-    suspend fun updateUser(
-        id: Int,
-        token: String,
-        userRequestBody: UserRequestBody
-    ): Response<User>? {
-        return UserApi.getUserApi()?.updateUser(
-            id = id,
-            userRequestBody = userRequestBody,
-            token = token)
     }
 }
