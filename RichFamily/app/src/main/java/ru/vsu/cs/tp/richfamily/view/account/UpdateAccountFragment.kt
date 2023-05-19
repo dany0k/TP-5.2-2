@@ -44,29 +44,29 @@ class UpdateAccountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUser()
         binding.submitButton.setOnClickListener {
-        if (inputCheck(
-                firstname = binding.firstnameEt.text.toString(),
-                lastname = binding.lastnameEt.text.toString()
-            )) {
-            viewModel.updateUserInformation(
-                token = token,
-                id = args.user.id,
-                firstname = binding.firstnameEt.text.toString(),
-                lastname = binding.lastnameEt.text.toString()
-            )
-            Toast.makeText(
-                requireActivity(),
-                Constants.SUCCESS_TOAST,
-                Toast.LENGTH_SHORT
-            ).show()
-            findNavController()
-                .navigate(R.id.action_updateAccountFragment_to_accountFragment)
-        } else {
-            Toast.makeText(
-                requireActivity(),
-                Constants.COMP_FIELDS_TOAST,
-                Toast.LENGTH_SHORT
-            ).show()
+            if (inputCheck(
+                    firstname = binding.firstnameEt.text.toString(),
+                    lastname = binding.lastnameEt.text.toString()
+                )) {
+                viewModel.updateUserInformation(
+                    token = token,
+                    id = args.user.id,
+                    firstname = binding.firstnameEt.text.toString(),
+                    lastname = binding.lastnameEt.text.toString()
+                )
+                Toast.makeText(
+                    requireActivity(),
+                    Constants.SUCCESS_TOAST,
+                    Toast.LENGTH_SHORT
+                ).show()
+                findNavController()
+                    .navigate(R.id.action_updateAccountFragment_to_accountFragment)
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    Constants.COMP_FIELDS_TOAST,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
