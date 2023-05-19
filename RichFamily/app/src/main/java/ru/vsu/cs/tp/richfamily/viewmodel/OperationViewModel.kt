@@ -1,12 +1,18 @@
 package ru.vsu.cs.tp.richfamily.viewmodel
 
+import android.os.Environment
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
+import okhttp3.ResponseBody
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.model.operation.OperationRequestBody
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 
 class OperationViewModel(
     private val operationRepository: OperationRepository,
@@ -15,6 +21,7 @@ class OperationViewModel(
     val errorMessage = MutableLiveData<String>()
     val inList = MutableLiveData<List<Operation>>()
     val consList = MutableLiveData<List<Operation>>()
+    val opList = MutableLiveData<List<Operation>>()
     val currentOperation = MutableLiveData<Operation>()
     var job: Job? = null
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -40,6 +47,7 @@ class OperationViewModel(
             val response = operationRepository.getAllOperations()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
+                    opList.postValue(response.body())
                     consList.postValue(response.body()!!.filter {
                         it.op_variant == Constants.CONS_TEXT
                     })
