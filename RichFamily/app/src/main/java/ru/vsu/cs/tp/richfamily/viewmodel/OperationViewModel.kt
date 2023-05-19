@@ -15,6 +15,7 @@ class OperationViewModel(
     val errorMessage = MutableLiveData<String>()
     val inList = MutableLiveData<List<Operation>>()
     val consList = MutableLiveData<List<Operation>>()
+    val opList = MutableLiveData<List<Operation>>()
     val currentOperation = MutableLiveData<Operation>()
     var job: Job? = null
     val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -46,6 +47,7 @@ class OperationViewModel(
                     inList.postValue(response.body()!!.filter {
                         it.op_variant == Constants.INCOME_TEXT
                     })
+                    opList.postValue(response.body())
                     loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")

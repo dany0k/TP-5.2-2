@@ -46,6 +46,8 @@
             app:destination="@id/editAccountFragment" />
         <action
             android:id="@+id/action_accountFragment_to_registrationFragment"
+            app:popUpTo="@id/walletFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/registrationFragment" />
     </fragment>
     <fragment
@@ -222,11 +224,18 @@
         <action
             android:id="@+id/action_groupFragment_to_userOperationFragment"
             app:destination="@id/userOperationFragment" />
+        <argument
+            android:name="group_id"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/userOperationFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.operation.UserOperationFragment"
-        android:label="Участники" />
+        android:label="Участники" >
+        <argument
+            android:name="user_id"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/editAccountFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.account.EditAccountFragment"

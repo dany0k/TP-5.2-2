@@ -6,50 +6,76 @@
     android:layout_height="match_parent"
     tools:context=".view.group.GroupFragment">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/leader_cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="3dp"
+        app:contentPadding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/leader_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/crown_ic"
+                android:layout_marginEnd="@dimen/half_margin"/>
+
+            <TextView
+                android:id="@+id/leader_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Иван Петров" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/users_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Участники"
+        style="@style/DefaultText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/leader_cv"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/users_rv"
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_marginTop="@dimen/default_margin"
         tools:listitem="@layout/group_user_rv_item"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/users_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/default_margin"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/users_rv">
-
-    <TextView
-        android:id="@+id/invite_user_tv"
-        style="@style/LabelText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/invite_user_text" />
-
-    <EditText
-        android:id="@+id/group_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/default_margin"
-        android:hint="@string/email_hint_text"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        android:maxLength="25" />
-
-    <Button
-        android:id="@+id/createGroupButton"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/invite_user_button_label" />
-    </LinearLayout>
-
+        android:src="@drawable/ic_plus"
+        android:layout_marginEnd="@dimen/default_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginVertical="@dimen/default_margin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

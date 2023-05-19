@@ -1,6 +1,7 @@
 package ru.vsu.cs.tp.richfamily.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,7 +16,8 @@ import ru.vsu.cs.tp.richfamily.databinding.OperationRvItemBinding
 
 class OperationRVAdapter(
     private val operationClickDeleteInterface: OperationClickDeleteInterface,
-    private val operationClickEditInterface: OperationClickEditInterface
+    private val operationClickEditInterface: OperationClickEditInterface,
+    private val isIconsHidden: Boolean
 ) : ListAdapter<Operation, OperationRVAdapter.Holder>(Comparator()) {
     class Holder(binding: OperationRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val opRec: TextView = binding.operationRec
@@ -59,13 +61,19 @@ class OperationRVAdapter(
         override fun areContentsTheSame(oldItem: Operation, newItem: Operation): Boolean {
             return oldItem == newItem
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.operation_rv_item, parent, false)
         val binding = OperationRvItemBinding.bind(view)
+        if (isIconsHidden) {
+            binding.deleteOpIV.visibility = View.GONE
+            binding.editOpIV.visibility = View.GONE
+        } else {
+            binding.deleteOpIV.visibility = View.VISIBLE
+            binding.editOpIV.visibility = View.VISIBLE
+        }
         return Holder(binding)
     }
 

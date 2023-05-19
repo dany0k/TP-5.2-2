@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import ru.vsu.cs.tp.richfamily.R
+import ru.vsu.cs.tp.richfamily.adapter.ClickLeaveInterface
 import ru.vsu.cs.tp.richfamily.adapter.GroupListRVAdapter
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ItemClickInterface
@@ -23,7 +23,8 @@ import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 class GroupListFragment :
     Fragment(),
     ClickDeleteInterface,
-    ItemClickInterface {
+    ItemClickInterface,
+    ClickLeaveInterface {
     private lateinit var binding: FragmentGroupListBinding
     private lateinit var adapter: GroupListRVAdapter
     private lateinit var grViewModel: GroupViewModel
@@ -59,8 +60,9 @@ class GroupListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRcView()
+        initRcView(false)
         if (token.isNotBlank()) {
+            binding.addGroupLl.visibility = View.VISIBLE
             grViewModel.groupList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
@@ -76,23 +78,34 @@ class GroupListFragment :
             }
             grViewModel.getUsersGroup()
         }
+        binding.createGroupButton.setOnClickListener {
+            val groupName = binding.groupName.text.toString()
+            grViewModel.addGroup(groupName)
+        }
     }
 
-    private fun initRcView() = with(binding) {
+    private fun initRcView(isLeader: Boolean) = with(binding) {
         adapter = GroupListRVAdapter(
             this@GroupListFragment,
-            this@GroupListFragment
+            this@GroupListFragment,
+            this@GroupListFragment,
+            isLeader
         )
         groupsRv.layoutManager = LinearLayoutManager(context)
         groupsRv.adapter = adapter
     }
 
     override fun onDeleteIconClick(id: Int) {
-
+        grViewModel.leaveFromGroup(groupId = id)
     }
 
     override fun onItemClick(id: Int) {
+        val action = GroupListFragmentDirections.actionGroupListFragmentToGroupFragment(id)
         findNavController()
-            .navigate(R.id.action_groupListFragment_to_groupFragment)
+            .navigate(action)
+    }
+
+    override fun onLeaveIconClick(id: Int) {
+        grViewModel.leaveFromGroup(groupId = id)
     }
 }

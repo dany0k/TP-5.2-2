@@ -88,7 +88,8 @@ class IncomeFragment :
     private fun initRcView() = with(binding) {
         adapter = OperationRVAdapter(
             this@IncomeFragment,
-            this@IncomeFragment
+            this@IncomeFragment,
+            false
         )
         walletsRv.layoutManager = LinearLayoutManager(context)
         walletsRv.adapter = adapter

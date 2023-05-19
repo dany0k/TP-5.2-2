@@ -1,6 +1,7 @@
 package ru.vsu.cs.tp.richfamily.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,13 +16,15 @@ import ru.vsu.cs.tp.richfamily.databinding.GroupUserRvItemBinding
 
 class GroupUserRVAdapter(
     private val deleteIconClickInterface: ClickDeleteInterface,
-    private val iconClickInterface: ItemClickInterface
+    private val iconClickInterface: ItemClickInterface,
+    private val isLeader: Boolean
 ) : ListAdapter<GroupUser, GroupUserRVAdapter.Holder>(Comparator()) {
     class Holder(binding: GroupUserRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val username: TextView = binding.userName
         val deleteUserIV: ImageView = binding.deleteUserIV
         fun bind(groupUser: GroupUser) {
-            username.text = groupUser.name + " " + groupUser.surname
+            val fullName = "${groupUser.first_name} ${groupUser.last_name}"
+            username.text = fullName
         }
     }
 
@@ -40,6 +43,11 @@ class GroupUserRVAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.group_user_rv_item, parent, false)
         val binding = GroupUserRvItemBinding.bind(view)
+        if (isLeader) {
+            binding.deleteUserIV.visibility = View.VISIBLE
+        } else {
+            binding.deleteUserIV.visibility = View.GONE
+        }
         return Holder(binding)
     }
 

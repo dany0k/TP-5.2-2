@@ -21,6 +21,7 @@ object SessionManager {
         val editor = prefs.edit()
         editor.putString(key, value)
         editor.apply()
+
     }
 
     private fun getString(context: Context, key: String): String? {
