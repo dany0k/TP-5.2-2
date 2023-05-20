@@ -45,7 +45,7 @@ class OperationsTests(TestCase):
             operation2 = Operation.objects.get(op_sum=60.0)
 
     def test_operation_template_create(self):
-        operationTemplate = OperationTemplate.objects.create(id=0, category=self.category, account=self.account,
+        operationTemplate = OperationTemplate.objects.create(category=self.category, account=self.account,
                                                              temp_name="name", temp_recipient="user", temp_sum=60.0,
                                                              temp_comment="")
         self.assertIsNotNone(operationTemplate)
@@ -57,7 +57,7 @@ class OperationsTests(TestCase):
         self.assertEquals(operationTemplate.temp_comment, "")
 
     def test_operation_template_update(self):
-        operationTemplate = OperationTemplate.objects.create(id=0, category=self.category, account=self.account,
+        operationTemplate = OperationTemplate.objects.create(category=self.category, account=self.account,
                                                              temp_name="name", temp_recipient="user", temp_sum=60.0,
                                                              temp_comment="")
         self.assertIsNotNone(operationTemplate)
@@ -68,7 +68,7 @@ class OperationsTests(TestCase):
         self.assertIsNotNone(operationTemplate2)
 
     def test_operation_template_delete(self):
-        operationTemplate = OperationTemplate.objects.create(id=0, category=self.category, account=self.account,
+        operationTemplate = OperationTemplate.objects.create(category=self.category, account=self.account,
                                                              temp_name="name", temp_recipient="user", temp_sum=60.0,
                                                              temp_comment="")
         self.assertIsNotNone(operationTemplate)
@@ -77,14 +77,13 @@ class OperationsTests(TestCase):
             operationTemplate2 = OperationTemplate.objects.get(temp_sum=60.0)
 
     def test_operation_category_create(self):
-        operationCategory = OperationCategory.objects.create(id=0, user=self.user_account, cat_name="cat_name")
+        operationCategory = OperationCategory.objects.create(user=self.user_account, cat_name="cat_name")
         self.assertIsNotNone(operationCategory)
-        self.assertEquals(operationCategory.id, 0)
         self.assertEquals(operationCategory.user, self.user_account)
         self.assertEquals(operationCategory.cat_name, "cat_name")
 
     def test_operation_category_update(self):
-        operationCategory = OperationCategory.objects.create(id=0, user=self.user_account, cat_name="cat_name")
+        operationCategory = OperationCategory.objects.create(user=self.user_account, cat_name="cat_name")
         self.assertIsNotNone(operationCategory)
         self.assertEquals(operationCategory.cat_name, "cat_name")
         operationCategory.cat_name = "new_cat"
@@ -93,17 +92,16 @@ class OperationsTests(TestCase):
         self.assertIsNotNone(operationCategory2)
 
     def test_operation_category_delete(self):
-        operationCategory = OperationCategory.objects.create(id=0, user=self.user_account, cat_name="cat_name")
+        operationCategory = OperationCategory.objects.create(user=self.user_account, cat_name="cat_name")
         self.assertIsNotNone(operationCategory)
         operationCategory.delete()
         with self.assertRaises(Exception):
             operationCategory2 = OperationCategory.objects.get(cat_name="cat_name")
 
     def test_account_create(self):
-        account = Account.objects.create(id=0, user=self.user_account, acc_name="acc_name",
+        account = Account.objects.create(user=self.user_account, acc_name="acc_name",
                                          acc_sum=4660.0, acc_currency="RUB", acc_comment="")
         self.assertIsNotNone(account)
-        self.assertEquals(account.id, 0)
         self.assertEquals(account.user, self.user_account)
         self.assertEquals(account.acc_name, "acc_name")
         self.assertEquals(account.acc_sum, 4660.0)
@@ -111,29 +109,28 @@ class OperationsTests(TestCase):
         self.assertEquals(account.acc_comment, "")
 
     def test_account_update(self):
-        account = Account.objects.create(id=0, user=self.user_account, acc_name="acc_name",
+        account = Account.objects.create(user=self.user_account, acc_name="acc_name",
                                          acc_sum=4660.0, acc_currency="RUB", acc_comment="")
         self.assertIsNotNone(account)
         self.assertEquals(account.acc_name, "acc_name")
         account.acc_name = "new_acc"
         account.save()
-        account2 = account.objects.get(acc_name="new_acc")
+        account2 = Account.objects.get(acc_name="new_acc")
         self.assertIsNotNone(account2)
 
     def test_account_delete(self):
-        account = Account.objects.create(id=0, user=self.user_account, acc_name="acc_name",
+        account = Account.objects.create(user=self.user_account, acc_name="acc_name",
                                          acc_sum=4660.0, acc_currency="RUB", acc_comment="")
         self.assertIsNotNone(account)
         account.delete()
         with self.assertRaises(Exception):
-            account2 = account.objects.get(acc_name="acc_name")
+            account2 = Account.objects.get(acc_name="acc_name")
 
     def test_credit_pay_create(self):
-        creditPay = CreditPay.objects.create(id=0, user=self.user_account, cr_name="cr_name",
+        creditPay = CreditPay.objects.create(user=self.user_account, cr_name="cr_name",
                                              cr_all_sum=4660.0, cr_percent=10, cr_period=12,
                                              cr_month_pay=427.17, cr_sum_plus_percents=4912.42)
         self.assertIsNotNone(creditPay)
-        self.assertEquals(creditPay.id, 0)
         self.assertEquals(creditPay.user, self.user_account)
         self.assertEquals(creditPay.cr_name, "cr_name")
         self.assertEquals(creditPay.cr_all_sum, 4660.0)
@@ -143,21 +140,21 @@ class OperationsTests(TestCase):
         self.assertEquals(creditPay.cr_sum_plus_percents, 4912.42)
 
     def test_credit_pay_update(self):
-        creditPay = CreditPay.objects.create(id=0, user=self.user_account, cr_name="cr_name",
+        creditPay = CreditPay.objects.create(user=self.user_account, cr_name="cr_name",
                                              cr_all_sum=4660.0, cr_percent=10, cr_period=12,
                                              cr_month_pay=427.17, cr_sum_plus_percents=4912.42)
         self.assertIsNotNone(creditPay)
         self.assertEquals(creditPay.cr_name, "cr_name")
         creditPay.cr_name = "new_cr"
         creditPay.save()
-        creditPay2 = creditPay.objects.get(cr_name="new_cr")
+        creditPay2 = CreditPay.objects.get(cr_name="new_cr")
         self.assertIsNotNone(creditPay2)
 
     def test_credit_pay_delete(self):
-        creditPay = CreditPay.objects.create(id=0, user=self.user_account, cr_name="cr_name",
+        creditPay = CreditPay.objects.create(user=self.user_account, cr_name="cr_name",
                                              cr_all_sum=4660.0, cr_percent=10, cr_period=12,
                                              cr_month_pay=427.17, cr_sum_plus_percents=4912.42)
         self.assertIsNotNone(creditPay)
         creditPay.delete()
         with self.assertRaises(Exception):
-            creditPay2 = creditPay.objects.get(cr_name="cr_name")
+            creditPay2 = CreditPay.objects.get(cr_name="cr_name")
