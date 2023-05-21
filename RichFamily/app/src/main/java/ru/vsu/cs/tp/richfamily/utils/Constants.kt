@@ -18,4 +18,6 @@ object Constants {
     const val SUCCESS_LOGIN = "Успешно!"
     const val INVALID_DATA = "Неверные данные"
     const val SUCCESS_TOAST = "Успешно!"
+    const val PARTICIPANT = "Участник"
+    const val LEADER = "Лидер"
 }

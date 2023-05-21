@@ -22,8 +22,9 @@
         android:id="@+id/operation_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/DefaultText"
-        android:text="Операции"
+        style="@style/CardTextBold"
+        android:textSize="24sp"
+        android:text="@string/operation_text_tv"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -41,7 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/rounded_corner"
         android:text="@string/save_report_button_label"
+        android:layout_marginTop="@dimen/default_margin"
         app:layout_constraintTop_toBottomOf="@id/operations_rv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

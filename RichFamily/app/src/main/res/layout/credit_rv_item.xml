@@ -7,47 +7,76 @@
         android:id="@+id/operation_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4dp"
+        app:cardElevation="@dimen/card_elevation"
         android:layout_margin="6dp"
-        app:cardCornerRadius="3dp"
-        app:contentPadding="5dp">
+        app:cardCornerRadius="@dimen/card_radius"
+        app:contentPadding="@dimen/card_padding">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/credit_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:maxLength="13"
-                tools:text="Кредит"/>
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_toLeftOf="@id/credit_total"
-                android:text="@string/rub_sign" />
+                <TextView
+                    android:id="@+id/credit_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    style="@style/CardLabelText"
+                    tools:text="Машина"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/credit_total"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="16sp"
-                tools:text="1000" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text="@string/total_hint_text"
+                    android:layout_marginEnd="@dimen/half_margin"
+                    style="@style/CardLabelTextSmall"/>
+
+                <TextView
+                    android:id="@+id/credit_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    style="@style/CardText"
+                    tools:text="1000" />
+
+                <TextView
+                    android:id="@+id/wallet_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    style="@style/CardText"
+                    android:text="@string/rub_sign" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center|end">
 
             <ImageView
                 android:id="@+id/deleteCreditIV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"/>
+                android:gravity="end" />
+        </LinearLayout>
 
-        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

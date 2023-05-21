@@ -125,7 +125,8 @@ class ReportFragment :
     private fun initRcView() = with(binding) {
         adapter = OperationRVAdapter(
             this@ReportFragment,
-            this@ReportFragment
+            this@ReportFragment,
+            true
         )
         operationsRv.layoutManager = LinearLayoutManager(context)
         operationsRv.adapter = adapter

@@ -11,7 +11,10 @@
         android:id="@+id/credit_sum_cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        app:cardElevation="@dimen/card_elevation"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:contentPadding="@dimen/card_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,11 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:cardElevation="4dp"
-            android:layout_margin="6dp"
-            app:cardCornerRadius="3dp"
-            app:contentPadding="5dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/credit_total_label_tv"
@@ -40,17 +39,18 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/DefaultTextNoMargin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-
-                <TextView
                     android:id="@+id/credit_total_tv"
                     style="@style/DefaultTextNoMargin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="7000" />
+
+                <TextView
+                    style="@style/DefaultTextNoMargin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rub_sign" />
+
             </LinearLayout>
 
 
@@ -62,7 +62,10 @@
         android:id="@+id/credit_base_info_cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        app:cardElevation="@dimen/card_elevation"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:contentPadding="@dimen/card_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/credit_sum_cv">
@@ -70,10 +73,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="3dp"
-            app:contentPadding="5dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,18 +88,17 @@
                     android:text="@string/first_pay_hint_text" />
 
                 <TextView
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-
-                <TextView
                     android:id="@+id/first_pay_tv"
                     style="@style/CardText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="300000" />
 
+                <TextView
+                    style="@style/CardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rub_sign" />
             </LinearLayout>
 
             <LinearLayout
@@ -122,7 +121,15 @@
                     android:layout_gravity="end"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    tools:text="12%" />
+                    tools:text="12" />
+
+                <TextView
+                    android:id="@+id/percent_label_tv"
+                    style="@style/CardText"
+                    android:layout_gravity="end"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/percent_sign_tv" />
             </LinearLayout>
 
             <LinearLayout
@@ -162,7 +169,10 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
+        app:cardElevation="@dimen/card_elevation"
+        android:layout_margin="6dp"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:contentPadding="@dimen/card_padding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/credit_base_info_cv">
@@ -170,10 +180,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:cardCornerRadius="3dp"
-            app:cardElevation="4dp"
-            app:contentPadding="5dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -188,17 +195,17 @@
                     android:text="@string/interest_charges_text" />
 
                 <TextView
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-
-                <TextView
                     android:id="@+id/cr_percents_sum_tv"
                     style="@style/CardText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="3000" />
+
+                <TextView
+                    style="@style/CardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rub_sign" />
 
             </LinearLayout>
 
@@ -217,17 +224,17 @@
                     android:text="@string/cost_and_percentage_text" />
 
                 <TextView
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-
-                <TextView
                     android:id="@+id/cr_sum_plus_percents_tv"
                     style="@style/CardText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="800000" />
+
+                <TextView
+                    style="@style/CardText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rub_sign" />
             </LinearLayout>
 
             <LinearLayout
@@ -247,12 +254,6 @@
                     android:text="@string/monthly_payment_text" />
 
                 <TextView
-                    style="@style/CardTextMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-
-                <TextView
                     android:id="@+id/monthly_sum_tv"
                     style="@style/CardTextMedium"
                     android:textStyle="bold"
@@ -260,6 +261,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="7000" />
+
+                <TextView
+                    style="@style/CardTextMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rub_sign" />
 
             </LinearLayout>
 

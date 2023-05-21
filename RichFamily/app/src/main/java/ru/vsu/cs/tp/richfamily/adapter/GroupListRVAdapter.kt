@@ -10,14 +10,21 @@ import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ItemClickInterface
 import ru.vsu.cs.tp.richfamily.api.model.group.Group
 import ru.vsu.cs.tp.richfamily.databinding.GroupRvItemBinding
+import ru.vsu.cs.tp.richfamily.utils.Constants
 
 class GroupListRVAdapter(
     private val itemClickInterface: ItemClickInterface,
 ) : ListAdapter<Group, GroupListRVAdapter.Holder>(Comparator()) {
     class Holder(binding: GroupRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val groupName: TextView = binding.groupName
+        private val role: TextView = binding.roleTv
         fun bind(group: Group) {
             groupName.text = group.gr_name
+            if (group.is_leader) {
+                role.text = Constants.LEADER
+            } else {
+                role.text = Constants.PARTICIPANT
+            }
         }
     }
 
