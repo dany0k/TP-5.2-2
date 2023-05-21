@@ -27,6 +27,7 @@ class GroupUser(models.Model):
     group = models.ForeignKey(Group, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     is_leader = models.BooleanField(default=False)
+    last_operation_id = models.IntegerField(default=1)
 
 
     class Meta:

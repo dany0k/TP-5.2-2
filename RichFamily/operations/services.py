@@ -3,10 +3,64 @@
 """
 import csv
 from datetime import datetime
-from .models import Account, Operation
+
+from django.contrib.auth.models import User
+from .models import Account, Operation, OperationCategory
 from .serializers import OperationSerializer
 
 _csv_filename = 'OperationsReport.csv'
+
+
+def get_operations_by_category(id):
+    """
+    Получить операции из категории с идентификатором id
+    """
+    category = OperationCategory.objects.get(pk=id)
+    queryset = Operation.objects.filter(category=category)
+    serializer = OperationSerializer(queryset, many=True)
+    return serializer.data
+
+
+def get_operations_by_user(user: User):
+    """
+    Получить все операции для опеределенного user
+    """
+    categories = OperationCategory.objects.filter(user=user)
+    operations = Operation.objects.filter(category__in=categories)
+    return operations
+
+def get_last_operation_for_user(user: User):
+    """
+    Получить последнюю операцию для пользователя
+    """
+    categories = OperationCategory.objects.filter(user=user)
+    operation = Operation.objects.filter(category__in=categories).order_by('-id')[:1]
+    return operation
+
+
+def change_account(serializer):
+    """
+    Изменить состояние счета при создании или изменении операции
+    """
+    account = Account.objects.get(id=serializer.validated_data['account'].id)
+    if serializer.validated_data['op_variant'] == 'ДОХОД':
+        account.acc_sum += serializer.validated_data['op_sum']
+    else:
+        account.acc_sum -= serializer.validated_data['op_sum']
+    account.save()
+
+
+def rollback_account(instance):
+    """
+    Откатить счет до состояния предыдущей операции
+    """
+    prev_sum = instance.op_sum
+    acc = instance.account
+    if instance.op_variant == 'ДОХОД':
+        acc.acc_sum -= prev_sum
+    else:
+        acc.acc_sum += prev_sum
+    acc.save()
 
 
 def generate_report(authorizated_user):
@@ -80,13 +134,23 @@ def open_report():
     except:
         raise Exception('The report file can\'t be opened')
 
+def get_operations_by_account(account_id):
+    """
+    Получить операции с определенного счета
+    """
+    acc = Account.objects.get(pk=account_id)
+    queryset = acc.operation_set.all()
+    serializer = OperationSerializer(queryset, many=True)
+    return serializer.data
 
-def calc_payment(ost, month_percent, month_count) -> float:
+
+def calc_payment(ost, month_percent, month_count, first_pay) -> float:
     """
     Расчет ежемесячного платежа
     input:
         ost -> остаток по кредиту
         month_percent -> процент годовых
         month_count -> период выплаты кредита (в месяцах)
+        first_pay -> первоначальный взнос
     """
-    return ost * (month_percent / (100 * 12)) / (1 - (1 + month_percent / (100 * 12))**(-month_count))
+    return (ost - first_pay) * (month_percent / (100 * 12)) / (1 - (1 + month_percent / (100 * 12))**(-month_count))
