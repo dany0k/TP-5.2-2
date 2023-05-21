@@ -2,26 +2,22 @@ package ru.vsu.cs.tp.richfamily.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.adapter.interfaces.ClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ItemClickInterface
-import ru.vsu.cs.tp.richfamily.api.model.Group
+import ru.vsu.cs.tp.richfamily.api.model.group.Group
 import ru.vsu.cs.tp.richfamily.databinding.GroupRvItemBinding
 
 class GroupListRVAdapter(
-    private val groupClickExitInterface: ClickDeleteInterface,
-    private val itemClickInterface: ItemClickInterface
+    private val itemClickInterface: ItemClickInterface,
 ) : ListAdapter<Group, GroupListRVAdapter.Holder>(Comparator()) {
     class Holder(binding: GroupRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val groupName: TextView = binding.groupName
-        val exitGroupIV: ImageView = binding.exitGroupIV
         fun bind(group: Group) {
-            groupName.text = group.groupName
+            groupName.text = group.gr_name
         }
     }
 
@@ -48,9 +44,6 @@ class GroupListRVAdapter(
         val id = getItem(position).id
         holder.itemView.setOnClickListener {
             itemClickInterface.onItemClick(id)
-        }
-        holder.exitGroupIV.setOnClickListener {
-            groupClickExitInterface.onDeleteIconClick(id)
         }
     }
 }

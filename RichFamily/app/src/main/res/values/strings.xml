@@ -95,5 +95,9 @@
     <string name="rub_sign">₽</string>
     <string name="rub_text">Руб.</string>
     <string name="template_name_hint_et">Название шаблона</string>
+    <string name="group_name_text">Название группы:</string>
+    <string name="user_email_text">Email пользователя:</string>
+    <string name="leave_group_button_label">Выйти из группы</string>
+    <string name="delete_group_button_label">Удалить группу</string>
     <string name="lastname_label_tv">Фамилия</string>
 </resources>

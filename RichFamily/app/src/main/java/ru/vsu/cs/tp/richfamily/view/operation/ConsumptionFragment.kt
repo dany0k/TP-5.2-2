@@ -88,7 +88,8 @@ class ConsumptionFragment :
     private fun initRcView() = with(binding) {
         adapter = OperationRVAdapter(
             this@ConsumptionFragment,
-            this@ConsumptionFragment
+            this@ConsumptionFragment,
+            false
         )
         walletsRv.layoutManager = LinearLayoutManager(context)
         walletsRv.adapter = adapter

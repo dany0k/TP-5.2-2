@@ -3,6 +3,12 @@ package ru.vsu.cs.tp.richfamily.viewmodel.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
+import ru.vsu.cs.tp.richfamily.repository.GroupRepository
+import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
+import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
@@ -42,6 +48,11 @@ class AnyViewModelFactory(
             modelClass.isAssignableFrom(TemplateViewModel::class.java) ->
                 TemplateViewModel(
                     templateRepository = repository as TemplateRepository,
+                    token = token
+                ) as T
+            modelClass.isAssignableFrom(GroupViewModel::class.java) ->
+                GroupViewModel(
+                    groupRepository = repository as GroupRepository,
                     token = token
                 ) as T
             else -> throw IllegalArgumentException("ViewModel Not Found")

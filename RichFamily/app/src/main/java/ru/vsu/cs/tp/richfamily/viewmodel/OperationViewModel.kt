@@ -54,6 +54,7 @@ class OperationViewModel(
                     inList.postValue(response.body()!!.filter {
                         it.op_variant == Constants.INCOME_TEXT
                     })
+                    opList.postValue(response.body())
                     loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
