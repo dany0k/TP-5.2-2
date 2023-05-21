@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.api.model.Credit
+import ru.vsu.cs.tp.richfamily.api.model.credit.Credit
 import ru.vsu.cs.tp.richfamily.databinding.CreditRvItemBinding
 
 class CreditRVAdapter(
@@ -20,8 +20,9 @@ class CreditRVAdapter(
         private val creditSum: TextView = binding.creditTotal
         val deleteTemplateIV: ImageView = binding.deleteCreditIV
         fun bind(credit: Credit) {
-            creditName.text = credit.creditName
-            creditSum.text = credit.creditSum.toString()
+            // creditName
+            creditName.text = credit.cr_name.toString()
+            creditSum.text = credit.cr_all_sum.toString()
         }
     }
 
@@ -46,7 +47,7 @@ class CreditRVAdapter(
         holder.bind(getItem(position))
         val id = getItem(position).id
         holder.itemView.setOnClickListener {
-            creditClickItemInterface.onItemClick(id)
+            creditClickItemInterface.onItemClick(position)
         }
         holder.deleteTemplateIV.setOnClickListener {
             creditClickDeleteInterface.onDeleteIconClick(id)

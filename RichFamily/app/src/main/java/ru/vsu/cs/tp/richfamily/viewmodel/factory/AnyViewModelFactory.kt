@@ -9,6 +9,12 @@ import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
+import ru.vsu.cs.tp.richfamily.repository.CreditRepository
+import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
+import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
@@ -27,6 +33,11 @@ class AnyViewModelFactory(
             modelClass.isAssignableFrom(WalletViewModel::class.java) ->
                 WalletViewModel(
                     walletRepository = repository as WalletRepository,
+                    token = token
+                ) as T
+            modelClass.isAssignableFrom(CreditViewModel::class.java) ->
+                CreditViewModel(
+                    creditRepository = repository as CreditRepository,
                     token = token
                 ) as T
             modelClass.isAssignableFrom(OperationViewModel::class.java) ->

@@ -56,7 +56,7 @@
     <string name="first_pay_hint_text">Первоначальный взнос</string>
     <string name="credit_total_hint_text">Сумма кредита</string>
     <string name="credit_term_hint_text">Срок кредита</string>
-    <string name="years_text">лет</string>
+    <string name="month_text">месяцев</string>
     <string name="calculate_button_label">Рассчитать</string>
     <string name="monthly_payment_text">Ежемесячный платеж</string>
     <string name="continue_button_label">Продолжить</string>
@@ -91,10 +91,13 @@
         of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
         PARTICULAR PURPOSE.</string>
     <string name="accept">Подтвердить</string>
+    <string name="period_text_tv">Период</string>
+    <string name="rub_sign">₽</string>
     <string name="rub_text">Руб.</string>
     <string name="template_name_hint_et">Название шаблона</string>
     <string name="group_name_text">Название группы:</string>
     <string name="user_email_text">Email пользователя:</string>
     <string name="leave_group_button_label">Выйти из группы</string>
     <string name="delete_group_button_label">Удалить группу</string>
+    <string name="lastname_label_tv">Фамилия</string>
 </resources>

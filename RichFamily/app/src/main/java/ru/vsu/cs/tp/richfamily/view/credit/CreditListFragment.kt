@@ -1,32 +1,33 @@
 package ru.vsu.cs.tp.richfamily.view.credit
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.CreditClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.CreditClickItemInterface
 import ru.vsu.cs.tp.richfamily.adapter.CreditRVAdapter
-import ru.vsu.cs.tp.richfamily.api.model.Credit
-import ru.vsu.cs.tp.richfamily.app.App
+import ru.vsu.cs.tp.richfamily.api.service.CreditApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentCreditListBinding
+import ru.vsu.cs.tp.richfamily.repository.CreditRepository
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
-class CreditListFragment :
+class CreditListFragment:
     Fragment(),
-    CreditClickDeleteInterface,
-    CreditClickItemInterface {
-
-    private lateinit var binding: FragmentCreditListBinding
+    CreditClickItemInterface,
+    CreditClickDeleteInterface {
     private lateinit var adapter: CreditRVAdapter
+    private lateinit var creditViewModel: CreditViewModel
+    private lateinit var binding: FragmentCreditListBinding
+    private lateinit var token: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,46 +38,69 @@ class CreditListFragment :
             container,
             false
         )
+        token = try {
+            SessionManager.getToken(requireActivity())!!
+        } catch (e: java.lang.NullPointerException) {
+            ""
+        }
+        if (token.isNotEmpty()) {
+            val creditApi = CreditApi.getCreditApi()!!
+
+            val creditRepository = CreditRepository(creditApi = creditApi, token = token)
+            creditViewModel = ViewModelProvider(
+                this,
+                AnyViewModelFactory(
+                    repository = creditRepository,
+                    token = token
+                )
+            )[CreditViewModel::class.java]
+        }
+        initRcView()
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.calculateCreditButton.setOnClickListener {
-            findNavController().navigate(R.id.action_creditListFragment_to_addCreditFragment)
-        }
-        initRcView()
-        getCredits()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCredits() {
-        CoroutineScope(Dispatchers.IO).launch {
-//            val list = App.serviceAPI.getWallets(loginViewModel.token.value!!)
-            val list = mutableListOf(
-                Credit(0, "Кредит 1", 12, 1000f, 100000f, 100),
-                Credit(0, "Кредит 1", 20, 2000f, 150000f, 100),
-                Credit(0, "Кредит 1", 13, 10000f, 1000000f, 100)
-            )
-            requireActivity().runOnUiThread {
-                adapter.submitList(list)
+        if (token.isNotBlank()) {
+            creditViewModel.creditList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
             }
+            creditViewModel.errorMessage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+            creditViewModel.loading.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+            creditViewModel.getAllCredits()
+        }
+        binding.calculateCreditButton.setOnClickListener {
+            findNavController()
+                .navigate(R.id.action_creditListFragment_to_addCreditFragment)
         }
     }
 
     private fun initRcView() = with(binding) {
         adapter = CreditRVAdapter(
             this@CreditListFragment,
-            this@CreditListFragment)
+            this@CreditListFragment
+        )
         creditsRv.layoutManager = LinearLayoutManager(context)
         creditsRv.adapter = adapter
     }
 
     override fun onDeleteIconClick(id: Int) {
+        creditViewModel.deleteCredit(id = id)
     }
 
     override fun onItemClick(id: Int) {
-        findNavController().navigate(R.id.action_creditListFragment_to_creditFragment)
+        val action = CreditListFragmentDirections
+            .actionCreditListFragmentToCreditFragment(adapter.currentList[id], true)
+        findNavController()
+            .navigate(action)
     }
 }
+
