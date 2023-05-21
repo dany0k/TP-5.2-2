@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from RichFamily.groups.models import Group
+from groups.models import Group
 
 
 class UsersTests(TestCase):
