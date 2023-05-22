@@ -18,7 +18,7 @@
         android:id="@+id/user_email_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="20"
+        android:maxLength="45"
         android:inputType="text">
         <requestFocus />
     </EditText>
