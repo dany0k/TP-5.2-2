@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net" modified="2023-05-22T14:19:33.978Z" agent="Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/113.0" etag="A5R3kivLl62um0iY1wk-" version="21.1.0">
+  <diagram name="Страница 1" id="Mwp3Yc5_Hr8PumyH1cfP">
+    <mxGraphModel dx="1114" dy="630" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nEgScxtlbAUuX4rzvknO-1" value="Mobile Client" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="330" y="110" width="180" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-2" value="&lt;div&gt;Android&lt;/div&gt;&lt;div&gt;application&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="150" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-3" value="&lt;div&gt;Application server&lt;/div&gt;&lt;div&gt;(OS=Linux)&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="130" y="430" width="620" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-4" value="&lt;div&gt;Android&lt;/div&gt;&lt;div&gt;SQLite&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="220" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-5" value="Docker (Reverse proxy server)" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="190" y="485" width="210" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-6" value="Nginx" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="520" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-10" value="Docker (Application server)" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="470" y="480" width="220" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-11" value="Django ORM" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="500" y="660" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-12" value="&lt;div&gt;Django Rest&lt;/div&gt;&lt;div&gt;Web-API&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="500" y="590" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-14" value="Docker (Database server)" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="190" y="620" width="220" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-15" value="PostgreSQL" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="240" y="680" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-17" value="" style="endArrow=none;html=1;rounded=0;exitX=-0.002;exitY=0.533;exitDx=0;exitDy=0;exitPerimeter=0;entryX=1.002;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="nEgScxtlbAUuX4rzvknO-3" target="nEgScxtlbAUuX4rzvknO-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="510" y="380" as="sourcePoint" />
+            <mxPoint x="560" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nEgScxtlbAUuX4rzvknO-18" value="RESTful HTTP" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="413" y="325" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="09N74bHPZtrUEXIV0XJ0-2" value="&lt;div&gt;Python 3&lt;/div&gt;&lt;div&gt;(Gunicorn)&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="530" width="150" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
