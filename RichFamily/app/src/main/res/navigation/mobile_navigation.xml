@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_templateFragment_to_addOperationFragment"
             app:destination="@id/addOperationFragment" />
+        <action
+            android:id="@+id/action_templateFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
     </fragment>
 
     <fragment

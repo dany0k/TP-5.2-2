@@ -31,7 +31,22 @@ class WalletViewModel(
                 }
             }
         }
+    }
 
+    fun getWalletFromACTV(selectedItem: String, walList: List<Wallet>): Int {
+        val selectedClass = walList.find {
+            "${it.acc_name} ${it.acc_sum} ${it.acc_currency}" == selectedItem
+        }
+        return selectedClass!!.id
+    }
+
+    fun findWalletById(id: Int, walList: List<Wallet>): String {
+        val selectedClass = walList.find {
+            it.id == id
+        }
+        return "${selectedClass!!.acc_name} " +
+                "${selectedClass.acc_sum} " +
+                selectedClass.acc_currency
     }
 
     private fun onError(message: String) {

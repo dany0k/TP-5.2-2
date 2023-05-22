@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.api.service.CreditApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddCreditBinding
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -29,11 +29,7 @@ class AddCreditFragment : Fragment() {
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         val creditApi = CreditApi.getCreditApi()!!
 
         val creditRepository = CreditRepository(creditApi = creditApi, token = token)

@@ -10,10 +10,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavGraph
-import androidx.navigation.NavGraphNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.Category
 import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
@@ -25,7 +24,6 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
@@ -54,11 +52,7 @@ class AddOperationFragment : Fragment(){
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         initViewModels(token = token)
         initAdapters()
         return binding.root
@@ -91,25 +85,9 @@ class AddOperationFragment : Fragment(){
         } else {
             incomeRb.isChecked = true
         }
-        filledScore.setText(findWalletById(curTemp.account))
-        filledCategory.setText(findCategoryById(curTemp.category))
+        filledScore.setText(walViewModel.findWalletById(curTemp.account, walList))
+        filledCategory.setText(opViewModel.findCategoryById(curTemp.category, catList))
         initAdapters()
-    }
-
-    private fun findWalletById(id: Int): String {
-        val selectedClass = walList.find {
-            it.id == id
-        }
-        return "${selectedClass!!.acc_name} " +
-                "${selectedClass.acc_sum} " +
-                "${selectedClass.acc_currency}"
-    }
-
-    private fun findCategoryById(id: Int): String {
-        val selectedClass = catList.find {
-            it.id == id
-        }
-        return selectedClass!!.cat_name
     }
 
     private fun process() {
@@ -138,8 +116,12 @@ class AddOperationFragment : Fragment(){
                 )) {
                 with(binding) {
                     opViewModel.addOperation(
-                        walletId = getWalletFromACTV(filledScore.text.toString()),
-                        categoryId = getCategoryFromACTV(filledCategory.text.toString()),
+                        walletId = walViewModel.getWalletFromACTV(
+                            filledScore.text.toString(), walList
+                        ),
+                        categoryId = catViewModel.getCategoryFromACTV(
+                            filledCategory.text.toString(), catList
+                        ),
                         opType = rbText,
                         opDate = dateTimeToLocalDateTime(
                             time = timeEt.text.toString(),
@@ -194,32 +176,6 @@ class AddOperationFragment : Fragment(){
         return false
     }
 
-    private fun dateTimeToLocalDateTime(time: String, date: String): String {
-        val inputDateFormat = SimpleDateFormat(
-            "HH:mm d/M/yyyy", Locale.getDefault()
-        )
-        val outputDateFormat = SimpleDateFormat(
-            "yyyy-MM-dd'T'HH:mm:ss.SS'Z'", Locale.getDefault()
-        )
-
-        val inputDate = inputDateFormat.parse("$time $date")
-        return outputDateFormat.format(inputDate)
-    }
-
-    private fun getWalletFromACTV(selectedItem: String): Int {
-        val selectedClass = walList.find {
-            "${it.acc_name} ${it.acc_sum} ${it.acc_currency}" == selectedItem
-        }
-        return selectedClass!!.id
-    }
-
-    private fun getCategoryFromACTV(selectedItem: String): Int {
-        val selectedClass = catList.find {
-            it.cat_name == selectedItem
-        }
-        return selectedClass!!.id
-    }
-
     private fun setDate(hasFocus: Boolean) {
         if (hasFocus) {
             val calendar = Calendar.getInstance()
@@ -229,8 +185,9 @@ class AddOperationFragment : Fragment(){
 
             val datePickerDialog = DatePickerDialog(requireActivity(),
                 { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                    val result = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
                     binding.dateEt
-                        .setText("$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear")
+                        .setText(result)
                 }, year, month, dayOfMonth
             )
             datePickerDialog.show()
@@ -245,11 +202,24 @@ class AddOperationFragment : Fragment(){
             val minute = calendar.get(Calendar.MINUTE)
             val timePickerDialog = TimePickerDialog(requireActivity(),
                 { _, selectedHour, selectedMinute ->
-                    binding.timeEt.setText("$selectedHour:$selectedMinute")
+                    val result = "$selectedHour:$selectedMinute"
+                    binding.timeEt.setText(result)
                 }, hour, minute, true)
 
             timePickerDialog.show()
         }
+    }
+
+    private fun dateTimeToLocalDateTime(time: String, date: String): String {
+        val inputDateFormat = SimpleDateFormat(
+            "HH:mm d/M/yyyy", Locale.getDefault()
+        )
+        val outputDateFormat = SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss.SS'Z'", Locale.getDefault()
+        )
+
+        val inputDate = inputDateFormat.parse("$time $date")
+        return outputDateFormat.format(inputDate!!)
     }
 
     private fun initAdapters() = with(binding) {

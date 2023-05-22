@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.GroupUserRVAdapter
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ClickDeleteInterface
@@ -45,11 +46,7 @@ class GroupFragment :
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             val groupApi = GroupApi.getGroupApi()!!
             val grRepository = GroupRepository(groupApi = groupApi, token = token)
@@ -183,11 +180,30 @@ class GroupFragment :
     }
 
     override fun onDeleteIconClick(id: Int) {
-        grViewModel.deleteUserFromGroup(groupId = args.groupId, userId =  id)
-        showToast(Constants.SUCCESS)
+        createDialog(id = id)
     }
 
     override fun onItemClick(id: Int) {
         showOperations(id = id)
+    }
+
+    private fun createDialog(id: Int) {
+        val builder = AlertDialog.Builder(context)
+        val dialogBinding = SubmitDialogBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+        builder.setView(dialogBinding.root)
+        val submitText: String = Constants.SUBMIT_GROUP_USER_DELETE_TEXT
+        dialogBinding.textToSubmit.text = submitText
+        builder.setPositiveButton(R.string.accept) { _, _ ->
+            grViewModel.deleteUserFromGroup(groupId = args.groupId, userId =  id)
+            showToast(Constants.SUCCESS)
+        }
+        builder.setNegativeButton(R.string.cancel) { _, _ ->
+            onDestroyView()
+        }
+        builder.show()
     }
 }

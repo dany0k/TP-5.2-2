@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.*
 import ru.vsu.cs.tp.richfamily.api.service.TemplateApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentTemplateBinding
 import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -41,11 +41,7 @@ class TemplateFragment :
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             val templateApi = TemplateApi.getTemplatesApi()!!
             val temRepository = TemplateRepository(templateApi = templateApi, token = token)
@@ -63,23 +59,30 @@ class TemplateFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        temViewModel.templatesList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-        temViewModel.errorMessage.observe(viewLifecycleOwner) {
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
-        }
-        temViewModel.loading.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
+        if (token.isNotBlank()) {
+            temViewModel.templatesList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
             }
+            temViewModel.errorMessage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+            temViewModel.loading.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+            temViewModel.getAllTemplates()
         }
-        temViewModel.getAllTemplates()
         binding.fab.setOnClickListener {
-            findNavController()
-                .navigate(R.id.action_templateFragment_to_addTemplateFragment)
+            if (token.isNotBlank()) {
+                findNavController()
+                    .navigate(R.id.action_templateFragment_to_addTemplateFragment)
+            } else {
+                findNavController()
+                    .navigate(R.id.action_templateFragment_to_registrationFragment)
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 package ru.vsu.cs.tp.richfamily.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -113,6 +112,7 @@ class CreditViewModel(
                 if (!response.isSuccessful) {
                     onError("Error : ${response.message()} ")
                 } else {
+
                     getAllCredits()
                 }
             }

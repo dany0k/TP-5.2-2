@@ -1,5 +1,7 @@
 package ru.vsu.cs.tp.richfamily.view.operation
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.Category
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
@@ -23,12 +26,12 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 
 class UpdateOperationFragment : Fragment() {
@@ -50,11 +53,7 @@ class UpdateOperationFragment : Fragment() {
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             initViewModels(token = token)
         }
@@ -72,6 +71,12 @@ class UpdateOperationFragment : Fragment() {
                 catViewModel.catList.removeObserver { }
                 walViewModel.walletList.removeObserver { }
             }
+        }
+        binding.timeEt.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            setTime(hasFocus)
+        }
+        binding.dateEt.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            setDate(hasFocus)
         }
         binding.addOperationButton.setOnClickListener {
             val rbText: String = if (binding.consumptionRb.isChecked) {
@@ -115,6 +120,40 @@ class UpdateOperationFragment : Fragment() {
         }
     }
 
+    private fun setDate(hasFocus: Boolean) {
+        if (hasFocus) {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(requireActivity(),
+                { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                    val result = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
+                    binding.dateEt
+                        .setText(result)
+                }, year, month, dayOfMonth
+            )
+            datePickerDialog.show()
+            binding.dateEt.clearFocus()
+        }
+    }
+
+    private fun setTime(hasFocus: Boolean) {
+        if (hasFocus) {
+            val calendar = Calendar.getInstance()
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
+            val timePickerDialog = TimePickerDialog(requireActivity(),
+                { _, selectedHour, selectedMinute ->
+                    val result = "$selectedHour:$selectedMinute"
+                    binding.timeEt.setText(result)
+                }, hour, minute, true)
+
+            timePickerDialog.show()
+        }
+    }
+
     private fun navigate(rbText: String) {
         if (rbText == Constants.CONS_TEXT) {
             findNavController()
@@ -134,7 +173,7 @@ class UpdateOperationFragment : Fragment() {
         )
 
         val inputDate = inputDateFormat.parse("$time $date")
-        return outputDateFormat.format(inputDate)
+        return outputDateFormat.format(inputDate!!)
     }
 
     private fun setOperation() = with(binding) {
@@ -176,7 +215,7 @@ class UpdateOperationFragment : Fragment() {
         }
         return "${selectedClass!!.acc_name} " +
                 "${selectedClass.acc_sum} " +
-                "${selectedClass.acc_currency}"
+                selectedClass.acc_currency
     }
 
     private fun findCategoryById(id: Int): String {

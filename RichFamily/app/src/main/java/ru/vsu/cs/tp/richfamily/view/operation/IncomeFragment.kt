@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickEditInterface
@@ -36,11 +37,7 @@ class IncomeFragment :
     ): View {
         binding = FragmentIncomeBinding.inflate(inflater, container, false)
         initRcView()
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             val operationApi = OperationApi.getOperationApi()!!
             val opRepository = OperationRepository(operationApi = operationApi, token = token)

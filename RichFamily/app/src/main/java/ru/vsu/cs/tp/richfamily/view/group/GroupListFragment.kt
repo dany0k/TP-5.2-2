@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.GroupListRVAdapter
 import ru.vsu.cs.tp.richfamily.adapter.interfaces.ItemClickInterface
@@ -38,11 +39,7 @@ class GroupListFragment :
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             val groupApi = GroupApi.getGroupApi()!!
             val grRepository = GroupRepository(groupApi = groupApi, token = token)
