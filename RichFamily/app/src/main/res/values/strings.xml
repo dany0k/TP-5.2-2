@@ -55,7 +55,7 @@
     <string name="percentage_hint_text">Процентная ставка</string>
     <string name="first_pay_hint_text">Первоначальный взнос</string>
     <string name="credit_total_hint_text">Сумма кредита</string>
-    <string name="credit_term_hint_text">Срок кредита</string>
+    <string name="credit_term_hint_text">Срок кредита, в месяцах</string>
     <string name="month_text">месяцев</string>
     <string name="calculate_button_label">Рассчитать</string>
     <string name="monthly_payment_text">Ежемесячный платеж</string>
@@ -100,4 +100,12 @@
     <string name="leave_group_button_label">Выйти из группы</string>
     <string name="delete_group_button_label">Удалить группу</string>
     <string name="lastname_label_tv">Фамилия</string>
+    <string name="adressat_label_tv">Адресат</string>
+    <string name="date_label_tv">Дата и время</string>
+    <string name="time_hint_et">hh:mm</string>
+    <string name="date_hint_et">dd/mm/yyyy</string>
+    <string name="percent_sign_tv">%</string>
+    <string name="participant_label_tv">Участники</string>
+    <string name="role_label_tv">Роль</string>
+    <string name="update_screen_button_label">Обновить</string>
 </resources>

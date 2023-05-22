@@ -46,7 +46,7 @@ class LoginFragment : Fragment() {
                 }
 
                 is BaseResponse.Error -> {
-                    processError(it.msg)
+                    processError()
                 }
                 else -> {
                     stopLoading()
@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun processLogin(data: User?) {
-        showToast("Success:" + data?.auth_token)
+        showToast(Constants.SUCCESS)
         if (!data?.auth_token.isNullOrEmpty()) {
             data?.auth_token?.let {
                 SessionManager.saveAuthToken(requireActivity(), it)
@@ -86,7 +86,7 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun processError(msg: String?) {
+    private fun processError() {
         showToast(Constants.INVALID_DATA)
     }
 

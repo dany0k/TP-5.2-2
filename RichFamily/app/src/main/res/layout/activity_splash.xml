@@ -8,6 +8,16 @@
     tools:context=".SplashActivity"
     android:background="@drawable/splash_background_old">
 
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:src="@drawable/rub_ic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
     <TextView
         android:id="@+id/server_offline_tv"
         style="@style/DefaultText"
@@ -25,7 +35,9 @@
         android:id="@+id/reconnectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Обновить"
+        android:background="@drawable/rounded_corner"
+        android:backgroundTint="?attr/colorPrimary"
+        android:text="@string/update_screen_button_label"
         android:visibility="gone"
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -7,79 +7,113 @@
         android:id="@+id/operation_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4dp"
+        app:cardElevation="@dimen/card_elevation"
         android:layout_margin="6dp"
-        app:cardCornerRadius="3dp"
-        app:contentPadding="5dp">
+        app:cardCornerRadius="@dimen/card_radius"
+        app:contentPadding="@dimen/card_padding">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/operation_rec"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:layout_marginStart="@dimen/half_margin"
-                tools:text="Расход"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/operation_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/operation_rec"
-                android:layout_marginStart="@dimen/half_margin"
-                tools:text="29/06/2021"/>
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/operation_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/operation_date"
-                android:layout_below="@id/operation_rec"
-                tools:text="09:30 PM"/>
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CardLabelTextSmall"
+                            android:text="@string/adressat_label_tv" />
+                        <TextView
+                            android:id="@+id/operation_rec"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CardText"
+                            tools:text="Freedom"/>
+                    </TableRow>
 
-            <TextView
-                android:id="@+id/operation_sum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="@dimen/default_margin"
-                android:layout_toEndOf="@id/operation_time"
-                android:textSize="16sp"
-                tools:text="1000" />
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CardLabelTextSmall"
+                            android:text="@string/total_hint_text"
+                            android:layout_marginEnd="@dimen/half_margin"/>
 
-            <TextView
-                android:id="@+id/wallet_currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/operation_sum"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:layout_marginStart="@dimen/half_margin"
-                android:textSize="16sp"
-                android:text="@string/rub_text" />
+                        <LinearLayout
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/deleteOpIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_delete"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"/>
+                            <TextView
+                                android:id="@+id/operation_sum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/CardText"
+                                tools:text="1000" />
 
-            <ImageView
-                android:id="@+id/editOpIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="@dimen/default_margin"
-                android:layout_toStartOf="@+id/deleteOpIV"
-                android:src="@drawable/ic_edit" />
+                            <TextView
+                                android:id="@+id/wallet_currency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/CardText"
+                                android:text="@string/rub_sign" />
+                        </LinearLayout>
 
-        </RelativeLayout>
+                    </TableRow>
+
+                    <TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CardLabelTextSmall"
+                            android:text="@string/date_label_tv"
+                            android:layout_marginEnd="@dimen/default_margin" />
+                        <TextView
+                            android:id="@+id/operation_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CardText"
+                            tools:text="29/06/2021"/>
+
+                        <TextView
+                            android:id="@+id/operation_time"
+                            android:layout_marginStart="@dimen/half_margin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/CardText"
+                            tools:text="09:30 PM"/>
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center|end">
+
+                <ImageView
+                    android:id="@+id/editOpIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:src="@drawable/ic_edit" />
+
+                <ImageView
+                    android:id="@+id/deleteOpIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

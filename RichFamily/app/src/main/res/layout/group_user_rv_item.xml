@@ -7,10 +7,10 @@
         android:id="@+id/category_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4dp"
+        app:cardElevation="@dimen/card_elevation"
         android:layout_margin="6dp"
-        app:cardCornerRadius="3dp"
-        app:contentPadding="5dp">
+        app:cardCornerRadius="@dimen/card_radius"
+        app:contentPadding="@dimen/card_padding">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -20,8 +20,7 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/black"
+                style="@style/CardTextMedium"
                 android:layout_centerInParent="true"
                 tools:text="Иван Петров"/>
 

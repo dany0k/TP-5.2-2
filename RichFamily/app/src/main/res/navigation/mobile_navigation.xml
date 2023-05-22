@@ -266,7 +266,7 @@
     <fragment
         android:id="@+id/updateTemplateFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.template.UpdateTemplateFragment"
-        android:label="Редактирваоние шаблона"
+        android:label="Редактирование шаблона"
         tools:layout="@layout/fragment_update_template" >
         <argument
             android:name="template"

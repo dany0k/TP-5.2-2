@@ -20,31 +20,34 @@
         android:id="@+id/leader_cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4dp"
+        app:cardElevation="@dimen/card_elevation"
         android:layout_margin="6dp"
-        app:cardCornerRadius="3dp"
-        app:contentPadding="5dp"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:contentPadding="@dimen/card_padding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/leader_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/crown_ic"
-                android:layout_marginEnd="@dimen/half_margin"/>
 
             <TextView
                 android:id="@+id/leader_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Иван Петров" />
-        </LinearLayout>
+                style="@style/CardTextMedium"
+                android:layout_centerInParent="true"
+                tools:text="Иван Петров"/>
+
+            <ImageView
+                android:id="@+id/deleteUserIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/crown_ic"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
@@ -52,7 +55,7 @@
         android:id="@+id/users_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Участники"
+        android:text="@string/participant_label_tv"
         style="@style/DefaultText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/leader_cv"
@@ -74,6 +77,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_plus"
         android:layout_marginEnd="@dimen/default_margin"
+        app:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginVertical="@dimen/default_margin"/>

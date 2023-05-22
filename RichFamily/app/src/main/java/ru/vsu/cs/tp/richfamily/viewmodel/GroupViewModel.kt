@@ -19,6 +19,7 @@ import ru.vsu.cs.tp.richfamily.utils.Constants
 
 class GroupViewModel(
     private val groupRepository: GroupRepository,
+    private val token: String
 ) : ViewModel() {
     val errorMessage = MutableLiveData<String>()
     val groupList = MutableLiveData<List<Group>>()
