@@ -13,7 +13,6 @@ import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddWalletBinding
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 

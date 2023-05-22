@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import ru.vsu.cs.tp.richfamily.R
 
 object SessionManager {
-    const val USER_TOKEN = "user_token"
+    private const val USER_TOKEN = "user_token"
 
     fun saveAuthToken(context: Context, token: String) {
         saveString(context, USER_TOKEN, "Token $token")

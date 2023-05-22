@@ -16,7 +16,6 @@ import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
 import ru.vsu.cs.tp.richfamily.api.service.GroupApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentUserOperationBinding
 import ru.vsu.cs.tp.richfamily.repository.GroupRepository
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 

@@ -46,7 +46,7 @@ class AccountFragment : Fragment() {
             binding.exitButton.visibility = View.VISIBLE
             viewModel.getUserInformation(token = token)
             viewModel.currentUser.observe(viewLifecycleOwner) {
-                val fullName = "${it.first_name} ${it.last_name}";
+                val fullName = "${it.first_name} ${it.last_name}"
                 binding.nameTv.text = fullName
                 binding.emailTv.text = it.email
             }

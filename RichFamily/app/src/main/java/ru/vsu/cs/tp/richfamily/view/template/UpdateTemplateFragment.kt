@@ -140,7 +140,7 @@ class UpdateTemplateFragment : Fragment() {
         }
         return "${selectedClass!!.acc_name} " +
                 "${selectedClass.acc_sum} " +
-                "${selectedClass.acc_currency}"
+                selectedClass.acc_currency
     }
 
     private fun findCategoryById(id: Int): String {

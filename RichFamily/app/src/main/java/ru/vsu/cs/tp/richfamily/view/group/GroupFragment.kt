@@ -131,7 +131,7 @@ class GroupFragment :
         builder.setPositiveButton(R.string.accept) { _, _ ->
             grViewModel.deleteGroup(groupId = id)
             findNavController().popBackStack()
-            showToast(Constants.SUCCESS)
+            showToast()
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
@@ -152,7 +152,7 @@ class GroupFragment :
         builder.setPositiveButton(R.string.accept) { _, _ ->
             grViewModel.leaveFromGroup(groupId = id)
             findNavController().popBackStack()
-            showToast(Constants.SUCCESS)
+            showToast()
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
@@ -160,8 +160,8 @@ class GroupFragment :
         builder.show()
     }
 
-    private fun showToast(msg: String) {
-        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+    private fun showToast() {
+        Toast.makeText(requireContext(), Constants.SUCCESS, Toast.LENGTH_SHORT).show()
     }
 
     private fun showOperations(id: Int) {
@@ -198,7 +198,7 @@ class GroupFragment :
         dialogBinding.textToSubmit.text = submitText
         builder.setPositiveButton(R.string.accept) { _, _ ->
             grViewModel.deleteUserFromGroup(groupId = args.groupId, userId =  id)
-            showToast(Constants.SUCCESS)
+            showToast()
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()

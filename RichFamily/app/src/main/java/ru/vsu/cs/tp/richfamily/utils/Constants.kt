@@ -3,7 +3,6 @@ package ru.vsu.cs.tp.richfamily.utils
 object Constants {
     const val SUBMIT_CAT_DELETE_TEXT: String = "При удалении категории, также удалятся все расходы и доходы, " +
             "в которых используется данная категория.\nВы уверены?"
-    const val PERMISSION_GRANTED = "Доступ получен"
     const val CONS_TEXT = "РАСХОД"
     const val INCOME_TEXT = "ДОХОД"
     const val NAME_PLACEHOLDER = "Лучший пользователь"
@@ -14,7 +13,6 @@ object Constants {
             " их доходы и расходы будут сохранены\nВы уверены?"
     const val LEAVE_GROUP_MESSAGE = "Вы уверены?"
     const val NO_SUCH_USER = "Ошибка при добавление пользователя"
-    const val FILE_SAVE_SUCCESS = "Файл успешно загружен!"
     const val PWD_NOT_COMPARE = "Пароли не совпадают!"
     const val INVALID_EMAIL = "Неверно заполнено поле email!"
     const val SUCCESS_LOGIN = "Успешно!"
