@@ -22,7 +22,6 @@ import ru.vsu.cs.tp.richfamily.databinding.FragmentGroupBinding
 import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.GroupRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 

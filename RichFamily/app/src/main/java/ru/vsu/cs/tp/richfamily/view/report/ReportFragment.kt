@@ -115,10 +115,10 @@ class ReportFragment :
                     writer.newLine()
                 }
                 writer.close()
-                Toast.makeText(requireContext(), "CSV file saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "CSV файл сохранен", Toast.LENGTH_SHORT).show()
             }
         } ?: run {
-            Toast.makeText(requireContext(), "Failed to create CSV file", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Ошибка при создании файла", Toast.LENGTH_SHORT).show()
         }
     }
 

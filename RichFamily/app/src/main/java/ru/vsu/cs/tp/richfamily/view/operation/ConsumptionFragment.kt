@@ -82,7 +82,7 @@ class ConsumptionFragment :
             }
         }
 
-        binding.walletsRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.consRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
@@ -100,12 +100,13 @@ class ConsumptionFragment :
             this@ConsumptionFragment,
             false
         )
-        walletsRv.layoutManager = LinearLayoutManager(context)
-        walletsRv.adapter = adapter
+        consRv.layoutManager = LinearLayoutManager(context)
+        consRv.adapter = adapter
     }
 
     override fun onDeleteIconClick(id: Int) {
         opViewModel.deleteOperation(id = id)
+        binding.fab.show()
     }
 
     override fun onEditIconClick(id: Int) {

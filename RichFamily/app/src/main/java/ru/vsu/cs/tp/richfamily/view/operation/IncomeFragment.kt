@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
@@ -80,6 +81,17 @@ class IncomeFragment :
                     .navigate(R.id.action_incomeFragment_to_addOperationFragment)
             }
         }
+
+        binding.incRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.fab.hide()
+                } else if (dy < 0) {
+                    binding.fab.show()
+                }
+            }
+        })
     }
 
     private fun initRcView() = with(binding) {
@@ -88,12 +100,13 @@ class IncomeFragment :
             this@IncomeFragment,
             false
         )
-        walletsRv.layoutManager = LinearLayoutManager(context)
-        walletsRv.adapter = adapter
+        incRv.layoutManager = LinearLayoutManager(context)
+        incRv.adapter = adapter
     }
 
     override fun onDeleteIconClick(id: Int) {
         opViewModel.deleteOperation(id = id)
+        binding.fab.show()
     }
 
     override fun onEditIconClick(id: Int) {

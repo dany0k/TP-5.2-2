@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.GroupListRVAdapter
@@ -81,6 +82,17 @@ class GroupListFragment :
                 createDialog()
             }
         }
+
+        binding.groupsRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.fab.hide()
+                } else if (dy < 0) {
+                    binding.fab.show()
+                }
+            }
+        })
     }
 
     private fun createDialog() {
