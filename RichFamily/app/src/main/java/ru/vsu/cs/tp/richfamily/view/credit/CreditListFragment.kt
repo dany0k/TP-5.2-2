@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.CreditClickDeleteInterface
@@ -77,6 +78,17 @@ class CreditListFragment:
             findNavController()
                 .navigate(R.id.action_creditListFragment_to_addCreditFragment)
         }
+
+        binding.creditsRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.calculateCreditButton.hide()
+                } else if (dy < 0) {
+                    binding.calculateCreditButton.show()
+                }
+            }
+        })
     }
 
     private fun initRcView() = with(binding) {
@@ -90,6 +102,7 @@ class CreditListFragment:
 
     override fun onDeleteIconClick(id: Int) {
         creditViewModel.deleteCredit(id = id)
+        binding.calculateCreditButton.show()
     }
 
     override fun onItemClick(id: Int) {

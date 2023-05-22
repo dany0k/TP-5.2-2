@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/wallets_rv"
+        android:id="@+id/cons_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/operation_rv_item"/>

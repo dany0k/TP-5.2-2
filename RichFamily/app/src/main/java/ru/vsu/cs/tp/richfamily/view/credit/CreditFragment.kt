@@ -43,5 +43,6 @@ class CreditFragment : Fragment() {
         crPercentsSumTv.text = args.credit.cr_percents_sum.toString().format("%.3f")
         crSumPlusPercentsTv.text = args.credit.cr_sum_plus_percents.toString().format("%.3f")
         monthlySumTv.text = args.credit.cr_month_pay.toString().format("%.3f")
+        firstPayTv.text = args.credit.cr_first_pay.format("%.3f")
     }
 }

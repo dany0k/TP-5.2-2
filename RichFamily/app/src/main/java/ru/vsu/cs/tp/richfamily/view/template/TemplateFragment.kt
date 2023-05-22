@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.*
@@ -84,6 +85,17 @@ class TemplateFragment :
                     .navigate(R.id.action_templateFragment_to_registrationFragment)
             }
         }
+
+        binding.tempRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.fab.hide()
+                } else if (dy < 0) {
+                    binding.fab.show()
+                }
+            }
+        })
     }
 
     private fun initRcView() = with(binding) {
@@ -92,12 +104,13 @@ class TemplateFragment :
             this@TemplateFragment,
             this@TemplateFragment
         )
-        walletsRv.layoutManager = LinearLayoutManager(context)
-        walletsRv.adapter = adapter
+        tempRv.layoutManager = LinearLayoutManager(context)
+        tempRv.adapter = adapter
     }
 
     override fun onDeleteIconClick(id: Int) {
         temViewModel.deleteTemplate(id = id)
+        binding.fab.show()
     }
 
     override fun onEditIconClick(id: Int) {

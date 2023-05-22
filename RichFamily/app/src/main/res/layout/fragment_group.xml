@@ -84,7 +84,7 @@
 
     <Button
         android:id="@+id/leaveGroupButton"
-        style=""
+        android:background="@drawable/rounded_corner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/leave_group_button_label"
@@ -95,7 +95,7 @@
 
     <Button
         android:id="@+id/deleteGroupButton"
-        style=""
+        android:background="@drawable/rounded_corner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete_group_button_label"

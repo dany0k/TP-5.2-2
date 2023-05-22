@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickDeleteInterface
@@ -100,6 +101,17 @@ class CategoryFragment:
                 builder.show()
             }
         }
+
+        binding.categoryRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.addCategoryFab.hide()
+                } else if (dy < 0) {
+                    binding.addCategoryFab.show()
+                }
+            }
+        })
     }
 
     private fun initRcView() = with(binding) {
@@ -113,6 +125,7 @@ class CategoryFragment:
 
     override fun onDeleteIconClick(id: Int) {
         createDialog(id = id)
+        binding.addCategoryFab.show()
     }
 
     override fun onEditIconClick(id: Int) {
