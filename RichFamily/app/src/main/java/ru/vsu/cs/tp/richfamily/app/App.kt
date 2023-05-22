@@ -5,6 +5,7 @@ import android.util.Log
 import com.jakewharton.threetenabp.AndroidThreeTen
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import ru.vsu.cs.tp.richfamily.api.service.ClientApi
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -16,8 +17,6 @@ class App : Application() {
     }
 
     companion object {
-        private const val BASE_URL = "http://10.0.2.2:8000"
-
         fun checkServerConnection(): Boolean {
             val okHttpClient = OkHttpClient.Builder()
                 .connectTimeout(3, TimeUnit.SECONDS)
@@ -29,7 +28,7 @@ class App : Application() {
             try {
                 okHttpClient.newCall(
                     Request.Builder()
-                        .url(BASE_URL)
+                        .url(ClientApi.URL)
                         .build()
                 ).execute()
                 return true

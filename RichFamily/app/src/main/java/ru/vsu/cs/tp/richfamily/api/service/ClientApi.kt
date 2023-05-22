@@ -6,22 +6,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ClientApi {
-    var mHttpLoggingInterceptor = HttpLoggingInterceptor()
+    private var mHttpLoggingInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
 
-    var mOkHttpClient = OkHttpClient
+    private var mOkHttpClient = OkHttpClient
         .Builder()
         .addInterceptor(mHttpLoggingInterceptor)
         .build()
 
-    var mRetrofit: Retrofit? = null
+    private var mRetrofit: Retrofit? = null
 
+    const val URL = "http://109.172.44.143/"
 
     val client: Retrofit?
         get() {
             if(mRetrofit == null){
                 mRetrofit = Retrofit.Builder()
-                    .baseUrl("http://10.0.2.2:8000")
+                    .baseUrl(URL)
                     .client(mOkHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
