@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,13 +69,13 @@ class CategoryFragment:
             catViewModel.errorMessage.observe(viewLifecycleOwner) {
                 Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
             }
-            catViewModel.loading.observe(viewLifecycleOwner, Observer {
+            catViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
                 } else {
                     binding.progressBar.visibility = View.GONE
                 }
-            })
+            }
             catViewModel.getAllCategories()
         }
         binding.addCategoryFab.setOnClickListener {
@@ -93,7 +92,7 @@ class CategoryFragment:
                 builder.setView(dialogBinding.root)
                 builder.setPositiveButton(R.string.add) { _, _ ->
                     val catName = dialogBinding.categoryNameEt.text.toString()
-                    catViewModel.addCategory(catName);
+                    catViewModel.addCategory(catName)
                 }
                 builder.setNegativeButton(R.string.cancel) { _, _ ->
                     onDestroyView()

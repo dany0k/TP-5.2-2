@@ -20,7 +20,6 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel

@@ -19,7 +19,6 @@ import ru.vsu.cs.tp.richfamily.api.service.GroupApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentGroupListBinding
 import ru.vsu.cs.tp.richfamily.databinding.GroupAddDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.GroupRepository
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -57,7 +56,7 @@ class GroupListFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRcView(false)
+        initRcView()
         if (token.isNotBlank()) {
             grViewModel.groupList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
@@ -113,7 +112,7 @@ class GroupListFragment :
         builder.show()
     }
 
-    private fun initRcView(isLeader: Boolean) = with(binding) {
+    private fun initRcView() = with(binding) {
         adapter = GroupListRVAdapter(
             this@GroupListFragment
         )

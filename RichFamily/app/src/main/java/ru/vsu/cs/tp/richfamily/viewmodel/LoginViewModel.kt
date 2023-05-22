@@ -25,15 +25,15 @@ class LoginViewModel(application: Application) :
     AndroidViewModel(application) {
     val token = MutableLiveData<String>()
 
-    val userRepo = UserRepository()
+    private val userRepo = UserRepository()
     val loginResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
     val regResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
     val resetResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
-    val logoutResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
+    private val logoutResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
     val currentUser: MutableLiveData<UserProfile> = MutableLiveData()
     val errorMessage = MutableLiveData<String>()
-    var job: Job? = null
-    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private var job: Job? = null
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
     val loading = MutableLiveData<Boolean>()

@@ -11,11 +11,8 @@ import kotlinx.coroutines.withContext
 import ru.vsu.cs.tp.richfamily.api.model.Category
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.model.operation.OperationRequestBody
-import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class OperationViewModel(
     private val operationRepository: OperationRepository,
@@ -26,8 +23,8 @@ class OperationViewModel(
     val consList = MutableLiveData<List<Operation>>()
     val opList = MutableLiveData<List<Operation>>()
     val currentOperation = MutableLiveData<Operation>()
-    var job: Job? = null
-    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private var job: Job? = null
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
     val loading = MutableLiveData<Boolean>()
@@ -148,18 +145,6 @@ class OperationViewModel(
             it.id == id
         }
         return selectedClass!!.cat_name
-    }
-
-    private fun dateTimeToLocalDateTime(time: String, date: String): String {
-        val inputDateFormat = SimpleDateFormat(
-            "HH:mm d/M/yyyy", Locale.getDefault()
-        )
-        val outputDateFormat = SimpleDateFormat(
-            "yyyy-MM-dd'T'HH:mm:ss.SS'Z'", Locale.getDefault()
-        )
-
-        val inputDate = inputDateFormat.parse("$time $date")
-        return outputDateFormat.format(inputDate)
     }
 
     private fun onError(message: String) {

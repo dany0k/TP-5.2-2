@@ -18,9 +18,9 @@ class CreditViewModel(
 ) : ViewModel() {
     val errorMessage = MutableLiveData<String>()
     val creditList = MutableLiveData<List<Credit>>()
-    var job: Job? = null
+    private var job: Job? = null
     var curCredit = MutableLiveData<Credit>()
-    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
     val loading = MutableLiveData<Boolean>()
