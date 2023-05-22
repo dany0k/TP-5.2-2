@@ -139,6 +139,10 @@ class CreditPayViewSet(viewsets.ModelViewSet):
         all_sum = payment * body_data['cr_period']
         percents_sum = all_sum - (body_data['cr_all_sum'] - body_data['cr_first_pay'])
         return Response({'cr_name': body_data['cr_name'], 
+                         'cr_all_sum': body_data['cr_all_sum'],
+                         'cr_first_pay': body_data['cr_first_pay'],
+                         'cr_percent': body_data['cr_percent'],
+                         'cr_period': body_data['cr_period'],
                          'cr_month_pay': payment, 
                          'cr_percents_sum': percents_sum, 
                          'cr_sum_plus_percents': all_sum})
