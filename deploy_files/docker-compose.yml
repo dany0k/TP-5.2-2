@@ -1,7 +1,6 @@
 version: '3'
 
 services:
-
   server:
     image: nginx:alpine
     restart: always
@@ -12,26 +11,29 @@ services:
       - '443:443'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./public:/code/public
+      - public:/code/public
 
   web:
     image: xwisert/richfamily:latest
-    command: sh -c "/code/run.sh"
+    command: bash -c "/code/run.sh"
     restart: always
     env_file:
       - .env
     depends_on:
       - app_database
     volumes:
-      - ./public:/code/public
+      - public:/code/public
 
   app_database:
     image: postgres:14
     env_file:
       - .env
     volumes:
-      - ./postgresql/dumps:/code/dumps
-      - ./postgresql/data:/var/lib/pgsql/data
+      - app_data:/var/lib/pgsql/data
     restart: always
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - '5432:5432'
+
+volumes: 
+  app_data:
+  public:
