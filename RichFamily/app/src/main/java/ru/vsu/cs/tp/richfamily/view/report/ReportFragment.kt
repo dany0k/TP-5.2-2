@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickEditInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
@@ -18,7 +19,6 @@ import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.service.OperationApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentReportBinding
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -40,11 +40,7 @@ class ReportFragment :
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             val operationApi = OperationApi.getOperationApi()!!
             val opRepository = OperationRepository(operationApi = operationApi, token = token)
@@ -55,6 +51,8 @@ class ReportFragment :
                     token = token
                 )
             )[OperationViewModel::class.java]
+        } else {
+            binding.saveReportButton.visibility = View.GONE
         }
         return binding.root
     }
@@ -62,20 +60,22 @@ class ReportFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRcView()
-        opViewModel.opList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
-        opViewModel.errorMessage.observe(viewLifecycleOwner) {
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
-        }
-        opViewModel.loading.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
+        if (token.isNotBlank()) {
+            opViewModel.opList.observe(viewLifecycleOwner) {
+                adapter.submitList(it)
             }
+            opViewModel.errorMessage.observe(viewLifecycleOwner) {
+                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            }
+            opViewModel.loading.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+            opViewModel.getAllOperations()
         }
-        opViewModel.getAllOperations()
         binding.saveReportButton.setOnClickListener {
             opViewModel.consList.observe(viewLifecycleOwner) { cons ->
                 opViewModel.inList.observe(viewLifecycleOwner) { incs ->

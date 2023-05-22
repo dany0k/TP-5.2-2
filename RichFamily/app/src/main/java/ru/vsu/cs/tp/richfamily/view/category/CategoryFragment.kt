@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickEditInterface
@@ -18,8 +19,9 @@ import ru.vsu.cs.tp.richfamily.adapter.CategoryRVAdapter
 import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
 import ru.vsu.cs.tp.richfamily.databinding.CategoryDialogBinding
 import ru.vsu.cs.tp.richfamily.databinding.FragmentCategoryBinding
+import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
-import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -41,11 +43,7 @@ class CategoryFragment:
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             val categoryApi = CategoryApi.getCategoryApi()!!
 
@@ -114,7 +112,7 @@ class CategoryFragment:
     }
 
     override fun onDeleteIconClick(id: Int) {
-        catViewModel.deleteCategory(id = id)
+        createDialog(id = id)
     }
 
     override fun onEditIconClick(id: Int) {
@@ -128,6 +126,25 @@ class CategoryFragment:
         builder.setPositiveButton(R.string.edit_button_label) { _, _ ->
             val catName = dialogBinding.categoryNameEt.text.toString()
             catViewModel.editCategory(catName = catName, id = id)
+        }
+        builder.setNegativeButton(R.string.cancel) { _, _ ->
+            onDestroyView()
+        }
+        builder.show()
+    }
+
+    private fun createDialog(id: Int) {
+        val builder = AlertDialog.Builder(context)
+        val dialogBinding = SubmitDialogBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+        builder.setView(dialogBinding.root)
+        val submitText: String = Constants.SUBMIT_CAT_DELETE_TEXT
+        dialogBinding.textToSubmit.text = submitText
+        builder.setPositiveButton(R.string.accept) { _, _ ->
+            catViewModel.deleteCategory(id = id)
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()

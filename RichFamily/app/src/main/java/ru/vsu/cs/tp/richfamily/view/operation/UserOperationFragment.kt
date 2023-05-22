@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickEditInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
@@ -34,11 +35,7 @@ class UserOperationFragment :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         binding = FragmentUserOperationBinding.inflate(
             inflater,
             container,

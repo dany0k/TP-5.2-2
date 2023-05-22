@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.*
 import ru.vsu.cs.tp.richfamily.databinding.ActivityMainBinding
+import ru.vsu.cs.tp.richfamily.utils.SessionManager
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instance = this
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Navigation
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.walletFragment,
@@ -53,5 +56,17 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    companion object {
+        private lateinit var instance: MainActivity
+        fun getToken(): String {
+            val token = try {
+                SessionManager.getToken(instance)!!
+            } catch (e: java.lang.NullPointerException) {
+                ""
+            }
+            return token
+        }
     }
 }

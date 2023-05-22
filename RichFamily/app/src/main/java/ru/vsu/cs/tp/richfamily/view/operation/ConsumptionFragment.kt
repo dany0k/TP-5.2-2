@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickEditInterface
@@ -35,11 +37,7 @@ class ConsumptionFragment :
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentConsumptionBinding.inflate(inflater, container, false)
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
+        token = MainActivity.getToken()
         if (token.isNotEmpty()) {
             val operationApi = OperationApi.getOperationApi()!!
             val opRepository = OperationRepository(operationApi = operationApi, token = token)
@@ -83,6 +81,17 @@ class ConsumptionFragment :
                     .navigate(R.id.action_consumptionFragment_to_addOperationFragment)
             }
         }
+
+        binding.walletsRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    binding.fab.hide()
+                } else if (dy < 0) {
+                    binding.fab.show()
+                }
+            }
+        })
     }
 
     private fun initRcView() = with(binding) {

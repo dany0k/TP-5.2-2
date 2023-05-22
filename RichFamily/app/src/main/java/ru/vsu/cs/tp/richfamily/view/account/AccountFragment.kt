@@ -1,11 +1,14 @@
 package ru.vsu.cs.tp.richfamily.view.account
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import ru.vsu.cs.tp.richfamily.R
+import ru.vsu.cs.tp.richfamily.MainActivity
+import ru.vsu.cs.tp.richfamily.SplashActivity
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAccountBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
@@ -22,16 +25,12 @@ class AccountFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        token = MainActivity.getToken()
         binding = FragmentAccountBinding.inflate(
             inflater,
             container,
             false
         )
-        token = try {
-            SessionManager.getToken(requireActivity())!!
-        } catch (e: java.lang.NullPointerException) {
-            ""
-        }
         return binding.root
     }
 
@@ -68,7 +67,9 @@ class AccountFragment : Fragment() {
     private fun doLogout() {
         viewModel.logoutUser(token = token)
         SessionManager.clearData(requireActivity())
-        findNavController()
-            .navigate(R.id.action_accountFragment_to_registrationFragment)
+        Toast.makeText(requireContext(), Constants.SUCCESS, Toast.LENGTH_SHORT).show()
+        val intent = Intent(activity, SplashActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 }

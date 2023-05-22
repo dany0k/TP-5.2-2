@@ -27,7 +27,7 @@ class CategoryViewModel(
                     catList.postValue(response.body())
                     loading.value = false
                 } else {
-                    onError("Error : ${response.message()} ")
+                    onError("Ошибка : ${response.message()} ")
                 }
             }
         }
@@ -51,8 +51,9 @@ class CategoryViewModel(
                 CategoryRequestBody(cat_name = catName, user = 1))
             withContext(Dispatchers.Main) {
                 if (!response.isSuccessful) {
-                    onError("Error : ${response.message()} ")
+                    onError("Ошибка : ${response.message()} ")
                 } else {
+
                     getAllCategories()
                 }
             }
@@ -64,7 +65,7 @@ class CategoryViewModel(
             val response = categoryRepository.deleteCategory(token = token, id = id)
             withContext(Dispatchers.Main) {
                 if (!response.isSuccessful) {
-                    onError("Error : ${response.message()} ")
+                    onError("Ошибка : ${response.message()} ")
                 } else {
                     getAllCategories()
                 }
@@ -79,11 +80,25 @@ class CategoryViewModel(
                 id = id)
             withContext(Dispatchers.Main) {
                 if (!response.isSuccessful) {
-                    onError("Error : ${response.message()} ")
+                    onError("Ошибка : ${response.message()} ")
                 } else {
                     getAllCategories()
                 }
             }
         }
+    }
+
+    fun findCategoryById(id: Int, catList: List<Category>): String {
+        val selectedClass = catList.find {
+            it.id == id
+        }
+        return selectedClass!!.cat_name
+    }
+
+    fun getCategoryFromACTV(selectedItem: String, catList: List<Category>): Int {
+        val selectedClass = catList.find {
+            it.cat_name == selectedItem
+        }
+        return selectedClass!!.id
     }
 }

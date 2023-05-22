@@ -1,6 +1,8 @@
 package ru.vsu.cs.tp.richfamily.utils
 
 object Constants {
+    const val SUBMIT_CAT_DELETE_TEXT: String = "При удалении категории, также удалятся все расходы и доходы, " +
+            "в которых используется данная категория.\nВы уверены?"
     const val PERMISSION_GRANTED = "Доступ получен"
     const val CONS_TEXT = "РАСХОД"
     const val INCOME_TEXT = "ДОХОД"
@@ -20,4 +22,7 @@ object Constants {
     const val SUCCESS_TOAST = "Успешно!"
     const val PARTICIPANT = "Участник"
     const val LEADER = "Лидер"
+    const val SUBMIT_GROUP_USER_DELETE_TEXT = "При удалении пользователя, все расходы и доходы," +
+            " созданные им во время участия в группе будут сохранены. " +
+            "Вы больше не сможете увидеть операции пользователя.\nПродолжить?"
 }
