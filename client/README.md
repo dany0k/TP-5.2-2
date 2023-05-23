@@ -5,7 +5,7 @@
 Индивидуальная тема: Ведение личного и группового бюджета.
 
 Особенности приложения:
-1. Экспорт данных в excel (Формат CSV\xlsx): пользователю будет добавлена возможность экспортировать файл с расходами\доходами в формат xlsx. 
+1. Экспорт данных в excel (Формат CSV): пользователю будет добавлена возможность экспортировать файл с расходами\доходами в формат CSV. 
 2. Калькулятор ипотеки\кредита: пользователю будет добавлена возможность расчитать стоимость ипотеки\кредита, чтобы "прикинуть" дальнейший ежемесячный платеж, начисленные проценты и сумму необходимую к погашению (долг + проценты).
 3. Шаблоны транзакций.
 Пользователю будет добавлена возможность создать специальный шаблон транзакции, для частых платежей.
@@ -15,8 +15,14 @@
 2. [Мамонов Дмитрий](https://github.com/Dmitriy-M1319)
 3. [Смирнов Павел](https://github.com/SmPavel)  
 ## Ссылки
-1. [Trello](https://trello.com/b/zsptCKGK/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B4%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B3%D0%BE-%D0%B1%D1%8E%D0%B4%D0%B6%D0%B5%D1%82%D0%B0-%D1%80%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%86%D0%B8%D0%B8-%D0%BF%D0%BE-%D1%81%D0%BE%D0%BA%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D1%8E-%D1%80%D0%B0%D1%81%D1%85%D0%BE%D0%B4%D0%BE%D0%B2)
-2. [Miro](https://miro.com/app/board/uXjVPjEOpGs=/?share_link_id=84634999552)
-3. [Техническое Задание](https://github.com/dany0k/TP-5.2-2/blob/main/docs/%D0%A2%D0%97%20%D0%9F%D0%9E%20%D0%A2%D0%9F.pdf)
-4. [Курсовая работа](https://github.com/dany0k/TP-5.2-2/blob/main/docs/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0.pdf)
-5. [Диаграммы](https://github.com/dany0k/TP-5.2-2/tree/main/diagrams)
+1. [Клиент](https://github.com/dany0k/TP-5.2-2/tree/client)
+2. [Сервер](https://github.com/dany0k/TP-5.2-2/tree/server)
+3. [Trello](https://trello.com/b/zsptCKGK/%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B0-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B4%D0%BE%D0%BC%D0%B0%D1%88%D0%BD%D0%B5%D0%B3%D0%BE-%D0%B1%D1%8E%D0%B4%D0%B6%D0%B5%D1%82%D0%B0-%D1%80%D0%B5%D0%BA%D0%BE%D0%BC%D0%B5%D0%BD%D0%B4%D0%B0%D1%86%D0%B8%D0%B8-%D0%BF%D0%BE-%D1%81%D0%BE%D0%BA%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D1%8E-%D1%80%D0%B0%D1%81%D1%85%D0%BE%D0%B4%D0%BE%D0%B2)
+4. [Miro](https://miro.com/app/board/uXjVPjEOpGs=/?share_link_id=84634999552)
+5. [Техническое Задание](https://github.com/dany0k/TP-5.2-2/blob/main/docs/%D0%A2%D0%97%20%D0%9F%D0%9E%20%D0%A2%D0%9F.pdf)
+6. [Курсовая работа](https://github.com/dany0k/TP-5.2-2/blob/main/docs/%D0%9A%D1%83%D1%80%D1%81%D0%BE%D0%B2%D0%B0%D1%8F%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0.pdf)
+7. [Диаграммы](https://github.com/dany0k/TP-5.2-2/tree/main/diagrams)
+## Аттестация 2
+1. [Скриншоты prodution-макетов приложения](https://github.com/dany0k/TP-5.2-2/tree/main/prod_design)
+2. [Ссылка на видео с демонстрацией](https://youtu.be/T4PBL5pf0Os)
+##### Также скриншоты можно увидеть на miro
