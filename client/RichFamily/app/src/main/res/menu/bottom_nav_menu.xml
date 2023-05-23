@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/walletFragment"
+        android:icon="@drawable/ic_wallet"
+        android:title="@string/wallet_title" />
+    <item
+        android:id="@+id/templateFragment"
+        android:icon="@drawable/ic_template"
+        android:title="@string/templates_title" />
+    <item
+        android:id="@+id/consumptionFragment"
+        android:icon="@drawable/ic_consumption"
+        android:title="@string/consumption_label" />
+    <item
+        android:id="@+id/incomeFragment"
+        android:icon="@drawable/ic_income"
+        android:title="@string/income_label" />
+</menu>
