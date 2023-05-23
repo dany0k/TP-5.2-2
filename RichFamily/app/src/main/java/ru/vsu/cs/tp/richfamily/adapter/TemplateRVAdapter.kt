@@ -24,8 +24,9 @@ class TemplateRVAdapter(
         val editTemplateIV: ImageView = binding.editTemplateIV
         fun bind(template: Template) {
             templateName.text = template.temp_name
-            templateType.text = template.temp_variant.toString()
-            templateSum.text = template.temp_sum.toString()
+            templateType.text = template.temp_variant
+            val formattedStr = "%.3f"
+            templateSum.text = formattedStr.format(template.temp_sum)
         }
     }
 

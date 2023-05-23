@@ -1,4 +1,4 @@
-package ru.vsu.cs.tp.richfamily.api.model
+package ru.vsu.cs.tp.richfamily.api.model.operation
 
 import java.time.LocalDate
 import java.time.LocalTime

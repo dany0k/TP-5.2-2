@@ -23,19 +23,18 @@ class OperationRVAdapter(
         private val opRec: TextView = binding.operationRec
         private val opSum: TextView = binding. operationSum
         private val opDate: TextView = binding.operationDate
-        private val opTime: TextView = binding.operationTime
         val deleteOpIV: ImageView = binding.deleteOpIV
         val editOpIV: ImageView = binding.editOpIV
         fun bind(operation: Operation) {
+            val formattedStr = "%.0f"
             val sum: String = if (operation.op_variant == "ДОХОД") {
-                operation.op_sum.toString()
+                formattedStr.format(operation.op_sum)
             } else {
-                "-${operation.op_sum}"
+                "-${formattedStr.format(operation.op_sum)}"
             }
             opRec.text = operation.op_recipient
             opSum.text = sum
-            opDate.text = getDate(operation.op_date)
-            opTime.text = getTime(operation.op_date)
+            opDate.text = "${getDate(operation.op_date)} ${getTime(operation.op_date)}"
         }
 
         private fun getTime(dateTimeString: String): String {

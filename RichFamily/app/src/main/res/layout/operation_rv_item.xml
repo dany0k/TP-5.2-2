@@ -83,14 +83,6 @@
                             android:layout_height="wrap_content"
                             style="@style/CardText"
                             tools:text="29/06/2021"/>
-
-                        <TextView
-                            android:id="@+id/operation_time"
-                            android:layout_marginStart="@dimen/half_margin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/CardText"
-                            tools:text="09:30 PM"/>
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

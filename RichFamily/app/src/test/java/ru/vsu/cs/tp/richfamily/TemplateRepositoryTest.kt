@@ -9,7 +9,6 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
-import ru.vsu.cs.tp.richfamily.api.model.Category
 import ru.vsu.cs.tp.richfamily.api.model.template.Template
 import ru.vsu.cs.tp.richfamily.api.model.template.TemplateRequestBody
 import ru.vsu.cs.tp.richfamily.api.service.TemplateApi

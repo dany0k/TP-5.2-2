@@ -18,7 +18,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import retrofit2.Response
-import ru.vsu.cs.tp.richfamily.api.model.Category
+import ru.vsu.cs.tp.richfamily.api.model.category.Category
 import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel

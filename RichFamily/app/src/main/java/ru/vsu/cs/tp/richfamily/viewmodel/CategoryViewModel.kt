@@ -3,8 +3,8 @@ package ru.vsu.cs.tp.richfamily.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.*
-import ru.vsu.cs.tp.richfamily.api.model.Category
-import ru.vsu.cs.tp.richfamily.api.model.CategoryRequestBody
+import ru.vsu.cs.tp.richfamily.api.model.category.Category
+import ru.vsu.cs.tp.richfamily.api.model.category.CategoryRequestBody
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 
 class CategoryViewModel(
@@ -48,7 +48,8 @@ class CategoryViewModel(
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = categoryRepository.addCategory(
                 token,
-                CategoryRequestBody(cat_name = catName, user = 1))
+                CategoryRequestBody(cat_name = catName, user = 1)
+            )
             withContext(Dispatchers.Main) {
                 if (!response.isSuccessful) {
                     onError("Ошибка : ${response.message()} ")

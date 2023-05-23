@@ -21,8 +21,9 @@ class WalletRVAdapter(
         val deleteWalIV: ImageView = binding.deleteWalletIV
         val editWalIV: ImageView = binding.editWalletIV
         fun bind(wallet: Wallet) {
+            val formattedStr = "%.3f"
             walletName.text = wallet.acc_name
-            walletTotal.text = wallet.acc_sum.toString()
+            walletTotal.text = formattedStr.format(wallet.acc_sum)
         }
     }
 

@@ -15,7 +15,7 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
-import ru.vsu.cs.tp.richfamily.api.model.Category
+import ru.vsu.cs.tp.richfamily.api.model.category.Category
 import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
 import ru.vsu.cs.tp.richfamily.api.service.CategoryApi

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.CategoryRvItemBinding
-import ru.vsu.cs.tp.richfamily.api.model.Category
+import ru.vsu.cs.tp.richfamily.api.model.category.Category
 
 class CategoryRVAdapter(
     private val categoryClickDeleteInterface: CategoryClickDeleteInterface,

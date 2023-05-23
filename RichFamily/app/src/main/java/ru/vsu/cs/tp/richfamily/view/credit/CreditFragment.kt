@@ -37,12 +37,13 @@ class CreditFragment : Fragment() {
     }
 
     private fun setCredit() = with(binding) {
-        creditTotalTv.text = args.credit.cr_all_sum.toString().format("%.3f")
-        percentageTv.text = args.credit.cr_percent.toString().format("%.3f")
-        periodTv.text = args.credit.cr_period.toString().format("%.3f")
-        crPercentsSumTv.text = args.credit.cr_percents_sum.toString().format("%.3f")
-        crSumPlusPercentsTv.text = args.credit.cr_sum_plus_percents.toString().format("%.3f")
-        monthlySumTv.text = args.credit.cr_month_pay.toString().format("%.3f")
-        firstPayTv.text = args.credit.cr_first_pay.format("%.3f")
+        val formattedStr = "%.3f"
+        creditTotalTv.text = formattedStr.format(args.credit.cr_all_sum)
+        percentageTv.text = args.credit.cr_percent.toString()
+        periodTv.text = args.credit.cr_period.toString()
+        crPercentsSumTv.text = formattedStr.format(args.credit.cr_percents_sum)
+        crSumPlusPercentsTv.text = formattedStr.format(args.credit.cr_sum_plus_percents)
+        monthlySumTv.text = formattedStr.format(args.credit.cr_month_pay)
+        firstPayTv.text = formattedStr.format(args.credit.cr_first_pay)
     }
 }

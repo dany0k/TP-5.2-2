@@ -8,7 +8,7 @@ data class Credit(
     var id: Int,
     val user: Int,
     val cr_name: String,
-    val cr_first_pay: String,
+    val cr_first_pay: Float,
     val cr_all_sum: Float,
     val cr_percent: Int,
     val cr_period: Int,
