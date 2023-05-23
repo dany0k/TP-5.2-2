@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/walletFragment">
+
+    <fragment
+        android:id="@+id/walletFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.wallet.WalletFragment"
+        android:label="Счета"
+        tools:layout="@layout/fragment_wallet" >
+        <action
+            android:id="@+id/action_walletFragment_to_addWalletFragment"
+            app:destination="@id/addWalletFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_updateWalletFragment"
+            app:destination="@id/updateWalletFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/templateFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.template.TemplateFragment"
+        android:label="Шаблоны" >
+        <action
+            android:id="@+id/action_templateFragment_to_addTemplateFragment"
+            app:destination="@id/addTemplateFragment" />
+        <action
+            android:id="@+id/action_templateFragment_to_updateTemplateFragment"
+            app:destination="@id/updateTemplateFragment" />
+        <action
+            android:id="@+id/action_templateFragment_to_addOperationFragment"
+            app:destination="@id/addOperationFragment" />
+        <action
+            android:id="@+id/action_templateFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.account.AccountFragment"
+        android:label="Аккаунт"
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_updateAccountFragment"
+            app:destination="@id/updateAccountFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_registrationFragment"
+            app:popUpTo="@id/walletFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/consumptionFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.ConsumptionFragment"
+        android:label="Расходы"
+        tools:layout="@layout/fragment_consumption" >
+        <action
+            android:id="@+id/action_consumptionFragment_to_addOperationFragment"
+            app:destination="@id/addOperationFragment" />
+        <action
+            android:id="@+id/action_consumptionFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_consumptionFragment_to_updateOperationFragment"
+            app:destination="@id/updateOperationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/incomeFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.IncomeFragment"
+        android:label="Доходы"
+        tools:layout="@layout/fragment_income" >
+        <action
+            android:id="@+id/action_incomeFragment_to_addOperationFragment"
+            app:destination="@id/addOperationFragment" />
+        <action
+            android:id="@+id/action_incomeFragment_to_updateOperationFragment"
+            app:destination="@id/updateOperationFragment" />
+        <action
+            android:id="@+id/action_incomeFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupListFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.group.GroupListFragment"
+        android:label="Группа"
+        tools:layout="@layout/fragment_group_list" >
+        <action
+            android:id="@+id/action_groupListFragment_to_groupFragment"
+            app:destination="@id/groupFragment" />
+        <action
+            android:id="@+id/action_groupListFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.about.AboutFragment"
+        android:label="О приложении"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/creditListFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.credit.CreditListFragment"
+        android:label="Ваши кредиты" >
+        <action
+            android:id="@+id/action_creditListFragment_to_creditFragment"
+            app:destination="@id/creditFragment" />
+        <action
+            android:id="@+id/action_creditListFragment_to_addCreditFragment"
+            app:destination="@id/addCreditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCreditFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.credit.AddCreditFragment"
+        android:label="Добавление кредита"
+        tools:layout="@layout/fragment_add_credit" >
+        <action
+            android:id="@+id/action_addCreditFragment_to_creditFragment"
+            app:destination="@id/creditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/creditFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.credit.CreditFragment"
+        android:label="Кредит"
+        tools:layout="@layout/fragment_credit" >
+        <action
+            android:id="@+id/action_creditFragment_to_creditListFragment"
+            app:destination="@id/creditListFragment" />
+        <argument
+            android:name="credit"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.credit.Credit" />
+        <argument
+            android:name="isAuth"
+            app:argType="boolean" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.report.ReportFragment"
+        android:label="Отчет"
+        tools:layout="@layout/fragment_report" />
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.category.CategoryFragment"
+        android:label="Категории"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addWalletFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.wallet.AddWalletFragment"
+        android:label="Счет" >
+        <action
+            android:id="@+id/action_addWalletFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+        <argument
+            android:name="wallet"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTemplateFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.template.AddTemplateFragment"
+        android:label="Шаблон"
+        tools:layout="@layout/fragment_add_template" >
+        <action
+            android:id="@+id/action_addTemplateFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateWalletFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.wallet.UpdateWalletFragment"
+        android:label="Редактирование счета" >
+        <action
+            android:id="@+id/action_updateWalletFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+        <argument
+            android:name="wallet"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.auth.RegistrationFragment"
+        android:label="Регистрация" >
+        <action
+            android:id="@+id/action_registrationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_registrationFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.auth.LoginFragment"
+        android:label="Вход"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_walletFragment"
+            app:destination="@id/walletFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_recoveryFragment"
+            app:destination="@id/recoveryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOperationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.AddOperationFragment"
+        android:label="Добавление операции"
+        tools:layout="@layout/fragment_add_operation" >
+        <action
+            android:id="@+id/action_addOperationFragment_to_incomeFragment"
+            app:popUpTo="@id/walletFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/incomeFragment" />
+        <action
+            android:id="@+id/action_addOperationFragment_to_consumptionFragment"
+            app:popUpTo="@id/walletFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/consumptionFragment" />
+        <argument
+            android:name="template"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.template.Template" />
+    </fragment>
+    <fragment
+        android:id="@+id/recoveryFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.auth.RecoveryFragment"
+        android:label="Восстановление пароля"
+        tools:layout="@layout/fragment_recovery" >
+        <action
+            android:id="@+id/action_recoveryFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.group.GroupFragment"
+        android:label="Группы"
+        tools:layout="@layout/fragment_group" >
+        <action
+            android:id="@+id/action_groupFragment_to_userOperationFragment"
+            app:destination="@id/userOperationFragment" />
+        <argument
+            android:name="group_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/userOperationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.UserOperationFragment"
+        android:label="Участники" >
+        <argument
+            android:name="user_id"
+            app:argType="integer" />
+        <argument
+            android:name="group_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateAccountFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.account.UpdateAccountFragment"
+        android:label="Редактирвоание"
+        tools:layout="@layout/fragment_update_account" >
+        <argument
+            android:name="user"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.auth.UserProfile" />
+        <action
+            android:id="@+id/action_updateAccountFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateTemplateFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.template.UpdateTemplateFragment"
+        android:label="Редактирование шаблона"
+        tools:layout="@layout/fragment_update_template" >
+        <argument
+            android:name="template"
+            app:argType="ru.vsu.cs.tp.richfamily.api.model.template.Template" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateOperationFragment"
+        android:name="ru.vsu.cs.tp.richfamily.view.operation.UpdateOperationFragment"
+        android:label="Редактирование операции"
+        tools:layout="@layout/fragment_update_operation" >
+        <action
+            android:id="@+id/action_updateOperationFragment_to_consumptionFragment"
+            app:destination="@id/consumptionFragment" />
+        <action
+            android:id="@+id/action_updateOperationFragment_to_incomeFragment"
+            app:destination="@id/incomeFragment" />
+    </fragment>
+
+</navigation>

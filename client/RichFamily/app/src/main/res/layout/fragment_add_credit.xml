@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/addCreditFragment"
+    android:orientation="vertical"
+    tools:context=".view.credit.AddCreditFragment">
+
+    <EditText
+        android:id="@+id/cr_name_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:padding="@dimen/half_margin"
+        android:drawableStart="@drawable/ic_credit_hint"
+        android:background="@drawable/custom_input"
+        android:hint="@string/credit_name_hint_text"
+        android:inputType="text"
+        android:maxLength="13"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/cr_perc_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="@dimen/half_margin"
+        android:drawableStart="@drawable/ic_percent"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:hint="@string/percentage_hint_text"
+        android:inputType="number"
+        android:maxLength="2"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/cr_first_pay_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:padding="@dimen/half_margin"
+        android:drawableStart="@drawable/ic_initial_fee"
+        android:background="@drawable/custom_input"
+        android:hint="@string/first_pay_hint_text"
+        android:inputType="number"
+        android:maxLength="10"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/cr_sum_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:padding="@dimen/half_margin"
+        android:drawableStart="@drawable/ic_rub"
+        android:background="@drawable/custom_input"
+        android:hint="@string/credit_total_hint_text"
+        android:inputType="number"
+        android:maxLength="10"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/cr_perion_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:hint="@string/credit_term_hint_text"
+        android:padding="@dimen/half_margin"
+        android:drawableStart="@drawable/ic_calendar"
+        android:background="@drawable/custom_input"
+        android:inputType="number"
+        android:maxLength="3"
+        android:importantForAutofill="no" />
+
+
+    <Button
+        android:id="@+id/calculateCreditButton"
+        android:background="@drawable/rounded_corner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_gravity="center"
+        android:text="@string/calculate_button_label"/>
+
+</LinearLayout>

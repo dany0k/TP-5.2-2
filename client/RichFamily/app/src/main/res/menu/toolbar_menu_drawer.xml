@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/placeholder"
+            android:title=""/>
+        <item
+            android:id="@+id/categoryFragment"
+            android:icon="@drawable/ic_category"
+            android:title="@string/categories_title" />
+        <item
+            android:id="@+id/reportFragment"
+            android:icon="@drawable/ic_report"
+            android:title="@string/report_title" />
+        <item
+            android:id="@+id/creditListFragment"
+            android:icon="@drawable/ic_credit"
+            android:title="@string/credits_title" />
+        <item
+            android:id="@+id/groupListFragment"
+            android:icon="@drawable/ic_group"
+            android:title="@string/group_title" />
+        <item
+            android:id="@+id/accountFragment"
+            android:icon="@drawable/ic_account"
+            android:title="@string/account_title" />
+        <item
+            android:id="@+id/aboutFragment"
+            android:icon="@drawable/ic_question"
+            android:title="@string/about_title" />
+    </group>
+</menu>
