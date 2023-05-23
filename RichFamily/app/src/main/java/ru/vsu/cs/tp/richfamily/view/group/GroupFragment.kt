@@ -67,9 +67,12 @@ class GroupFragment :
             initRcView(isLeader)
             if (!isLeader) {
                 binding.fab.visibility = View.GONE
+                binding.deleteGroupButton.visibility = View.GONE
                 binding.leaveGroupButton.visibility = View.VISIBLE
             } else {
+                binding.fab.visibility = View.VISIBLE
                 binding.deleteGroupButton.visibility = View.VISIBLE
+                binding.leaveGroupButton.visibility = View.GONE
             }
             grViewModel.usersList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)

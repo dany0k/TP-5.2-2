@@ -10,8 +10,8 @@ import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.Path
 import retrofit2.http.Body
-import ru.vsu.cs.tp.richfamily.api.model.Category
-import ru.vsu.cs.tp.richfamily.api.model.CategoryRequestBody
+import ru.vsu.cs.tp.richfamily.api.model.category.Category
+import ru.vsu.cs.tp.richfamily.api.model.category.CategoryRequestBody
 
 interface CategoryApi {
     @Headers("Content-type: application/json")

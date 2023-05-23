@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.MainActivity
-import ru.vsu.cs.tp.richfamily.api.model.Category
+import ru.vsu.cs.tp.richfamily.api.model.category.Category
 import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
 import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
 import ru.vsu.cs.tp.richfamily.api.service.TemplateApi
