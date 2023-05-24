@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -71,6 +72,7 @@ class OperationViewSet(viewsets.ModelViewSet):
         response = generate_report(self.request.user)
         return Response(response)
 
+    @extend_schema(responses=SuccessSerializer)
     @action(detail=False, methods=['post'])
     def save_report(self, request):
         """
@@ -80,6 +82,7 @@ class OperationViewSet(viewsets.ModelViewSet):
         save_report(report)
         return Response({'success': True})
 
+    @extend_schema(responses=MessageSerializer)
     @action(detail=False, methods=['get'])
     def send_report(self, request):
         """
@@ -107,6 +110,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
 
+    @extend_schema(responses=OperationSerializer)
     @action(detail=True, methods=['get'])
     def operations(self, request, pk=None):
         """
@@ -134,6 +138,7 @@ class CreditPayViewSet(viewsets.ModelViewSet):
                         cr_percents_sum=percents_sum,
                         cr_sum_plus_percents=all_sum)
 
+    @extend_schema(request=CreditPayNonAuthorizedRequestSerializer, responses=CreditPayNonAuthorizedResponseSerializer)
     @action(methods=['post'], detail=False)
     def calc_credit(self, request):
         body_unicode = request.body.decode('utf-8')

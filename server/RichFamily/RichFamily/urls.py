@@ -24,19 +24,16 @@ from users.views import *
 from groups.views import *
 
 
-router = routers.SimpleRouter()
-router.register(r'categories', OperationCategoryViewSet, basename='categories')
-router.register(r'templates', OperationTemplateViewSet, basename='templates')
-router.register(r'accounts', AccountViewSet, basename='accounts')
-router.register(r'operations', OperationViewSet, basename='operations')
-router.register(r'credits', CreditPayViewSet, basename='credits')
-router.register(r'users', UserProfileViewSet, basename='users')
-router.register(r'groups', GroupViewSet, basename='groups')
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
-    path('api/v1/auth/', include('djoser.urls')),       
+    re_path(r'^users', include('users.urls')),
+    re_path(r'^accounts', include('operations.urls.account_urls')),
+    re_path(r'^categories', include('operations.urls.category_urls')),
+    re_path(r'^operations', include('operations.urls.operation_urls')),
+    re_path(r'^templates', include('operations.urls.template_urls')),
+    re_path(r'^credits', include('operations.urls.credit_urls')),
+    re_path(r'^groups', include('groups.urls')),
+    path('auth/utils/', include('djoser.urls')),       
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api/v1/swagger/', SpectacularSwaggerView.as_view(url_name="schema")),
     path('api/v1/schema/', SpectacularAPIView.as_view(), name="schema"),
