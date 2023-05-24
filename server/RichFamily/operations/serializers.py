@@ -37,3 +37,30 @@ class CreditPaySerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'cr_name', 'cr_all_sum', 'cr_first_pay','cr_percent', 'cr_period' , 'cr_month_pay', 'cr_percents_sum' ,'cr_sum_plus_percents')
 
 
+class CreditPayNonAuthorizedRequestSerializer(serializers.Serializer):
+    """ Сериализатор для запроса расчета кредитного платежа неавторизованным пользователем """
+    cr_name = serializers.CharField(max_length=255)
+    cr_all_sum = serializers.FloatField()
+    cr_first_pay = serializers.FloatField()
+    cr_percen = serializers.IntegerField()
+    cr_period = serializers.IntegerField()
+
+
+class CreditPayNonAuthorizedResponseSerializer(serializers.Serializer):
+    """ Сериализатор для результата расчета кредитного платежа неавторизованным пользователем """
+    cr_name = serializers.CharField(max_length=255)
+    cr_all_sum = serializers.FloatField()
+    cr_first_pay = serializers.FloatField()
+    cr_percen = serializers.IntegerField()
+    cr_period = serializers.IntegerField()
+    cr_month_pay = serializers.FloatField()
+    cr_percents_sum = serializers.FloatField()
+    cr_sum_plus_percents = serializers.FloatField()
+
+
+class SuccessSerializer(serializers.Serializer):
+    success = serializers.BooleanField()
+
+
+class MessageSerializer(serializers.Serializer):
+    message = serializers.CharField(max_length=255)

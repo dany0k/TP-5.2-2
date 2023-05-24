@@ -1,3 +1,5 @@
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -10,7 +12,7 @@ from groups.services import select_group_operations
 
 from operations.services import get_operations_by_user
 from .models import AppUserProfile, GroupUser
-from .serializers import AppUserProfileSerializer, UserSerializer
+from .serializers import AppUserProfileCreateSerializer, AppUserProfileSerializer, AppUserProfileUpdateSerializer, MessageSerializer, UserResetPasswordSerializer, UserSerializer
 from operations.serializers import AccountSerializer, CreditPaySerializer, OperationSerializer
 from groups.serializers import GroupSerializer
 
@@ -19,14 +21,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     queryset = AppUserProfile.objects.all()
     serializer_class = AppUserProfileSerializer
 
+    @extend_schema(request=AppUserProfileCreateSerializer, responses=TokenSerializer)
     def create(self, request, *args, **kwargs):
         """
         Создать профиль нового пользователя (после регистрации в системе)
-        В теле запроса указываются следующие данные:
-            "user_id": "id зарегистрированного пользователя",
-            "first_name": "имя",
-            "last_name": "фамилия",
-            "secret_word": "секретное слово"
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
@@ -38,13 +36,10 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         token = login_user(request, user)
         return Response(TokenSerializer(token).data)
     
+    @extend_schema(request=AppUserProfileUpdateSerializer, responses=UserSerializer)
     def update(self, request, *args, **kwargs):
         """
         Обновить базовую информацию профиля пользователя
-        В теле запроса указываются следующие данные:
-            "id": "id зарегистрированного пользователя",
-            "first_name": "имя",
-            "last_name": "фамилия",
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
@@ -62,6 +57,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(self.request.user)
         return Response(serializer.data)
 
+    @extend_schema(responses=AccountSerializer)
     @action(detail=True, methods=['get'])
     def accounts(self, request, pk=None):
         """
@@ -76,6 +72,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         serializer = AccountSerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @extend_schema(parameters=[OpenApiParameter("group", OpenApiTypes.UUID, OpenApiParameter.QUERY, description="group id for operation selection by group")],responses=OperationSerializer)
     @action(detail=True, methods=['get'])
     def operations(self, request, pk=None):
         """
@@ -89,6 +86,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         serializer = OperationSerializer(data, many=True)
         return Response(serializer.data)
 
+    @extend_schema(responses=CreditPaySerializer)
     @action(detail=False, methods=['get'])
     def credits(self, request):
         """
@@ -98,6 +96,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         serializer = CreditPaySerializer(queryset, many=True)
         return Response(serializer.data)
 
+    @extend_schema(responses=CreditPaySerializer)
     @action(detail=False, methods=['get'])
     def groups(self, request):
         """
@@ -111,14 +110,11 @@ class UserProfileViewSet(viewsets.ModelViewSet):
             result.append(data)
         return Response(result)
 
+    @extend_schema(request=UserResetPasswordSerializer, responses=MessageSerializer)
     @action(detail=False, methods=['post'])
     def reset_password(self, request):
         """
         Восстановить пароль пользователя
-        В качестве тела запроса указывается:
-            "email": "username пользователя",
-            "secret_word": "секретное слово",
-            "new_password": "новый пароль"
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)

@@ -1,4 +1,5 @@
 from django.forms.utils import json
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -6,7 +7,7 @@ from rest_framework import permissions
 
 from groups.services import create_group, destroy_group, get_leader, remove_user, add_user, get_users
 from .models import Group
-from .serializers import GroupSerializer
+from .serializers import GroupAddUserSerializer, GroupRemoveUserSerializer, GroupSerializer, MessageSerializer
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -45,20 +46,21 @@ class GroupViewSet(viewsets.ModelViewSet):
         leader = get_leader(pk)
         return Response({'is_leader': leader == self.request.user})
 
+    @extend_schema(request=GroupAddUserSerializer, responses=MessageSerializer)
     @action(detail=True, methods=['post'])
     def add_user(self, request, pk=None):
         """
         Добавить пользователя в группу с идентификатором id
-        В теле запроса указывается строка "username" : "email пользователя"
         """
         if self.request.user == get_leader(pk):
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
             add_user(body_data['username'], pk)
-            return Response({'success': 'true'})
+            return Response({'message': 'Успешно'})
         else:
             return Response({'message': 'Вы не являетесь лидером группы'}, status=403)
 
+    @extend_schema(request=GroupRemoveUserSerializer, responses=MessageSerializer)
     @action(detail=True, methods=['post'])
     def remove_user(self, request, pk=None):
         """
@@ -69,18 +71,19 @@ class GroupViewSet(viewsets.ModelViewSet):
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
             remove_user(body_data['user_id'], pk)
-            return Response({'success': 'true'})
+            return Response({'message': 'Успешно'})
         else:
             return Response({'message': 'Вы не являетесь лидером группы'}, status=403)
 
 
+    @extend_schema(responses=MessageSerializer)
     @action(detail=True, methods=['post'])
     def exit_from_group(self, request, pk=None):
         """
         Выйти зарегистрированному пользователю из группы с номером id
         """
         remove_user(self.request.user.id, pk)
-        return Response({'success': 'true'})
+        return Response({'message': 'Успешно'})
 
 
 
