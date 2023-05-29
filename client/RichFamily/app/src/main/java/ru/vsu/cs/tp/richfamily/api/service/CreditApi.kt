@@ -14,25 +14,25 @@ import ru.vsu.cs.tp.richfamily.api.model.credit.CreditRequestBody
 
 interface CreditApi {
     @Headers("Content-type: application/json")
-    @GET("api/v1/credits")
+    @GET("credits/")
     suspend fun getCredits(@Header("Authorization") token: String) : Response<List<Credit>>
 
     @Headers("Content-type: application/json")
-    @DELETE("api/v1/credits/{id}/")
+    @DELETE("credits/{id}/")
     suspend fun deleteCredit(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ) : Response<ResponseBody>
 
     @Headers("Content-type: application/json")
-    @POST("api/v1/credits/")
+    @POST("credits/")
     suspend fun addCredit(
         @Header("Authorization") token: String,
         @Body creditRequestBody: CreditRequestBody
     ) : Response<Credit>
 
     @Headers("Content-type: application/json")
-    @POST("api/v1/credits/calc_credit/")
+    @POST("credits/calc_credit/")
     suspend fun addCreditNotAuth(
         @Body creditNotAuthRequestBody: CreditRequestBody
     ) : Response<Credit>
