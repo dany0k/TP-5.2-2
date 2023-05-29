@@ -63,12 +63,12 @@ class RegistrationFragment : Fragment() {
             findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
         }
         binding.regButton.setOnClickListener {
+            binding.regButton.startAnimation()
             doRegistration()
         }
     }
 
     private fun processRegistration(data: User?) {
-        binding.regButton.startAnimation()
         if (!data?.auth_token.isNullOrEmpty()) {
             data?.auth_token?.let {
                 SessionManager.saveAuthToken(requireActivity(), it)
