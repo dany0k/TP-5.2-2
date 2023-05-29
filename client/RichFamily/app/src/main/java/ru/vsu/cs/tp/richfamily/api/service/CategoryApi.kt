@@ -15,25 +15,25 @@ import ru.vsu.cs.tp.richfamily.api.model.category.CategoryRequestBody
 
 interface CategoryApi {
     @Headers("Content-type: application/json")
-    @GET("api/v1/categories")
+    @GET("categories/")
     suspend fun getCategories(@Header("Authorization") token: String) : Response<List<Category>>
 
     @Headers("Content-type: application/json")
-    @DELETE("api/v1/categories/{id}/")
+    @DELETE("categories/{id}/")
     suspend fun deleteCategory(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ) : Response<ResponseBody>
 
     @Headers("Content-type: application/json")
-    @POST("api/v1/categories/")
+    @POST("categories/")
     suspend fun addCategory(
         @Header("Authorization") token: String,
         @Body categoryRequestBody: CategoryRequestBody
     ) : Response<Category>
 
     @Headers("Content-type: application/json")
-    @PUT("api/v1/categories/{id}/")
+    @PUT("categories/{id}/")
     suspend fun updateCategory(
         @Header("Authorization") token: String,
         @Body categoryRequestBody: CategoryRequestBody,

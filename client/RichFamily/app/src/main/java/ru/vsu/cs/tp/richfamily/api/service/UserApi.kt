@@ -24,25 +24,25 @@ interface UserApi {
     @POST("auth/token/logout")
     suspend fun logoutUser(@Header("Authorization") token: String) : Response<ResponseBody>
 
-    @POST("api/v1/auth/users/")
+    @POST("auth/utils/users/")
     suspend fun registerBase(
         @Body baseRegistrationRequest: BaseRegistrationRequest
     ) : Response<BaseUser>
 
-    @POST("api/v1/users/")
+    @POST("auth/utils/users/")
     suspend fun registerUser(
         @Body registerRequest: RegisterRequest
     ) : Response<User>
 
-    @POST("api/v1/users/reset_password/")
+    @POST("auth/utils/users/reset_password/")
     suspend fun resetPwd(
         @Body resetPwdRequestBody: ResetPwdRequestBody
     ) : Response<ResponseBody>
 
-    @GET("api/v1/users/me")
+    @GET("auth/utils/users/me")
     suspend fun getUser(@Header("Authorization") token: String): Response<UserProfile>
 
-    @PUT("api/v1/users/{id}/")
+    @PUT("auth/utils/users/{id}/")
     suspend fun updateUser(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
