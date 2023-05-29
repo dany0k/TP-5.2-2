@@ -49,6 +49,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         user.save()
         return Response(UserSerializer(user).data) 
 
+    @extend_schema(responses=UserSerializer)
     @action(detail=False, methods=['get'])
     def me(self, request):
         """
