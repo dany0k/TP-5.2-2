@@ -59,6 +59,8 @@ dependencies {
 
     // Design components
     implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.github.razir.progressbutton:progressbutton:2.1.0'
+    implementation "com.github.leandroborgesferreira:loading-button-android:2.3.0"
 
     // Testing components
     testImplementation 'junit:junit:4.+'

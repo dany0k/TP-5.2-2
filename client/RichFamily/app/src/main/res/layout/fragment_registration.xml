@@ -112,11 +112,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_secret_word_et"/>
 
-    <Button
+
+    <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/regButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corner"
+        android:textColor="@color/white"
+        android:padding="@dimen/default_padding"
         android:text="@string/submit_button_label"
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintTop_toBottomOf="@id/haveAccountButton"
