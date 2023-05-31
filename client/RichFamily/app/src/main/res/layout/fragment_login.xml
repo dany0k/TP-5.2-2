@@ -62,14 +62,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_pass_et"/>
 
-    <Button
+    <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
-        android:text="@string/enter_button_label"
         android:layout_margin="@dimen/default_margin"
+        android:background="@drawable/rounded_corner"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordButton"/>
+        app:layout_constraintTop_toBottomOf="@id/forgotPasswordButton"
+        android:text="@string/enter_button_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,7 @@ class CreditViewModel(
     val loading = MutableLiveData<Boolean>()
 
     fun getAllCredits() {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = creditRepository.getAllCredits()
             withContext(Dispatchers.Main) {
@@ -37,7 +38,6 @@ class CreditViewModel(
                 }
             }
         }
-
     }
 
     fun addCredit(

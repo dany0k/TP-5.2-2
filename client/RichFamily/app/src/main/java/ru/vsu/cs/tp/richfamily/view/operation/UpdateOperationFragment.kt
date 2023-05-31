@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -79,6 +80,7 @@ class UpdateOperationFragment : Fragment() {
             setDate(hasFocus)
         }
         binding.addOperationButton.setOnClickListener {
+            binding.addOperationButton.startAnimation()
             val rbText: String = if (binding.consumptionRb.isChecked) {
                 Constants.CONS_TEXT
             } else {
@@ -117,6 +119,9 @@ class UpdateOperationFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            binding.addOperationButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.addOperationButton.revertAnimation()
         }
     }
 

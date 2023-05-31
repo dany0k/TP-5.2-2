@@ -60,6 +60,7 @@ class WalletFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (token.isNotBlank()) {
+            walletViewModel.getAllWallets()
             walletViewModel.walletList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
@@ -69,11 +70,12 @@ class WalletFragment :
             walletViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.content.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.VISIBLE
                 }
             }
-            walletViewModel.getAllWallets()
         }
 
         binding.addWalletFab.setOnClickListener {

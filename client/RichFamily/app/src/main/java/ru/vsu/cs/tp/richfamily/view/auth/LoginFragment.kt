@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -28,7 +29,7 @@ class LoginFragment : Fragment() {
             layoutInflater,
             container,
             false
-            )
+        )
         val token = SessionManager.getToken(requireActivity())
         if (!token.isNullOrBlank()) {
             navigateHome()
@@ -47,12 +48,16 @@ class LoginFragment : Fragment() {
 
                 is BaseResponse.Error -> {
                     processError()
+                    binding.loginButton.revertAnimation()
+                    binding.loginButton.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
                 }
                 else -> {
                     stopLoading()
                 }
             }
         }
+
         binding.loginButton.setOnClickListener {
             doLogin()
         }
@@ -69,10 +74,12 @@ class LoginFragment : Fragment() {
 
     private fun processLogin(data: User?) {
         showToast(Constants.SUCCESS)
+        binding.loginButton.startAnimation()
         if (!data?.auth_token.isNullOrEmpty()) {
             data?.auth_token?.let {
                 SessionManager.saveAuthToken(requireActivity(), it)
             }
+            binding.loginButton.revertAnimation()
             navigateHome()
         }
     }
@@ -90,9 +97,13 @@ class LoginFragment : Fragment() {
         showToast(Constants.INVALID_DATA)
     }
 
-    private fun stopLoading() { }
+    private fun stopLoading() {
 
-    private fun showLoading() { }
+    }
+
+    private fun showLoading() {
+        binding.loginButton.startAnimation()
+    }
 
     private fun navigateHome() {
         findNavController()

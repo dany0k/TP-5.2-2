@@ -29,7 +29,7 @@ interface UserApi {
         @Body baseRegistrationRequest: BaseRegistrationRequest
     ) : Response<BaseUser>
 
-    @POST("auth/utils/users/")
+    @POST("users/")
     suspend fun registerUser(
         @Body registerRequest: RegisterRequest
     ) : Response<User>
@@ -39,10 +39,10 @@ interface UserApi {
         @Body resetPwdRequestBody: ResetPwdRequestBody
     ) : Response<ResponseBody>
 
-    @GET("auth/utils/users/me")
+    @GET("users/me")
     suspend fun getUser(@Header("Authorization") token: String): Response<UserProfile>
 
-    @PUT("auth/utils/users/{id}/")
+    @PUT("users/{id}/")
     suspend fun updateUser(
         @Header("Authorization") token: String,
         @Path("id") id: Int,

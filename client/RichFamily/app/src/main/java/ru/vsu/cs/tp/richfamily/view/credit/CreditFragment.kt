@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -31,8 +32,12 @@ class CreditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setCredit()
         binding.continueButton.setOnClickListener {
+            binding.continueButton.startAnimation()
             findNavController()
                 .navigate(R.id.action_creditFragment_to_creditListFragment)
+            binding.continueButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.continueButton.revertAnimation()
         }
     }
 
@@ -45,5 +50,10 @@ class CreditFragment : Fragment() {
         crSumPlusPercentsTv.text = formattedStr.format(args.credit.cr_sum_plus_percents)
         monthlySumTv.text = formattedStr.format(args.credit.cr_month_pay)
         firstPayTv.text = formattedStr.format(args.credit.cr_first_pay)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.continueButton.dispose()
     }
 }
