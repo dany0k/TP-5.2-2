@@ -4,10 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.MainActivity
+import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.SplashActivity
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAccountBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
@@ -42,6 +44,15 @@ class AccountFragment : Fragment() {
             binding.editButton.visibility = View.INVISIBLE
             binding.exitButton.visibility = View.INVISIBLE
         } else {
+            viewModel.loading.observe(viewLifecycleOwner) {
+                if (it) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.content.visibility = View.GONE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.VISIBLE
+                }
+            }
             binding.editButton.visibility = View.VISIBLE
             binding.exitButton.visibility = View.VISIBLE
             viewModel.getUserInformation(token = token)
@@ -60,7 +71,11 @@ class AccountFragment : Fragment() {
         }
 
         binding.exitButton.setOnClickListener {
+            binding.exitButton.startAnimation()
             doLogout()
+            binding.exitButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.exitButton.revertAnimation()
         }
     }
 
@@ -71,5 +86,10 @@ class AccountFragment : Fragment() {
         val intent = Intent(activity, SplashActivity::class.java)
         startActivity(intent)
         activity?.finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.exitButton.dispose()
     }
 }

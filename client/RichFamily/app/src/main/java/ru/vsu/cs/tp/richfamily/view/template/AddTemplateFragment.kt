@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.MainActivity
+import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.category.Category
 import ru.vsu.cs.tp.richfamily.api.model.wallet.Wallet
 import ru.vsu.cs.tp.richfamily.api.service.CategoryApi
@@ -59,6 +61,7 @@ class AddTemplateFragment : Fragment() {
             walList = it
         }
         binding.addTemplateButton.setOnClickListener {
+            binding.addTemplateButton.startAnimation()
             val rbText: String = if (binding.consumptionRb.isChecked) {
                 Constants.CONS_TEXT
             } else {
@@ -92,6 +95,9 @@ class AddTemplateFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            binding.addTemplateButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.addTemplateButton.revertAnimation()
         }
     }
 

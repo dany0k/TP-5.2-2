@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.vsu.cs.tp.richfamily.MainActivity
+import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickEditInterface
 import ru.vsu.cs.tp.richfamily.adapter.OperationRVAdapter
@@ -70,18 +72,24 @@ class ReportFragment :
             opViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.content.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.VISIBLE
                 }
             }
             opViewModel.getAllOperations()
         }
         binding.saveReportButton.setOnClickListener {
+            binding.saveReportButton.startAnimation()
             opViewModel.consList.observe(viewLifecycleOwner) { cons ->
                 opViewModel.inList.observe(viewLifecycleOwner) { incs ->
                     createCsvFile(cons = cons, incs = incs)
                 }
             }
+            binding.saveReportButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.saveReportButton.revertAnimation()
         }
     }
 

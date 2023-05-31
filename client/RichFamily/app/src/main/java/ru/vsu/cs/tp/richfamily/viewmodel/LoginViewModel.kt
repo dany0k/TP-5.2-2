@@ -129,6 +129,7 @@ class LoginViewModel(application: Application) :
     }
 
     fun getUserInformation(token: String) {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             try {
                 val response = userRepo.getUserInfo(token = token)

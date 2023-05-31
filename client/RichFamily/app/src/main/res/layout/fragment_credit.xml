@@ -274,12 +274,14 @@
 
     </androidx.cardview.widget.CardView>
 
-    <Button
+    <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/continueButton"
         android:background="@drawable/rounded_corner"
         android:layout_margin="@dimen/default_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:padding="@dimen/default_padding"
         android:text="@string/continue_button_label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

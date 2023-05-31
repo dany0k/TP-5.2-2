@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -98,6 +99,7 @@ class AddOperationFragment : Fragment(){
             setDate(hasFocus)
         }
         binding.addOperationButton.setOnClickListener {
+            binding.addOperationButton.startAnimation()
             val rbText: String = if (binding.consumptionRb.isChecked) {
                 Constants.CONS_TEXT
             } else {
@@ -139,6 +141,9 @@ class AddOperationFragment : Fragment(){
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            binding.addOperationButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.addOperationButton.revertAnimation()
         }
     }
 
@@ -162,18 +167,14 @@ class AddOperationFragment : Fragment(){
         opSum: String,
         opComment: String
     ): Boolean {
-        if (wallet.isNotBlank() &&
-            category.isNotBlank() &&
-            opType.isNotBlank() &&
-            time.isNotBlank() &&
-            date.isNotBlank() &&
-            opRecipient.isNotBlank() &&
-            opSum.isNotBlank() &&
-            opComment.isNotBlank()
-            ) {
-            return true
-        }
-        return false
+        return wallet.isNotBlank() &&
+                category.isNotBlank() &&
+                opType.isNotBlank() &&
+                time.isNotBlank() &&
+                date.isNotBlank() &&
+                opRecipient.isNotBlank() &&
+                opSum.isNotBlank() &&
+                opComment.isNotBlank()
     }
 
     private fun setDate(hasFocus: Boolean) {

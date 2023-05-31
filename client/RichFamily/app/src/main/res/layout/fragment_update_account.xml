@@ -6,58 +6,76 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.account.UpdateAccountFragment">
 
-    <TextView
-        android:id="@+id/firstname_label_tv"
-        style="@style/LabelText"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/name_hint_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/firstname_et"
-        style="@style/DefaultText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Иван"
-        app:layout_constraintTop_toBottomOf="@id/firstname_label_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        android:inputType="textPersonName"
-        android:maxLength="20"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/firstname_label_tv"
+            style="@style/LabelText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/name_hint_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/lastname_label_tv"
-        style="@style/LabelText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/lastname_label_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstname_et" />
+        <EditText
+            android:id="@+id/firstname_et"
+            style="@style/DefaultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Иван"
+            app:layout_constraintTop_toBottomOf="@id/firstname_label_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="textPersonName"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <EditText
-        android:id="@+id/lastname_et"
-        style="@style/DefaultText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Иванов"
-        app:layout_constraintTop_toBottomOf="@id/lastname_label_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        android:inputType="textPersonName"
-        android:maxLength="20"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/lastname_label_tv"
+            style="@style/LabelText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lastname_label_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/firstname_et" />
 
-    <Button
-        android:id="@+id/submitButton"
-        android:background="@drawable/rounded_corner"
-        android:layout_margin="16sp"
+        <EditText
+            android:id="@+id/lastname_et"
+            style="@style/DefaultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Иванов"
+            app:layout_constraintTop_toBottomOf="@id/lastname_label_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="textPersonName"
+            android:maxLength="20"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/submitButton"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="16sp"
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:padding="@dimen/default_padding"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_button_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lastname_et"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/submit_button_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lastname_et"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

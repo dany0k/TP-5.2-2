@@ -203,11 +203,12 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/addOperationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corner"
+        android:textColor="@color/white"
         android:text="@string/add_operation_button_label"
         app:layout_constraintTop_toBottomOf="@id/operation_comment_til"
         android:layout_margin="@dimen/half_margin"

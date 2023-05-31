@@ -43,6 +43,7 @@ class OperationViewModel(
         }
     }
     fun getAllOperations() {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = operationRepository.getAllOperations()
             withContext(Dispatchers.Main) {
@@ -87,6 +88,8 @@ class OperationViewModel(
             withContext(Dispatchers.Main) {
                 if (!response.isSuccessful) {
                     onError("Error : ${response.message()} ")
+                } else {
+                    getAllOperations()
                 }
             }
         }

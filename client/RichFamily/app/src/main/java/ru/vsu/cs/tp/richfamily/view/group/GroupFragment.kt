@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -87,8 +88,10 @@ class GroupFragment :
             grViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.content.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.VISIBLE
                 }
             }
         }
@@ -114,9 +117,11 @@ class GroupFragment :
             builder.show()
         }
         binding.deleteGroupButton.setOnClickListener {
+            binding.deleteGroupButton.startAnimation()
             createDeleteDialog(id = args.groupId)
         }
         binding.leaveGroupButton.setOnClickListener {
+            binding.leaveGroupButton.startAnimation()
             createLeaveDialog(id = args.groupId)
         }
     }
@@ -134,12 +139,23 @@ class GroupFragment :
         builder.setPositiveButton(R.string.accept) { _, _ ->
             grViewModel.deleteGroup(groupId = id)
             findNavController().popBackStack()
+            stopAnimation()
             showToast()
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
+            stopAnimation()
         }
         builder.show()
+    }
+
+    private fun stopAnimation() {
+        binding.leaveGroupButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.leaveGroupButton.revertAnimation()
+        binding.deleteGroupButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.deleteGroupButton.revertAnimation()
     }
 
     private fun createLeaveDialog(id: Int) {
@@ -156,9 +172,11 @@ class GroupFragment :
             grViewModel.leaveFromGroup(groupId = id)
             findNavController().popBackStack()
             showToast()
+            stopAnimation()
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
+            stopAnimation()
         }
         builder.show()
     }
@@ -207,5 +225,11 @@ class GroupFragment :
             onDestroyView()
         }
         builder.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.leaveGroupButton.dispose()
+        binding.deleteGroupButton.dispose()
     }
 }

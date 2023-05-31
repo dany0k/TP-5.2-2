@@ -65,8 +65,10 @@ class UserOperationFragment :
             grViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.content.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.VISIBLE
                 }
             }
             grViewModel.getUsersOperations(args.userId, args.groupId)

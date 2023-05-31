@@ -8,6 +8,45 @@
     android:id="@+id/reportFragment"
     tools:context=".view.report.ReportFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/operation_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CardTextBold"
+            android:textSize="24sp"
+            android:text="@string/operation_text_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/operations_rv"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginTop="@dimen/default_margin"
+            tools:listitem="@layout/operation_rv_item"
+            app:layout_constraintTop_toBottomOf="@id/operation_tv"/>
+
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/saveReportButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_corner"
+            android:textColor="@color/white"
+            android:padding="@dimen/default_padding"
+            android:text="@string/save_report_button_label"
+            android:layout_marginTop="@dimen/default_margin"
+            app:layout_constraintTop_toBottomOf="@id/operations_rv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ProgressBar
         android:id="@+id/progress_bar"
         android:visibility="gone"
@@ -17,36 +56,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <TextView
-        android:id="@+id/operation_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/CardTextBold"
-        android:textSize="24sp"
-        android:text="@string/operation_text_tv"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/operations_rv"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginTop="@dimen/default_margin"
-        tools:listitem="@layout/operation_rv_item"
-        app:layout_constraintTop_toBottomOf="@id/operation_tv"/>
-
-    <Button
-        android:id="@+id/saveReportButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/rounded_corner"
-        android:text="@string/save_report_button_label"
-        android:layout_marginTop="@dimen/default_margin"
-        app:layout_constraintTop_toBottomOf="@id/operations_rv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
