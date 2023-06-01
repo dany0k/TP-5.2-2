@@ -83,7 +83,9 @@ class GroupFragment :
                 binding.leaderNameTv.text = leaderName
             }
             grViewModel.errorMessage.observe(viewLifecycleOwner) {
-                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+                if (it.isNotBlank()) {
+                    Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+                }
             }
             grViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
@@ -231,5 +233,11 @@ class GroupFragment :
         super.onDestroy()
         binding.leaveGroupButton.dispose()
         binding.deleteGroupButton.dispose()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        grViewModel.errorMessage.removeObservers(viewLifecycleOwner)
+        grViewModel.errorMessage.postValue("")
     }
 }

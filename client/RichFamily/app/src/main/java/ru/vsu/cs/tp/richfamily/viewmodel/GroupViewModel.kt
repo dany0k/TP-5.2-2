@@ -183,7 +183,7 @@ class GroupViewModel(
     }
 
     private fun onError(message: String) {
-        errorMessage.value = message
+        errorMessage.postValue(message)
         loading.value = false
     }
 

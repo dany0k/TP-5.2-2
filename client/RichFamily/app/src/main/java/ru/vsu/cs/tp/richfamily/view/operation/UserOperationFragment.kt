@@ -59,9 +59,6 @@ class UserOperationFragment :
             grViewModel.opList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
-            grViewModel.errorMessage.observe(viewLifecycleOwner) {
-                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
-            }
             grViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
