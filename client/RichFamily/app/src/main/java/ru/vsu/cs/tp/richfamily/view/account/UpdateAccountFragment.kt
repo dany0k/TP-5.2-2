@@ -66,8 +66,7 @@ class UpdateAccountFragment : Fragment() {
                     Constants.SUCCESS_TOAST,
                     Toast.LENGTH_SHORT
                 ).show()
-                findNavController()
-                    .navigate(R.id.action_updateAccountFragment_to_accountFragment)
+                findNavController().popBackStack(R.id.accountFragment, false)
             } else {
                 Toast.makeText(
                     requireActivity(),
@@ -93,5 +92,9 @@ class UpdateAccountFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         binding.submitButton.dispose()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }

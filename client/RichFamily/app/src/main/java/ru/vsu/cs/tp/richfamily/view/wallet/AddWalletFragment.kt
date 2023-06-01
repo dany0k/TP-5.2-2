@@ -64,8 +64,7 @@ class AddWalletFragment : Fragment() {
                     accCurrency = walletCurrency,
                     accComment = walletComment
                 )
-                findNavController()
-                    .navigate(R.id.action_addWalletFragment_to_walletFragment)
+                findNavController().popBackStack()
             } else {
                 Toast.makeText(
                     requireActivity(),

@@ -133,7 +133,12 @@ class AddOperationFragment : Fragment(){
                         opComment = commentEt.text.toString()
                     )
                 }
-                navigate(rbText = rbText)
+                Toast.makeText(
+                    requireActivity(),
+                    Constants.SUCCESS,
+                    Toast.LENGTH_SHORT
+                ).show()
+                findNavController().popBackStack()
             } else {
                 Toast.makeText(
                     requireActivity(),
@@ -144,16 +149,6 @@ class AddOperationFragment : Fragment(){
             binding.addOperationButton.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
             binding.addOperationButton.revertAnimation()
-        }
-    }
-
-    private fun navigate(rbText: String) {
-        if (rbText == Constants.CONS_TEXT) {
-            findNavController()
-                .navigate(R.id.action_addOperationFragment_to_consumptionFragment)
-        } else if (rbText == Constants.INCOME_TEXT) {
-            findNavController()
-                .navigate(R.id.action_addOperationFragment_to_incomeFragment)
         }
     }
 
