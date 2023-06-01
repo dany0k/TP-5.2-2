@@ -143,16 +143,12 @@ class AddTemplateFragment : Fragment() {
         opSum: String,
         opComment: String
     ): Boolean {
-        if (wallet.isNotBlank() &&
-            category.isNotBlank() &&
-            opType.isNotBlank() &&
-            opRecipient.isNotBlank() &&
-            opSum.isNotBlank() &&
-            opComment.isNotBlank()
-        ) {
-            return true
-        }
-        return false
+        return wallet.isNotBlank() &&
+                category.isNotBlank() &&
+                opType.isNotBlank() &&
+                opRecipient.isNotBlank() &&
+                opSum.isNotBlank() &&
+                opComment.isNotBlank()
     }
 
     private fun initViewModels(token: String) {

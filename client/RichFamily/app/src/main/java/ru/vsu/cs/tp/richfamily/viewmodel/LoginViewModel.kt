@@ -112,15 +112,12 @@ class LoginViewModel(application: Application) :
                         registrationRequest = registrationRequest
                     )
                     if (response?.code() == 200) {
-                        regResult.value =
-                            BaseResponse.Success(response.body())
+                        regResult.postValue(BaseResponse.Success(response.body()))
                     } else {
-                        loginResult.value =
-                            BaseResponse.Error(responseBase.message())
+                        loginResult.postValue(BaseResponse.Error(responseBase.message()))
                     }
                 } else {
-                    loginResult.value =
-                        BaseResponse.Error(responseBase?.message())
+                    loginResult.postValue(BaseResponse.Error(responseBase?.message()))
                 }
             } catch (ex: java.lang.Exception) {
                 loginResult.value = BaseResponse.Error(ex.message)
@@ -135,7 +132,7 @@ class LoginViewModel(application: Application) :
                 val response = userRepo.getUserInfo(token = token)
                 withContext(Dispatchers.Main) {
                     if (response!!.code() == 200) {
-                        currentUser.value = response.body()
+                        currentUser.postValue(response.body())
                         loading.value = false
                     } else {
                         onError("Error : ${response.message()} ")
@@ -159,14 +156,12 @@ class LoginViewModel(application: Application) :
                     resetPwdRequestBody = resetPwdRequestBody
                 )
                 if (response?.code() == 200) {
-                    resetResult.value =
-                        BaseResponse.Success(response.body())
+                    resetResult.postValue(BaseResponse.Success(response.body()))
                 } else {
-                    resetResult.value =
-                        BaseResponse.Error(response?.message())
+                    resetResult.postValue(BaseResponse.Error(response?.message()))
                 }
             } catch (ex: java.lang.Exception) {
-                resetResult.value = BaseResponse.Error(ex.message)
+                resetResult.postValue(BaseResponse.Error(ex.message))
             }
         }
     }
@@ -204,8 +199,8 @@ class LoginViewModel(application: Application) :
     }
 
     private fun onError(message: String) {
-        errorMessage.value = message
-        loading.value = false
+        errorMessage.postValue(message)
+        loading.postValue(false)
     }
 
     override fun onCleared() {

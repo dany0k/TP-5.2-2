@@ -111,7 +111,7 @@ class UpdateOperationFragment : Fragment() {
                         opComment = commentEt.text.toString()
                     )
                 }
-                navigate(rbText = rbText)
+                findNavController().popBackStack()
             } else {
                 Toast.makeText(
                     requireActivity(),
@@ -156,16 +156,6 @@ class UpdateOperationFragment : Fragment() {
                 }, hour, minute, true)
 
             timePickerDialog.show()
-        }
-    }
-
-    private fun navigate(rbText: String) {
-        if (rbText == Constants.CONS_TEXT) {
-            findNavController()
-                .navigate(R.id.action_updateOperationFragment_to_consumptionFragment)
-        } else {
-            findNavController()
-                .navigate(R.id.action_updateOperationFragment_to_incomeFragment)
         }
     }
 

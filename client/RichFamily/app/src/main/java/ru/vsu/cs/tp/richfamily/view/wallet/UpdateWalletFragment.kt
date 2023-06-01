@@ -15,6 +15,7 @@ import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentUpdateWalletBinding
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -81,8 +82,7 @@ class UpdateWalletFragment : Fragment() {
                 accCurrency = "RUB",
                 accComment = walletComment
             )
-            findNavController()
-                .navigate(R.id.action_updateWalletFragment_to_walletFragment)
+            findNavController().popBackStack()
             Toast.makeText(
                 requireActivity(),
                 "Счет изменен",
@@ -91,7 +91,7 @@ class UpdateWalletFragment : Fragment() {
         } else {
             Toast.makeText(
                 requireActivity(),
-                "Пожалуйста заполните все поля",
+                Constants.COMP_FIELDS_TOAST,
                 Toast.LENGTH_LONG
             ).show()
         }
