@@ -6,6 +6,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.ui.*
 import ru.vsu.cs.tp.richfamily.databinding.ActivityMainBinding
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         instance = this
         binding = ActivityMainBinding.inflate(layoutInflater)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(binding.root)
         // Navigation
         binding.bottomNav.bottomNavigationView.background = null
