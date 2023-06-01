@@ -1,6 +1,8 @@
 package ru.vsu.cs.tp.richfamily.utils
 
 object Constants {
+    const val SUBMIT_WAL_DELETE_TEXT: String = "При удалении счета, также удалятся все расходы и доходы, " +
+            "записанные на этот счет.\nВы уверены?"
     const val SUBMIT_CAT_DELETE_TEXT: String = "При удалении категории, также удалятся все расходы и доходы, " +
             "в которых используется данная категория.\nВы уверены?"
     const val CONS_TEXT = "РАСХОД"
