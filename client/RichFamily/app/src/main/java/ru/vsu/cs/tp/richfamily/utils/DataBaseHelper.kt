@@ -10,7 +10,7 @@ class DataBaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        val query = ("CREATE TABLE IF NOT EXISTS" + TABLE_NAME + " ("
+        val query = ("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY, " +
                 FLAG + " INTEGER" + ")")
         db.execSQL(query)
@@ -21,26 +21,24 @@ class DataBaseHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         onCreate(db)
     }
 
-    fun setFlag(flag : Int){
+    fun setFlag(flag: Int) {
         val values = ContentValues()
-        values.put(FLAG, 1)
+        values.put(FLAG, flag)
         val db = this.writableDatabase
         db.insert(TABLE_NAME, null, values)
         db.close()
     }
 
-    fun resetFlag(flag : Int){
-        val values = ContentValues()
-        values.put(FLAG, 0)
+    fun updateFlag(flag: Int) {
         val db = this.writableDatabase
-        db.update(TABLE_NAME, values, "id=?", arrayOf("1"))
-        db.close()
+        val values = ContentValues()
+        values.put(FLAG, flag)
+        db.update(TABLE_NAME, values, "$FLAG == 0", null)
     }
 
     fun getFlag(): Cursor? {
         val db = this.readableDatabase
         return db.rawQuery("SELECT $FLAG FROM $TABLE_NAME", null)
-
     }
 
     companion object{
