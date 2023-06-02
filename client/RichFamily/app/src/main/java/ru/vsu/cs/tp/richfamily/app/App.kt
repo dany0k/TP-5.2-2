@@ -6,6 +6,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import ru.vsu.cs.tp.richfamily.api.service.ClientApi
+import ru.vsu.cs.tp.richfamily.utils.DataBaseHelper
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -13,6 +14,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        val intent = this
         AndroidThreeTen.init(this)
     }
 

@@ -108,4 +108,7 @@
     <string name="participant_label_tv">Участники</string>
     <string name="role_label_tv">Роль</string>
     <string name="update_screen_button_label">Обновить</string>
+    <string name="get_started_button_label">Начать</string>
+    <string name="descr">descr</string>
+    <string name="skip">Пропустить</string>
 </resources>
