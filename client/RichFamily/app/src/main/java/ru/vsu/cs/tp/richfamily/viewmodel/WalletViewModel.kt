@@ -20,6 +20,7 @@ class WalletViewModel(
     val loading = MutableLiveData<Boolean>()
 
     fun getAllWallets() {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = walletRepository.getAllWallets()
             withContext(Dispatchers.Main) {

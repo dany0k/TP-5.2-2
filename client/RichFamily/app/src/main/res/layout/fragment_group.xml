@@ -6,6 +6,105 @@
     android:layout_height="match_parent"
     tools:context=".view.group.GroupFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/leader_cv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/card_elevation"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:contentPadding="@dimen/card_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/leader_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/CardTextMedium"
+                    android:layout_centerInParent="true"
+                    tools:text="Иван Петров"/>
+
+                <ImageView
+                    android:id="@+id/deleteUserIV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/crown_ic"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/users_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/participant_label_tv"
+            style="@style/DefaultText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/leader_cv"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/users_rv"
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:layout_marginTop="@dimen/default_margin"
+            tools:listitem="@layout/group_user_rv_item"
+            app:layout_constraintTop_toBottomOf="@id/users_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_plus"
+            android:layout_marginEnd="@dimen/default_margin"
+            app:tint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginVertical="@dimen/default_margin"/>
+
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/leaveGroupButton"
+            android:background="@drawable/rounded_corner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:padding="@dimen/default_padding"
+            android:text="@string/leave_group_button_label"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/users_rv"/>
+
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/deleteGroupButton"
+            android:background="@drawable/rounded_corner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:padding="@dimen/default_padding"
+            android:text="@string/delete_group_button_label"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/users_rv"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <ProgressBar
         android:id="@+id/progress_bar"
         android:visibility="gone"
@@ -15,93 +114,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/leader_cv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="@dimen/card_elevation"
-        android:layout_margin="6dp"
-        app:cardCornerRadius="@dimen/card_radius"
-        app:contentPadding="@dimen/card_padding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/leader_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/CardTextMedium"
-                android:layout_centerInParent="true"
-                tools:text="Иван Петров"/>
-
-            <ImageView
-                android:id="@+id/deleteUserIV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/crown_ic"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/users_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/participant_label_tv"
-        style="@style/DefaultText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/leader_cv"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/users_rv"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_marginTop="@dimen/default_margin"
-        tools:listitem="@layout/group_user_rv_item"
-        app:layout_constraintTop_toBottomOf="@id/users_tv"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_plus"
-        android:layout_marginEnd="@dimen/default_margin"
-        app:tint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginVertical="@dimen/default_margin"/>
-
-    <Button
-        android:id="@+id/leaveGroupButton"
-        android:background="@drawable/rounded_corner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/leave_group_button_label"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/users_rv"/>
-
-    <Button
-        android:id="@+id/deleteGroupButton"
-        android:background="@drawable/rounded_corner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_group_button_label"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/users_rv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

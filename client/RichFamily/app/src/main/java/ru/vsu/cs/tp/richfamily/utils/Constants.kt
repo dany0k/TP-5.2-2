@@ -1,6 +1,8 @@
 package ru.vsu.cs.tp.richfamily.utils
 
 object Constants {
+    const val SUBMIT_WAL_DELETE_TEXT: String = "При удалении счета, также удалятся все расходы и доходы, " +
+            "записанные на этот счет.\nВы уверены?"
     const val SUBMIT_CAT_DELETE_TEXT: String = "При удалении категории, также удалятся все расходы и доходы, " +
             "в которых используется данная категория.\nВы уверены?"
     const val CONS_TEXT = "РАСХОД"
@@ -23,4 +25,13 @@ object Constants {
     const val SUBMIT_GROUP_USER_DELETE_TEXT = "При удалении пользователя, все расходы и доходы," +
             " созданные им во время участия в группе будут сохранены. " +
             "Вы больше не сможете увидеть операции пользователя.\nПродолжить?"
+    const val ONBOARDING_WALLET_TITLE = "Следите за своими финансами"
+    const val ONBOARDING_WALLET_DISC = "Создавайте разные счета и категории для точного " +
+            "распределения своих финансовых операций"
+    const val ONBOARDING_GROUP_TITLE = "Создавайте группы"
+    const val ONBOARDING_GROUP_DISC = "Объединяйтесь в группы, чтобы отслеживать финансовые " +
+            "операции других участников"
+    const val ONBOARDING_ANALYZE_TITLE = "Анализируйте свой бюджет"
+    const val ONBOARDING_ANALYZE_DISC = "Вы всегда можете посмотреть на все свои операции," +
+            " а также экспортировать их на свое мобильное устройство"
 }

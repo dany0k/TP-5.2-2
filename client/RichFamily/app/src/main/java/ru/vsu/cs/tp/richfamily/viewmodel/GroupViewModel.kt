@@ -34,6 +34,7 @@ class GroupViewModel(
     val loading = MutableLiveData<Boolean>()
 
     fun getUsersGroup() {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = groupRepository.getUsersGroup()
             withContext(Dispatchers.Main) {
@@ -48,13 +49,13 @@ class GroupViewModel(
     }
 
     fun getAllUsersFromGroup(id: Int) {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = groupRepository.getAllUsersFromGroup(id = id)
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     usersList.postValue(response.body()!!.filter { !it.is_leader })
                     leaderUser.postValue(response.body()!!.first { it.is_leader })
-                    loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
                 }
@@ -164,6 +165,7 @@ class GroupViewModel(
     }
 
     fun getUsersOperations(userId: Int, groupId: Int) {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = groupRepository.getUsersOperations(
                 userId = userId,
@@ -181,7 +183,7 @@ class GroupViewModel(
     }
 
     private fun onError(message: String) {
-        errorMessage.value = message
+        errorMessage.postValue(message)
         loading.value = false
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -38,8 +39,18 @@ class UpdateAccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loading.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+                binding.content.visibility = View.GONE
+            } else {
+                binding.progressBar.visibility = View.GONE
+                binding.content.visibility = View.VISIBLE
+            }
+        }
         setUser()
         binding.submitButton.setOnClickListener {
+            binding.submitButton.startAnimation()
             if (inputCheck(
                     firstname = binding.firstnameEt.text.toString(),
                     lastname = binding.lastnameEt.text.toString()
@@ -55,8 +66,7 @@ class UpdateAccountFragment : Fragment() {
                     Constants.SUCCESS_TOAST,
                     Toast.LENGTH_SHORT
                 ).show()
-                findNavController()
-                    .navigate(R.id.action_updateAccountFragment_to_accountFragment)
+                findNavController().popBackStack(R.id.accountFragment, false)
             } else {
                 Toast.makeText(
                     requireActivity(),
@@ -64,6 +74,9 @@ class UpdateAccountFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            binding.submitButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.submitButton.revertAnimation()
         }
     }
 
@@ -74,5 +87,14 @@ class UpdateAccountFragment : Fragment() {
 
     private fun inputCheck(firstname: String, lastname: String): Boolean {
         return firstname.isNotBlank() && lastname.isNotBlank()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.submitButton.dispose()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }

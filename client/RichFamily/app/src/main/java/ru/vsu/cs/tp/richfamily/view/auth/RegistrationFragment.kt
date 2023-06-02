@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.R
@@ -43,6 +44,9 @@ class RegistrationFragment : Fragment() {
                     processRegistration(it.data)
                 }
                 is BaseResponse.Error -> {
+                    binding.regButton.revertAnimation()
+                    binding.regButton.background =
+                        ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
                     processError()
                 }
                 else -> {
@@ -59,16 +63,18 @@ class RegistrationFragment : Fragment() {
             findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
         }
         binding.regButton.setOnClickListener {
+            binding.regButton.startAnimation()
             doRegistration()
         }
     }
 
     private fun processRegistration(data: User?) {
-        showToast(Constants.SUCCESS_LOGIN)
         if (!data?.auth_token.isNullOrEmpty()) {
             data?.auth_token?.let {
                 SessionManager.saveAuthToken(requireActivity(), it)
             }
+            showToast(Constants.SUCCESS_LOGIN)
+            binding.regButton.revertAnimation()
             navigateHome()
         }
     }
@@ -133,5 +139,10 @@ class RegistrationFragment : Fragment() {
             msg,
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.regButton.dispose()
     }
 }

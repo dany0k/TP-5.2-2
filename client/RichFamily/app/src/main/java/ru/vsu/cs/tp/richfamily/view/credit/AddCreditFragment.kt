@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import ru.vsu.cs.tp.richfamily.MainActivity
+import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.service.CreditApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddCreditBinding
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
@@ -46,6 +48,7 @@ class AddCreditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.calculateCreditButton.setOnClickListener {
+            binding.calculateCreditButton.startAnimation()
             with(binding) {
                 if (token.isNotBlank()) {
                     creditViewModel.addCredit(
@@ -85,8 +88,15 @@ class AddCreditFragment : Fragment() {
                             .navigate(action)
                     }
                 }
-
             }
+            binding.calculateCreditButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.calculateCreditButton.revertAnimation()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.calculateCreditButton.dispose()
     }
 }

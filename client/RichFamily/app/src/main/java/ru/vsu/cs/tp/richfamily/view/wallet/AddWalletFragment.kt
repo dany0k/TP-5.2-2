@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,6 +14,7 @@ import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.service.WalletApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddWalletBinding
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -50,6 +52,7 @@ class AddWalletFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addWalletButton.setOnClickListener {
+            binding.addWalletButton.startAnimation()
             val walletName = binding.walletNameEt.text.toString()
             val walletTotal = binding.totalEt.text.toString()
             val walletCurrency = "RUB"
@@ -61,15 +64,17 @@ class AddWalletFragment : Fragment() {
                     accCurrency = walletCurrency,
                     accComment = walletComment
                 )
-                findNavController()
-                    .navigate(R.id.action_addWalletFragment_to_walletFragment)
+                findNavController().popBackStack()
             } else {
                 Toast.makeText(
                     requireActivity(),
-                    "Заполните все поля!",
+                    Constants.COMP_FIELDS_TOAST,
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            binding.addWalletButton.background =
+                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+            binding.addWalletButton.revertAnimation()
         }
     }
 

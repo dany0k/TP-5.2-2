@@ -13,13 +13,14 @@ class CategoryViewModel(
 ) : ViewModel() {
     val errorMessage = MutableLiveData<String>()
     val catList = MutableLiveData<List<Category>>()
-    var job: Job? = null
-    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private var job: Job? = null
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
     }
     val loading = MutableLiveData<Boolean>()
 
     fun getAllCategories() {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = categoryRepository.getAllCategories()
             withContext(Dispatchers.Main) {

@@ -21,32 +21,32 @@ import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 interface GroupApi {
 
     @Headers("Content-type: application/json")
-    @GET("api/v1/users/groups")
+    @GET("users/groups/")
     suspend fun getUsersGroup(@Header("Authorization") token: String) : Response<List<Group>>
 
     @Headers("Content-type: application/json")
-    @GET("api/v1/groups/{id}/users/")
+    @GET("groups/{id}/users/")
     suspend fun getAllUsersFromGroup(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         ) : Response<List<GroupUser>>
 
     @Headers("Content-type: application/json")
-    @GET("api/v1/groups/{id}/is_leader/")
+    @GET("groups/{id}/is_leader/")
     suspend fun isLeader(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
     ) : Response<Leader>
 
     @Headers("Content-type: application/json")
-    @POST("api/v1/groups/")
+    @POST("groups/")
     suspend fun addGroup(
         @Header("Authorization") token: String,
         @Body groupRequestBody: GroupRequestBody
     ) : Response<Group>
 
     @Headers("Content-type: application/json")
-    @POST("api/v1/groups/{id}/add_user/")
+    @POST("groups/{id}/add_user/")
     suspend fun addUserInGroup(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
@@ -54,7 +54,7 @@ interface GroupApi {
     ) : Response<ResponseBody>
 
     @Headers("Content-type: application/json")
-    @POST("api/v1/groups/{id}/remove_user/")
+    @POST("groups/{id}/remove_user/")
     suspend fun deleteUserFromGroup(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
@@ -62,14 +62,14 @@ interface GroupApi {
     ) : Response<ResponseBody>
 
     @Headers("Content-type: application/json")
-    @POST("api/v1/groups/{id}/exit_from_group/")
+    @POST("groups/{id}/exit_from_group/")
     suspend fun leaveFromGroup(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
     ) : Response<ResponseBody>
 
     @Headers("Content-type: application/json")
-    @DELETE("api/v1/groups/{id}/")
+    @DELETE("groups/{id}/")
     suspend fun deleteGroup(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
@@ -77,7 +77,7 @@ interface GroupApi {
 
 
     @Headers("Content-type: application/json")
-    @GET("/api/v1/users/{user_id}/operations/")
+    @GET("users/{user_id}/operations/")
     suspend fun getUsersOperations(
         @Header("Authorization") token: String,
         @Path("user_id") userId: Int,

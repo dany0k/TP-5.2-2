@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    tools:context=".OnboardingActivity">
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/onboarding_vp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/view_pager_background"
+        app:layout_constraintBottom_toTopOf="@id/center_of_next"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/indicator_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <View
+        android:id="@+id/outer_back_view"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:background="@drawable/arrow_outer_background"
+        app:layout_constraintStart_toStartOf="@+id/next_image_im"
+        app:layout_constraintEnd_toEndOf="@+id/next_image_im"
+        app:layout_constraintTop_toTopOf="@+id/next_image_im"
+        app:layout_constraintBottom_toBottomOf="@+id/next_image_im"/>
+
+    <View
+        android:id="@+id/center_of_next"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="@+id/next_image_im"
+        app:layout_constraintEnd_toEndOf="@+id/next_image_im"
+        app:layout_constraintTop_toTopOf="@+id/next_image_im"
+        app:layout_constraintBottom_toBottomOf="@+id/next_image_im"/>
+
+    <ImageView
+        android:id="@+id/next_image_im"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/arrow_background"
+        android:src="@drawable/ic_arrow_right"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/getStartedButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/descr" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/getStartedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginBottom="50dp"
+        android:backgroundTint="@color/orange"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:cornerRadius="28dp"
+        android:text="@string/get_started_button_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

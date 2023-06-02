@@ -61,14 +61,13 @@ class GroupListFragment :
             grViewModel.groupList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
-            grViewModel.errorMessage.observe(viewLifecycleOwner) {
-                Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
-            }
             grViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.content.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.VISIBLE
                 }
             }
             grViewModel.getUsersGroup()

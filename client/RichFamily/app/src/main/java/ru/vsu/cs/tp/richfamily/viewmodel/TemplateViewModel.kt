@@ -26,6 +26,7 @@ class TemplateViewModel(
     val loading = MutableLiveData<Boolean>()
 
     fun getAllTemplates() {
+        loading.value = true
         job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
             val response = templateRepository.getAllTemplates()
             withContext(Dispatchers.Main) {
@@ -63,6 +64,8 @@ class TemplateViewModel(
             withContext(Dispatchers.Main) {
                 if (!response.isSuccessful) {
                     onError("Error : ${response.message()} ")
+                } else {
+                    getAllTemplates()
                 }
             }
         }

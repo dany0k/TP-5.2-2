@@ -20,6 +20,7 @@ import ru.vsu.cs.tp.richfamily.api.service.WalletApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentWalletBinding
 import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -60,6 +61,7 @@ class WalletFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (token.isNotBlank()) {
+            walletViewModel.getAllWallets()
             walletViewModel.walletList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
@@ -69,11 +71,12 @@ class WalletFragment :
             walletViewModel.loading.observe(viewLifecycleOwner) {
                 if (it) {
                     binding.progressBar.visibility = View.VISIBLE
+                    binding.content.visibility = View.GONE
                 } else {
                     binding.progressBar.visibility = View.GONE
+                    binding.content.visibility = View.VISIBLE
                 }
             }
-            walletViewModel.getAllWallets()
         }
 
         binding.addWalletFab.setOnClickListener {
@@ -106,8 +109,7 @@ class WalletFragment :
             false
         )
         builder.setView(dialogBinding.root)
-        val submitText: String = "При удалении счета, также удалятся все расходы и доходы, " +
-                "записанные на этот счет.\nВы уверены?"
+        val submitText: String = Constants.SUBMIT_WAL_DELETE_TEXT
         dialogBinding.textToSubmit.text = submitText
         builder.setPositiveButton(R.string.accept) { _, _ ->
             walletViewModel.deleteWallet(id = id)
