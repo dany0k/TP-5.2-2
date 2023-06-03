@@ -1,7 +1,8 @@
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.decorators import action, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.forms.utils import json
 from django.contrib.auth.hashers import check_password, make_password
@@ -12,7 +13,7 @@ from groups.services import select_group_operations
 
 from operations.services import get_operations_by_user
 from .models import AppUserProfile, GroupUser
-from .serializers import AppUserProfileCreateSerializer, AppUserProfileSerializer, AppUserProfileUpdateSerializer, MessageSerializer, UserResetPasswordSerializer, UserSerializer
+from .serializers import *
 from operations.serializers import AccountSerializer, CreditPaySerializer, OperationSerializer
 from groups.serializers import GroupSerializer
 
@@ -57,6 +58,16 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         """
         serializer = UserSerializer(self.request.user)
         return Response(serializer.data)
+
+    @extend_schema(responses=OnboardStatusSerializer)
+    @permission_classes([IsAuthenticated])
+    @action(detail=False, methods=['get'])
+    def onboard_status(self, request):
+        """
+        Получить информацию о статусе показа onboard экрана зарегистрированного пользователя
+        """
+        status = self.request.user.appuserprofile.onboard
+        return Response({'onboard': status})
 
     @extend_schema(responses=AccountSerializer)
     @action(detail=True, methods=['get'])

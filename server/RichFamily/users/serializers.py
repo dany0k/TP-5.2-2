@@ -19,6 +19,12 @@ class UserResetPasswordSerializer(serializers.Serializer):
 class MessageSerializer(serializers.Serializer):
     message = serializers.CharField(max_length=255)
 
+
+class OnboardStatusSerializer(serializers.Serializer):
+    """ Сериализатор для отправки статуса onboard screen для пользователя """
+    onboard = serializers.CharField(max_length=20)
+
+
 class AppUserProfileSerializer(serializers.ModelSerializer):
     """ Сериализатор для модели дополнительных данных профиля пользователя """
     class Meta:

@@ -33,6 +33,7 @@ urlpatterns = [
     re_path(r'^templates', include('operations.urls.template_urls')),
     re_path(r'^credits', include('operations.urls.credit_urls')),
     re_path(r'^groups', include('groups.urls')),
+    re_path(r'^onboards', include('onboard.urls')),
     path('auth/utils/', include('djoser.urls')),       
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api/v1/swagger/', SpectacularSwaggerView.as_view(url_name="schema")),
