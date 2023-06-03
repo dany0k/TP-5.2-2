@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.category.Category
@@ -25,6 +26,7 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
@@ -138,6 +140,7 @@ class AddOperationFragment : Fragment(){
                     Constants.SUCCESS,
                     Toast.LENGTH_SHORT
                 ).show()
+                YandexMetrica.reportEvent(YandexEvents.ADD_OPERATION)
                 findNavController().popBackStack()
             } else {
                 Toast.makeText(

@@ -8,10 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.databinding.FragmentRecoveryBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
 class RecoveryFragment : Fragment() {
@@ -72,6 +74,7 @@ class RecoveryFragment : Fragment() {
                     secretWord = secretWord,
                     newPassword = newPwd
                 )
+                YandexMetrica.reportEvent(YandexEvents.USER_RESET_PWD)
             } else {
                 showToast(Constants.PWD_NOT_COMPARE)
             }

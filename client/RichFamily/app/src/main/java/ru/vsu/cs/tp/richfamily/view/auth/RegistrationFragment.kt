@@ -9,12 +9,14 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.databinding.FragmentRegistrationBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
 class RegistrationFragment : Fragment() {
@@ -74,7 +76,7 @@ class RegistrationFragment : Fragment() {
                 SessionManager.saveAuthToken(requireActivity(), it)
             }
             showToast(Constants.SUCCESS_LOGIN)
-            binding.regButton.revertAnimation()
+            YandexMetrica.reportEvent(YandexEvents.USER_REG)
             navigateHome()
         }
     }
@@ -86,6 +88,11 @@ class RegistrationFragment : Fragment() {
         val firstname = binding.userNameEt.text.toString()
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
+        if (!viewModel.isPwdValid(pwd)) {
+            showToast(Constants.PWD_INVALID)
+            stopAnim()
+            return
+        }
         if (inputCheck(email, pwd, firstname, lastname, secretWord)) {
             if (!viewModel.isValidEmail(email)) {
                 showToast(Constants.INVALID_EMAIL)
@@ -104,6 +111,10 @@ class RegistrationFragment : Fragment() {
         } else {
             showToast(Constants.COMP_FIELDS_TOAST)
         }
+        stopAnim()
+    }
+
+    private fun stopAnim() {
         binding.regButton.revertAnimation()
         binding.regButton.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
@@ -129,7 +140,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun processError() {
-        showToast(Constants.INVALID_DATA)
+        showToast(Constants.USER_EXISTS)
     }
 
     private fun stopLoading() { }
