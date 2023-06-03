@@ -5,13 +5,13 @@ from rest_framework.decorators import action, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.forms.utils import json
-from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.models import User
 from djoser.utils import login_user
 from djoser.serializers import TokenSerializer
 from groups.services import select_group_operations
 
 from operations.services import get_operations_by_user
+from .services import create_user, update_user, reset_user_password
 from .models import AppUserProfile, GroupUser
 from .serializers import *
 from operations.serializers import AccountSerializer, CreditPaySerializer, OperationSerializer
@@ -29,11 +29,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
-        user = User.objects.get(id=body_data['user_id'])
-        user.first_name = body_data['first_name']
-        user.last_name = body_data['last_name']
-        user.appuserprofile.secret_word = make_password(body_data['secret_word'])
-        user.save()
+        user = create_user(body_data) 
         token = login_user(request, user)
         return Response(TokenSerializer(token).data)
     
@@ -44,10 +40,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
-        user = User.objects.get(id=body_data['id'])
-        user.first_name = body_data['first_name']
-        user.last_name = body_data['last_name']
-        user.save()
+        user = update_user(body_data)
         return Response(UserSerializer(user).data) 
 
     @extend_schema(responses=UserSerializer)
@@ -78,8 +71,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         if pk == None:
             user = self.request.user
         else:
-            user = AppUserProfile.objects.get(pk=pk)
-
+            user = User.objects.get(id=pk)
         queryset = user.account_set.all()
         serializer = AccountSerializer(queryset, many=True)
         return Response(serializer.data)
@@ -130,13 +122,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
         """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
-        try:
-            user: User = User.objects.get(username=body_data['email'])
-        except:
-            return Response({'message': 'Такой пользователь на зарегистрирован'}, status=403)
-        if check_password(body_data['secret_word'], user.appuserprofile.secret_word):
-            user.set_password(body_data['new_password'])
-            user.save()
-            return Response({'message': 'Пароль был изменен успешно'})
-        else:
-            return Response({'message': 'Введено неправильное секретное слово'}, status=403)
+        response = reset_user_password(body_data)
+        return Response(response['body'], status=response['status'])
