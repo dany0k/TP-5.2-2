@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseRegistrationRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseUser
@@ -48,6 +49,10 @@ interface UserApi {
         @Path("id") id: Int,
         @Body userRequestBody: UserRequestBody
     ) : Response<User>
+
+    @Headers("Content-type: application/json")
+    @GET("users/on_board_status/")
+    suspend fun getOnboardStatus(@Header("Authorization") token: String) : Response<String>
 
     companion object {
         fun getUserApi() : UserApi? {

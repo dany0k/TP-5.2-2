@@ -54,4 +54,8 @@ class UserRepository {
             userRequestBody = userRequestBody,
             token = token)
     }
+
+    suspend fun getUserOnboardStatus(token: String): Response<String>? {
+        return UserApi.getUserApi()?.getOnboardStatus(token = token)
+    }
 }

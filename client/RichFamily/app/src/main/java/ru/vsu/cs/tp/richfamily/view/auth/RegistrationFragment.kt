@@ -104,6 +104,9 @@ class RegistrationFragment : Fragment() {
         } else {
             showToast(Constants.COMP_FIELDS_TOAST)
         }
+        binding.regButton.revertAnimation()
+        binding.regButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
     }
 
     private fun inputCheck(

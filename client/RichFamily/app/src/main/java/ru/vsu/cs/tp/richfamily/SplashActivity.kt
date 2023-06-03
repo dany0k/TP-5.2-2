@@ -2,11 +2,9 @@ package ru.vsu.cs.tp.richfamily
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.database.Cursor
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
