@@ -29,6 +29,7 @@ class LoginViewModel(application: Application) :
     val loginResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
     val regResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
     val resetResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
+    val status: MutableLiveData<String> = MutableLiveData()
     private val logoutResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
     val currentUser: MutableLiveData<UserProfile> = MutableLiveData()
     val errorMessage = MutableLiveData<String>()
@@ -194,6 +195,21 @@ class LoginViewModel(application: Application) :
                 }
             } catch (ex: Exception) {
                 onError(ex.toString())
+            }
+        }
+    }
+
+    fun getUserStatusOnboard(token: String) {
+        loading.value = true
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = userRepo.getUserInfo(token = token)
+            withContext(Dispatchers.Main) {
+                if (response!!.code() == 200) {
+                    status.postValue(response.body().toString())
+                    loading.value = false
+                } else {
+                    onError("Error : ${response.message()} ")
+                }
             }
         }
     }

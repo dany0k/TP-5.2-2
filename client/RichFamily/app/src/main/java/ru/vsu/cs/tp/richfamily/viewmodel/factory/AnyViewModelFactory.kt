@@ -10,7 +10,9 @@ import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
+import ru.vsu.cs.tp.richfamily.repository.OnboardingRepository
 import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.OnboardingViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
@@ -50,6 +52,10 @@ class AnyViewModelFactory(
                 GroupViewModel(
                     groupRepository = repository as GroupRepository,
                     token = token
+                ) as T
+            modelClass.isAssignableFrom(OnboardingViewModel::class.java) ->
+                OnboardingViewModel(
+                    onboardingRepository = repository as OnboardingRepository,
                 ) as T
             else -> throw IllegalArgumentException("ViewModel Not Found")
         }

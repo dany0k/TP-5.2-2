@@ -8,16 +8,22 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import ru.vsu.cs.tp.richfamily.adapter.OnboardingItemAdapter
+import ru.vsu.cs.tp.richfamily.api.model.onboarding.Onboarding
 import ru.vsu.cs.tp.richfamily.api.model.onboarding.OnboardingItem
+import ru.vsu.cs.tp.richfamily.api.service.OnboardingApi
 import ru.vsu.cs.tp.richfamily.databinding.ActivityOnboardingBinding
-import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.repository.OnboardingRepository
 import ru.vsu.cs.tp.richfamily.utils.DataBaseHelper
+import ru.vsu.cs.tp.richfamily.viewmodel.OnboardingViewModel
+import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
 class OnboardingActivity : AppCompatActivity() {
 
+    private lateinit var onbViewModel: OnboardingViewModel
     private lateinit var binding: ActivityOnboardingBinding
     private lateinit var onBoardingItemAdapter: OnboardingItemAdapter
     private lateinit var indicatorsContainer: LinearLayout
@@ -28,28 +34,27 @@ class OnboardingActivity : AppCompatActivity() {
         indicatorsContainer = binding.indicatorContainer
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         setContentView(binding.root)
-        setOnboardingItems()
-        setupIndicators()
-        setCurrentIndicator(0)
+        val onbApi = OnboardingApi.getOnboardingApi()!!
+
+        val onbRepository = OnboardingRepository(onboardingApi = onbApi)
+        onbViewModel = ViewModelProvider(
+            this,
+            AnyViewModelFactory(
+                repository = onbRepository,
+                token = ""
+            )
+        )[OnboardingViewModel::class.java]
+        onbViewModel.onbList.observe(this) {
+            setOnboardingItems(it)
+            setupIndicators()
+            setCurrentIndicator(0)
+        }
+        onbViewModel.getWelcomeOnboards()
     }
 
-    private fun setOnboardingItems() {
-        onBoardingItemAdapter = OnboardingItemAdapter(
-            listOf(
-                OnboardingItem(
-                    onboardingImage = R.drawable.wallet,
-                    title = Constants.ONBOARDING_WALLET_TITLE,
-                    description = Constants.ONBOARDING_WALLET_DISC),
-                OnboardingItem(
-                    onboardingImage = R.drawable.group,
-                    title = Constants.ONBOARDING_GROUP_TITLE,
-                    description = Constants.ONBOARDING_GROUP_DISC),
-                OnboardingItem(
-                    onboardingImage = R.drawable.analyze,
-                    title = Constants.ONBOARDING_GROUP_TITLE,
-                    description = Constants.ONBOARDING_GROUP_DISC),
-            )
-        )
+    private fun setOnboardingItems(onbList: List<Onboarding>) {
+        val scrList = getOnbList(onbList)
+        onBoardingItemAdapter = OnboardingItemAdapter(scrList)
         binding.onboardingVp.adapter = onBoardingItemAdapter
         binding.onboardingVp.registerOnPageChangeCallback(object :
         ViewPager2.OnPageChangeCallback() {
@@ -69,6 +74,21 @@ class OnboardingActivity : AppCompatActivity() {
         binding.getStartedButton.setOnClickListener {
             navigateToMainActivity()
         }
+    }
+
+    private fun getOnbList(onbList: List<Onboarding>): MutableList<OnboardingItem> {
+        val scrList = mutableListOf<OnboardingItem>()
+        val imageList = listOf(R.drawable.wallet, R.drawable.group, R.drawable.analyze)
+        for (i in onbList.indices) {
+            scrList.add(
+                OnboardingItem(
+                    onboardingImage = imageList[i],
+                    title = onbList[i].title,
+                    description = onbList[i].description
+                )
+            )
+        }
+        return scrList
     }
 
     private fun navigateToMainActivity() {
