@@ -9,12 +9,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.databinding.FragmentLoginBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
@@ -42,7 +44,6 @@ class LoginFragment : Fragment() {
                 }
 
                 is BaseResponse.Success -> {
-                    stopLoading()
                     processLogin(it.data)
                 }
 
@@ -52,9 +53,7 @@ class LoginFragment : Fragment() {
                     binding.loginButton.background =
                         ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
                 }
-                else -> {
-                    stopLoading()
-                }
+                else -> { }
             }
         }
 
@@ -80,6 +79,7 @@ class LoginFragment : Fragment() {
                 SessionManager.saveAuthToken(requireActivity(), it)
             }
             binding.loginButton.revertAnimation()
+            YandexMetrica.reportEvent(YandexEvents.USER_LOGIN)
             navigateHome()
         }
     }
@@ -97,9 +97,6 @@ class LoginFragment : Fragment() {
         showToast(Constants.INVALID_DATA)
     }
 
-    private fun stopLoading() {
-
-    }
 
     private fun showLoading() {
         binding.loginButton.startAnimation()

@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.service.CreditApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddCreditBinding
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -48,6 +50,7 @@ class AddCreditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.calculateCreditButton.setOnClickListener {
+            YandexMetrica.reportEvent(YandexEvents.ADD_CREDIT)
             binding.calculateCreditButton.startAnimation()
             with(binding) {
                 if (token.isNotBlank()) {

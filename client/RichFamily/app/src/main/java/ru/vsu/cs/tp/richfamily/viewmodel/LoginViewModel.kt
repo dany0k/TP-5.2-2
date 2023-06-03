@@ -1,6 +1,7 @@
 package ru.vsu.cs.tp.richfamily.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -115,13 +116,13 @@ class LoginViewModel(application: Application) :
                     if (response?.code() == 200) {
                         regResult.postValue(BaseResponse.Success(response.body()))
                     } else {
-                        loginResult.postValue(BaseResponse.Error(responseBase.message()))
+                        regResult.postValue(BaseResponse.Error(responseBase.message()))
                     }
                 } else {
-                    loginResult.postValue(BaseResponse.Error(responseBase?.message()))
+                    regResult.postValue(BaseResponse.Error(responseBase?.message()))
                 }
             } catch (ex: java.lang.Exception) {
-                loginResult.value = BaseResponse.Error(ex.message)
+                regResult.value = BaseResponse.Error(ex.message)
             }
         }
     }
@@ -168,6 +169,17 @@ class LoginViewModel(application: Application) :
     }
     fun comparePwd(pwd: String, subPwd: String): Boolean {
         return pwd == subPwd
+    }
+
+    fun isPwdValid(pwd: String): Boolean {
+        val regex = Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}\$")
+        val matchResult = regex.find(pwd)
+        return if (matchResult != null) {
+            val matchedValue = matchResult.value
+            true
+        } else {
+            false
+        }
     }
 
     fun isValidEmail(email: String): Boolean {

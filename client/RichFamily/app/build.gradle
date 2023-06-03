@@ -57,6 +57,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
+    // AppMetrica components
+    implementation 'com.yandex.android:mobmetricalib:5.3.0'
+
     // Design components
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'com.github.razir.progressbutton:progressbutton:2.1.0'

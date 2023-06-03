@@ -15,7 +15,9 @@ object Constants {
             " их доходы и расходы будут сохранены\nВы уверены?"
     const val LEAVE_GROUP_MESSAGE = "Вы уверены?"
     const val NO_SUCH_USER = "Ошибка при добавление пользователя"
+    const val USER_EXISTS = "Ошибка: проверьте почту и пароль!"
     const val PWD_NOT_COMPARE = "Пароли не совпадают!"
+    const val PWD_INVALID = "Пароль слишком короткий!"
     const val INVALID_EMAIL = "Неверно заполнено поле email!"
     const val SUCCESS_LOGIN = "Успешно!"
     const val INVALID_DATA = "Неверные данные"
@@ -25,13 +27,4 @@ object Constants {
     const val SUBMIT_GROUP_USER_DELETE_TEXT = "При удалении пользователя, все расходы и доходы," +
             " созданные им во время участия в группе будут сохранены. " +
             "Вы больше не сможете увидеть операции пользователя.\nПродолжить?"
-    const val ONBOARDING_WALLET_TITLE = "Следите за своими финансами"
-    const val ONBOARDING_WALLET_DISC = "Создавайте разные счета и категории для точного " +
-            "распределения своих финансовых операций"
-    const val ONBOARDING_GROUP_TITLE = "Создавайте группы"
-    const val ONBOARDING_GROUP_DISC = "Объединяйтесь в группы, чтобы отслеживать финансовые " +
-            "операции других участников"
-    const val ONBOARDING_ANALYZE_TITLE = "Анализируйте свой бюджет"
-    const val ONBOARDING_ANALYZE_DISC = "Вы всегда можете посмотреть на все свои операции," +
-            " а также экспортировать их на свое мобильное устройство"
 }

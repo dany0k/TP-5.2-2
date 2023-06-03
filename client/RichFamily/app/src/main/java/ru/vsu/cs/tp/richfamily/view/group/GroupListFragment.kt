@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.GroupListRVAdapter
@@ -19,6 +20,7 @@ import ru.vsu.cs.tp.richfamily.api.service.GroupApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentGroupListBinding
 import ru.vsu.cs.tp.richfamily.databinding.GroupAddDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.GroupRepository
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -102,6 +104,7 @@ class GroupListFragment :
         )
         builder.setView(dialogBinding.root)
         builder.setPositiveButton(R.string.add) { _, _ ->
+            YandexMetrica.reportEvent(YandexEvents.ADD_USER_IN_GROUP)
             val grName = dialogBinding.grNameEt.text.toString()
             grViewModel.addGroup(grName)
         }
