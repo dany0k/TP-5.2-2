@@ -1,10 +1,10 @@
 from rest_framework.routers import SimpleRouter
 
-from operations.views import OperationCategoryViewSet
+from .views import OnboardScreenViewSet
 
 
 router = SimpleRouter()
-router.register(r'^', OperationCategoryViewSet)
+router.register(r'^', OnboardScreenViewSet)
 
 urlpatterns = []
 

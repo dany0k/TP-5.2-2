@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path, re_path
-from rest_framework import routers
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from djoser.views import UserViewSet
 
 from operations.views import *
 from users.views import *
@@ -33,7 +33,8 @@ urlpatterns = [
     re_path(r'^templates', include('operations.urls.template_urls')),
     re_path(r'^credits', include('operations.urls.credit_urls')),
     re_path(r'^groups', include('groups.urls')),
-    path('auth/utils/', include('djoser.urls')),       
+    re_path(r'^onboards', include('onboard.urls')),
+    path('auth/utils/register/', UserViewSet.as_view({'post': 'create'})),       
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api/v1/swagger/', SpectacularSwaggerView.as_view(url_name="schema")),
     path('api/v1/schema/', SpectacularAPIView.as_view(), name="schema"),
