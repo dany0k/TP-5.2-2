@@ -25,6 +25,7 @@ import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
+import java.text.DecimalFormat
 
 class UpdateTemplateFragment : Fragment() {
 
@@ -66,42 +67,53 @@ class UpdateTemplateFragment : Fragment() {
             }
         }
         binding.updateTemplateButton.setOnClickListener {
-            val rbText: String = if (binding.consumptionRb.isChecked) {
-                Constants.CONS_TEXT
-            } else {
-                Constants.INCOME_TEXT
-            }
-
-            if (inputCheck(
-                    name = binding.templateNameEt.text.toString(),
-                    wallet = binding.filledScore.text.toString(),
-                    category = binding.filledCategory.text.toString(),
-                    opType = rbText,
-                    opRecipient = binding.senderEt.toString(),
-                    opSum = binding.totalEt.text.toString(),
-                    opComment = binding.commentEt.text.toString()
-                )) {
-                with(binding) {
-                    temViewModel.editOperation(
-                        id = args.template.id,
-                        name = templateNameEt.text.toString(),
-                        walletId = getWalletFromACTV(filledScore.text.toString()),
-                        categoryId = getCategoryFromACTV(filledCategory.text.toString()),
-                        opType = rbText,
-                        opRecipient = senderEt.text.toString(),
-                        opSum =  totalEt.text.toString().toFloat(),
-                        opComment = commentEt.text.toString()
-                    )
-                }
-                findNavController().popBackStack()
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    Constants.COMP_FIELDS_TOAST,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            processButton()
         }
+    }
+
+    private fun processButton() {
+        val rbText: String = if (binding.consumptionRb.isChecked) {
+            Constants.CONS_TEXT
+        } else {
+            Constants.INCOME_TEXT
+        }
+        val name = binding.templateNameEt.text.toString()
+        val wallet = binding.filledScore.text.toString()
+        val cat = binding.filledCategory.text.toString()
+        val opRec = binding.senderEt.text.toString()
+        val opSum = binding.totalEt.text.toString()
+        val opComment = binding.commentEt.text.toString()
+        if (!walViewModel.isScoreValid(opSum)) {
+            showToast(Constants.WALLET_INVALID)
+            return
+        }
+        if (inputCheck(
+                name = name,
+                wallet = wallet,
+                category = cat,
+                opType = rbText,
+                opRecipient = opRec,
+                opSum = opSum,
+                opComment = opComment
+            )) {
+            temViewModel.editOperation(
+                id = args.template.id,
+                name = name,
+                walletId = getWalletFromACTV(wallet),
+                categoryId = getCategoryFromACTV(cat),
+                opType = rbText,
+                opRecipient = opRec,
+                opSum =  opSum.toFloat(),
+                opComment = opComment
+            )
+            findNavController().popBackStack()
+        } else {
+            showToast(Constants.COMP_FIELDS_TOAST)
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun getWalletFromACTV(selectedItem: String): Int {
@@ -122,9 +134,10 @@ class UpdateTemplateFragment : Fragment() {
         val curTem = args.template
         templateNameEt.setText(curTem.temp_name)
         senderEt.setText(curTem.temp_recipient)
-        totalEt.setText(curTem.temp_sum.toString())
+        totalEt.setText(DecimalFormat("#.###").format(curTem.temp_sum))
         commentEt.setText(curTem.temp_comment)
         if (curTem.temp_variant == Constants.CONS_TEXT) {
+            consumptionRb.isChecked = true
             consumptionRb.isChecked = true
         } else {
             incomeRb.isChecked = true
@@ -211,16 +224,12 @@ class UpdateTemplateFragment : Fragment() {
         opSum: String,
         opComment: String
     ): Boolean {
-        if (name.isNotBlank() &&
-            wallet.isNotBlank() &&
-            category.isNotBlank() &&
-            opType.isNotBlank() &&
-            opRecipient.isNotBlank() &&
-            opSum.isNotBlank() &&
-            opComment.isNotBlank()
-        ) {
-            return true
-        }
-        return false
+        return name.isNotBlank() &&
+                wallet.isNotBlank() &&
+                category.isNotBlank() &&
+                opType.isNotBlank() &&
+                opRecipient.isNotBlank() &&
+                opSum.isNotBlank() &&
+                opComment.isNotBlank()
     }
 }

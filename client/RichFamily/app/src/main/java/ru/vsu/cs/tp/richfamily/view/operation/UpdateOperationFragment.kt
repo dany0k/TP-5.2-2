@@ -31,6 +31,7 @@ import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -80,49 +81,66 @@ class UpdateOperationFragment : Fragment() {
             setDate(hasFocus)
         }
         binding.addOperationButton.setOnClickListener {
-            binding.addOperationButton.startAnimation()
-            val rbText: String = if (binding.consumptionRb.isChecked) {
-                Constants.CONS_TEXT
-            } else {
-                Constants.INCOME_TEXT
-            }
-
-            if (inputCheck(
-                    wallet = binding.filledScore.text.toString(),
-                    category = binding.filledCategory.text.toString(),
-                    opType = rbText,
-                    time = binding.timeEt.text.toString(),
-                    date = binding.dateEt.text.toString(),
-                    opRecipient = binding.senderEt.toString(),
-                    opSum = binding.totalEt.text.toString(),
-                    opComment = binding.commentEt.text.toString()
-                )) {
-                with(binding) {
-                    opViewModel.editOperation(
-                        id = curOp.id,
-                        walletId = getWalletFromACTV(filledScore.text.toString()),
-                        categoryId = getCategoryFromACTV(filledCategory.text.toString()),
-                        opType = rbText,
-                        opDate = dateTimeToLocalDateTime(
-                            time = timeEt.text.toString(),
-                            date = dateEt.text.toString()),
-                        opRecipient = senderEt.text.toString(),
-                        opSum =  totalEt.text.toString().toFloat(),
-                        opComment = commentEt.text.toString()
-                    )
-                }
-                findNavController().popBackStack()
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    Constants.COMP_FIELDS_TOAST,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            binding.addOperationButton.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-            binding.addOperationButton.revertAnimation()
+            processButton()
         }
+    }
+
+    private fun processButton() {
+        val rbText: String = if (binding.consumptionRb.isChecked) {
+            Constants.CONS_TEXT
+        } else {
+            Constants.INCOME_TEXT
+        }
+        val wallet = binding.filledScore.text.toString()
+        val category = binding.filledCategory.text.toString()
+        val time = binding.timeEt.text.toString()
+        val date = binding.dateEt.text.toString()
+        val opRecipient = binding.senderEt.text.toString()
+        val opSum = binding.totalEt.text.toString()
+        val opComment = binding.commentEt.text.toString()
+        if (!walViewModel.isScoreValid(opSum)) {
+            showToast(Constants.WALLET_INVALID)
+            return
+        }
+        if (inputCheck(
+                wallet = wallet,
+                category = category,
+                opType = rbText,
+                time = time,
+                date = date,
+                opRecipient = opRecipient,
+                opSum = opSum,
+                opComment = opComment
+            )) {
+            binding.addOperationButton.startAnimation()
+            opViewModel.editOperation(
+                id = curOp.id,
+                walletId = walViewModel.getWalletFromACTV(wallet, walList),
+                categoryId = catViewModel.getCategoryFromACTV(category, catList),
+                opType = rbText,
+                opDate = dateTimeToLocalDateTime(
+                    time = time,
+                    date = date
+                ),
+                opRecipient = opRecipient,
+                opSum = opSum.toFloat(),
+                opComment = opComment
+            )
+            findNavController().popBackStack()
+        } else {
+            showToast(Constants.COMP_FIELDS_TOAST)
+        }
+        stopAnim()
+    }
+
+    private fun stopAnim() {
+        binding.addOperationButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.addOperationButton.revertAnimation()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setDate(hasFocus: Boolean) {
@@ -154,8 +172,8 @@ class UpdateOperationFragment : Fragment() {
                     val result = "$selectedHour:$selectedMinute"
                     binding.timeEt.setText(result)
                 }, hour, minute, true)
-
             timePickerDialog.show()
+            binding.dateEt.clearFocus()
         }
     }
 
@@ -177,7 +195,7 @@ class UpdateOperationFragment : Fragment() {
             dateEt.setText(getDate(it.op_date))
             timeEt.setText(getTime(it.op_date))
             senderEt.setText(it.op_recipient)
-            totalEt.setText(it.op_sum.toString())
+            totalEt.setText(DecimalFormat("#.###").format(curOp.op_sum))
             commentEt.setText(it.op_comment)
             if (it.op_variant == Constants.CONS_TEXT) {
                 consumptionRb.isChecked = true
@@ -296,17 +314,18 @@ class UpdateOperationFragment : Fragment() {
         opSum: String,
         opComment: String
     ): Boolean {
-        if (wallet.isNotBlank() &&
-            category.isNotBlank() &&
-            opType.isNotBlank() &&
-            time.isNotBlank() &&
-            date.isNotBlank() &&
-            opRecipient.isNotBlank() &&
-            opSum.isNotBlank() &&
-            opComment.isNotBlank()
-        ) {
-            return true
-        }
-        return false
+        return wallet.isNotBlank() &&
+                category.isNotBlank() &&
+                opType.isNotBlank() &&
+                time.isNotBlank() &&
+                date.isNotBlank() &&
+                opRecipient.isNotBlank() &&
+                opSum.isNotBlank() &&
+                opComment.isNotBlank()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.addOperationButton.dispose()
     }
 }

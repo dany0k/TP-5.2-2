@@ -1,5 +1,6 @@
 package ru.vsu.cs.tp.richfamily.view.account
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
@@ -12,6 +13,7 @@ import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.SplashActivity
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAccountBinding
+import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
@@ -71,14 +73,37 @@ class AccountFragment : Fragment() {
         }
 
         binding.exitButton.setOnClickListener {
-            binding.exitButton.startAnimation()
-            doLogout()
-            binding.exitButton.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-            binding.exitButton.revertAnimation()
+            createExitDialog()
         }
     }
 
+    private fun createExitDialog() {
+        binding.exitButton.startAnimation()
+        val builder = AlertDialog.Builder(context)
+        val dialogBinding = SubmitDialogBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+        builder.setView(dialogBinding.root)
+        val submitText: String = Constants.EXIT_ACCOUNT_MESSAGE
+        dialogBinding.textToSubmit.text = submitText
+        builder.setPositiveButton(R.string.accept) { _, _ ->
+            doLogout()
+            stopAnim()
+        }
+        builder.setNegativeButton(R.string.cancel) { _, _ ->
+            onDestroyView()
+            stopAnim()
+        }
+        builder.show()
+    }
+
+    private fun stopAnim() {
+        binding.exitButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.exitButton.revertAnimation()
+    }
     private fun doLogout() {
         viewModel.logoutUser(token = token)
         SessionManager.clearData(requireActivity())

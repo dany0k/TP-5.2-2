@@ -34,11 +34,18 @@ class WalletViewModel(
         }
     }
 
+
     fun getWalletFromACTV(selectedItem: String, walList: List<Wallet>): Int {
         val selectedClass = walList.find {
             "${it.acc_name} ${it.acc_sum} ${it.acc_currency}" == selectedItem
         }
         return selectedClass!!.id
+    }
+
+    fun isScoreValid(score: String): Boolean {
+        val regex = Regex("(-?\\d*\\.?\\d+)")
+        val matchResult = regex.find(score)
+        return matchResult != null
     }
 
     fun findWalletById(id: Int, walList: List<Wallet>): String {

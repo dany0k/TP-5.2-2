@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -44,10 +45,12 @@ class RecoveryFragment : Fragment() {
                     stopLoading()
                     process()
                     showToast(Constants.SUCCESS_LOGIN)
+                    stopAnim()
                 }
 
                 is BaseResponse.Error -> {
                     processError()
+                    stopAnim()
                 }
                 else -> {
                     stopLoading()
@@ -67,20 +70,32 @@ class RecoveryFragment : Fragment() {
         if (inputCheck(email, secretWord, newPwd, newPwdSub)) {
             if (!viewModel.isValidEmail(email)) {
                 showToast(Constants.INVALID_EMAIL)
+                return
             }
-            if (viewModel.comparePwd(newPwd, newPwdSub)) {
-                viewModel.resetPwd(
-                    email = email,
-                    secretWord = secretWord,
-                    newPassword = newPwd
-                )
-                YandexMetrica.reportEvent(YandexEvents.USER_RESET_PWD)
-            } else {
+            if (!viewModel.comparePwd(newPwd, newPwdSub)) {
                 showToast(Constants.PWD_NOT_COMPARE)
+                return
             }
+            if (!viewModel.isPwdValid(newPwd)) {
+                showToast(Constants.PWD_INVALID)
+                return
+            }
+            binding.recoverButton.startAnimation()
+            viewModel.resetPwd(
+                email = email,
+                secretWord = secretWord,
+                newPassword = newPwd
+            )
+            YandexMetrica.reportEvent(YandexEvents.USER_RESET_PWD)
         } else {
-            showToast(Constants.INVALID_EMAIL)
+            showToast(Constants.COMP_FIELDS_TOAST)
         }
+    }
+
+    private fun stopAnim() {
+        binding.recoverButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.recoverButton.revertAnimation()
     }
 
     private fun processError() {
