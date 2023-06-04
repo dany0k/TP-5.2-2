@@ -10,6 +10,7 @@ class AppUserProfile(models.Model):
     # В качестве модели пользователя будет использоваться расширенная встроенная модель
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     secret_word = models.CharField(max_length=255)
+    onboard = models.CharField(max_length=20, default='none')
 
 
 @receiver(post_save, sender=User)
