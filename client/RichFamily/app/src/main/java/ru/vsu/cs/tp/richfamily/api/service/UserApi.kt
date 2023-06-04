@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseRegistrationRequest
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseUser
@@ -24,7 +25,7 @@ interface UserApi {
     @POST("auth/token/logout")
     suspend fun logoutUser(@Header("Authorization") token: String) : Response<ResponseBody>
 
-    @POST("auth/utils/users/")
+    @POST("auth/utils/register/")
     suspend fun registerBase(
         @Body baseRegistrationRequest: BaseRegistrationRequest
     ) : Response<BaseUser>
@@ -34,7 +35,7 @@ interface UserApi {
         @Body registerRequest: RegisterRequest
     ) : Response<User>
 
-    @POST("auth/utils/users/reset_password/")
+    @POST("users/reset_password/")
     suspend fun resetPwd(
         @Body resetPwdRequestBody: ResetPwdRequestBody
     ) : Response<ResponseBody>
@@ -48,6 +49,10 @@ interface UserApi {
         @Path("id") id: Int,
         @Body userRequestBody: UserRequestBody
     ) : Response<User>
+
+    @Headers("Content-type: application/json")
+    @GET("users/on_board_status/")
+    suspend fun getOnboardStatus(@Header("Authorization") token: String) : Response<String>
 
     companion object {
         fun getUserApi() : UserApi? {

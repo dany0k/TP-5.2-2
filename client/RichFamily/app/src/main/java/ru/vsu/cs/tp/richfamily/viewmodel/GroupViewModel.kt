@@ -56,6 +56,7 @@ class GroupViewModel(
                 if (response.isSuccessful) {
                     usersList.postValue(response.body()!!.filter { !it.is_leader })
                     leaderUser.postValue(response.body()!!.first { it.is_leader })
+                    loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
                 }
@@ -72,8 +73,8 @@ class GroupViewModel(
             )
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    loading.value = false
                     getAllUsersFromGroup(id = id)
+                    loading.value = false
                 } else {
                     onError(Constants.NO_SUCH_USER)
                 }
@@ -90,8 +91,8 @@ class GroupViewModel(
             )
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
-                    loading.value = false
                     getAllUsersFromGroup(id = groupId)
+                    loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
                 }
@@ -106,6 +107,7 @@ class GroupViewModel(
             )
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
+                    getUsersGroup()
                     loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
@@ -190,5 +192,12 @@ class GroupViewModel(
     override fun onCleared() {
         super.onCleared()
         job?.cancel()
+    }
+
+    fun isNameValid(name: String): Boolean {
+        val regex = Regex("^(?=(?:\\D*\\d){0,20}\\D*\$)[a-zA-Zа-яА-Я0-9]+" +
+                "(?:\\s[a-zA-Zа-яА-Я0-9]+){0,2}\$")
+        val matchResult = regex.find(name)
+        return matchResult != null
     }
 }

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.OperationClickDeleteInterface
@@ -21,6 +22,7 @@ import ru.vsu.cs.tp.richfamily.api.model.operation.Operation
 import ru.vsu.cs.tp.richfamily.api.service.OperationApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentReportBinding
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -81,6 +83,7 @@ class ReportFragment :
             opViewModel.getAllOperations()
         }
         binding.saveReportButton.setOnClickListener {
+            YandexMetrica.reportEvent(YandexEvents.SAVE_REPORT)
             binding.saveReportButton.startAnimation()
             opViewModel.consList.observe(viewLifecycleOwner) { cons ->
                 opViewModel.inList.observe(viewLifecycleOwner) { incs ->
@@ -147,45 +150,4 @@ class ReportFragment :
     companion object {
         private const val PERMISSION_REQUEST_CODE = 100
     }
-
-//    private fun saveCSVFile() {
-//        val fileName = "data.csv"
-//        val contentValues = ContentValues().apply {
-//            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-//            put(MediaStore.MediaColumns.MIME_TYPE, "text/csv")
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOCUMENTS)
-//            }
-//        }
-//
-//        val resolver: ContentResolver = requireActivity().contentResolver
-//        var outputStream: BufferedOutputStream? = null
-//        try {
-//            val collection =
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//                    MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-//                } else {
-//                    MediaStore.Files.getContentUri("external")
-//                }
-//
-//            val itemUri: Uri? = resolver.insert(collection, contentValues)
-//            if (itemUri != null) {
-//                outputStream = BufferedOutputStream(resolver.openOutputStream(itemUri))
-//                if (outputStream != null) {
-//                    val responseBody: ResponseBody? = opViewModel.fileForSave.value
-//                    responseBody?.byteStream()?.let { inputStream ->
-//                        inputStream.copyTo(outputStream)
-//                        outputStream.flush()
-//                        Toast.makeText(requireContext(), "Файл CSV сохранен", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        } finally {
-//            outputStream?.close()
-//        }
-//    }
-
 }
-

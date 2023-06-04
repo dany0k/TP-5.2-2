@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.CategoryClickDeleteInterface
@@ -22,6 +23,7 @@ import ru.vsu.cs.tp.richfamily.databinding.FragmentCategoryBinding
 import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -93,6 +95,7 @@ class CategoryFragment:
                 )
                 builder.setView(dialogBinding.root)
                 builder.setPositiveButton(R.string.add) { _, _ ->
+                    YandexMetrica.reportEvent(YandexEvents.ADD_CATEGORY)
                     val catName = dialogBinding.categoryNameEt.text.toString()
                     catViewModel.addCategory(catName)
                 }

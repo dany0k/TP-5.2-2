@@ -1,6 +1,7 @@
 package ru.vsu.cs.tp.richfamily.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -20,6 +21,7 @@ import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.api.model.auth.UserProfile
 import ru.vsu.cs.tp.richfamily.api.model.auth.UserRequestBody
 import ru.vsu.cs.tp.richfamily.repository.UserRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 
 class LoginViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -54,7 +56,7 @@ class LoginViewModel(application: Application) :
                         BaseResponse.Success(response.body())
                 } else {
                     loginResult.value =
-                        BaseResponse.Error(response?.message())
+                        BaseResponse.Error(Constants.CANT_LOGIN)
                 }
             } catch (ex: java.lang.Exception) {
                 loginResult.value = BaseResponse.Error(ex.message)
@@ -81,7 +83,6 @@ class LoginViewModel(application: Application) :
             }
         }
     }
-
 
     fun registerUser(
         email: String,
@@ -114,13 +115,13 @@ class LoginViewModel(application: Application) :
                     if (response?.code() == 200) {
                         regResult.postValue(BaseResponse.Success(response.body()))
                     } else {
-                        loginResult.postValue(BaseResponse.Error(responseBase.message()))
+                        regResult.postValue(BaseResponse.Error(response!!.body().toString()))
                     }
                 } else {
-                    loginResult.postValue(BaseResponse.Error(responseBase?.message()))
+                    regResult.postValue(BaseResponse.Error(responseBase.toString()))
                 }
             } catch (ex: java.lang.Exception) {
-                loginResult.value = BaseResponse.Error(ex.message)
+                regResult.value = BaseResponse.Error(ex.message)
             }
         }
     }
@@ -135,7 +136,7 @@ class LoginViewModel(application: Application) :
                         currentUser.postValue(response.body())
                         loading.value = false
                     } else {
-                        onError("Error : ${response.message()} ")
+                        onError(response.message())
                     }
                 }
             } catch (ex: Exception) {
@@ -169,6 +170,17 @@ class LoginViewModel(application: Application) :
         return pwd == subPwd
     }
 
+    fun isPwdValid(pwd: String): Boolean {
+        val regex = Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}\$")
+        val matchResult = regex.find(pwd)
+        return if (matchResult != null) {
+            val matchedValue = matchResult.value
+            true
+        } else {
+            false
+        }
+    }
+
     fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
@@ -189,7 +201,7 @@ class LoginViewModel(application: Application) :
                     if (response!!.code() == 200) {
                         loading.value = false
                     } else {
-                        onError("Error : ${response.message()} ")
+                        onError(response.message())
                     }
                 }
             } catch (ex: Exception) {

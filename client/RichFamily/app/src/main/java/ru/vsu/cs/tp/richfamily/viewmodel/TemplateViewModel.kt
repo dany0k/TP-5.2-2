@@ -40,6 +40,12 @@ class TemplateViewModel(
         }
     }
 
+    fun isScoreValid(score: String): Boolean {
+        val regex = Regex("(-?\\d*\\.?\\d+)")
+        val matchResult = regex.find(score)
+        return matchResult != null
+    }
+
     fun addTemplate(
         tempName: String,
         walletId: Int,

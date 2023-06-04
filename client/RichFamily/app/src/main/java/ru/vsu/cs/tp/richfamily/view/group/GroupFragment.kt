@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.adapter.GroupUserRVAdapter
@@ -23,6 +24,7 @@ import ru.vsu.cs.tp.richfamily.databinding.FragmentGroupBinding
 import ru.vsu.cs.tp.richfamily.databinding.SubmitDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.GroupRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
 
@@ -110,6 +112,7 @@ class GroupFragment :
             )
             builder.setView(dialogBinding.root)
             builder.setPositiveButton(R.string.add) { _, _ ->
+                YandexMetrica.reportEvent(YandexEvents.ADD_GROUP)
                 val userEmail = dialogBinding.userEmailEt.text.toString()
                 grViewModel.addUserInGroup(args.groupId, userEmail)
             }
@@ -222,9 +225,11 @@ class GroupFragment :
         builder.setPositiveButton(R.string.accept) { _, _ ->
             grViewModel.deleteUserFromGroup(groupId = args.groupId, userId =  id)
             showToast()
+            stopAnimation()
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
+            stopAnimation()
         }
         builder.show()
     }

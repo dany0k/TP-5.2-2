@@ -9,12 +9,14 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.yandex.metrica.YandexMetrica
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.databinding.FragmentRegistrationBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
 class RegistrationFragment : Fragment() {
@@ -42,12 +44,10 @@ class RegistrationFragment : Fragment() {
                 }
                 is BaseResponse.Success -> {
                     processRegistration(it.data)
+                    stopAnim()
                 }
                 is BaseResponse.Error -> {
-                    binding.regButton.revertAnimation()
-                    binding.regButton.background =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-                    processError()
+                    stopAnim()
                 }
                 else -> {
                     stopLoading()
@@ -63,7 +63,6 @@ class RegistrationFragment : Fragment() {
             findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
         }
         binding.regButton.setOnClickListener {
-            binding.regButton.startAnimation()
             doRegistration()
         }
     }
@@ -74,7 +73,7 @@ class RegistrationFragment : Fragment() {
                 SessionManager.saveAuthToken(requireActivity(), it)
             }
             showToast(Constants.SUCCESS_LOGIN)
-            binding.regButton.revertAnimation()
+            YandexMetrica.reportEvent(YandexEvents.USER_REG)
             navigateHome()
         }
     }
@@ -86,35 +85,49 @@ class RegistrationFragment : Fragment() {
         val firstname = binding.userNameEt.text.toString()
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
-        if (inputCheck(email, pwd, firstname, lastname, secretWord)) {
+        if (inputCheck(email, pwd, subPwd, firstname, lastname, secretWord)) {
+            if (!viewModel.isPwdValid(pwd)) {
+                showToast(Constants.PWD_INVALID)
+                return
+            }
             if (!viewModel.isValidEmail(email)) {
                 showToast(Constants.INVALID_EMAIL)
+                return
             }
-            if (viewModel.comparePwd(pwd, subPwd)) {
-                viewModel.registerUser(
-                    email = email,
-                    pwd = pwd,
-                    firstname = firstname,
-                    lastname = lastname,
-                    secretWord = secretWord
-                )
-            } else {
+            if (!viewModel.comparePwd(pwd, subPwd)) {
                 showToast(Constants.PWD_NOT_COMPARE)
+                return
             }
+            binding.regButton.startAnimation()
+            viewModel.registerUser(
+                email = email,
+                pwd = pwd,
+                firstname = firstname,
+                lastname = lastname,
+                secretWord = secretWord
+            )
         } else {
             showToast(Constants.COMP_FIELDS_TOAST)
         }
     }
 
+    private fun stopAnim() {
+        binding.regButton.revertAnimation()
+        binding.regButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+    }
+
     private fun inputCheck(
         username: String,
         pwd: String,
+        pwdAgain: String,
         firstname: String,
         lastname: String,
         secretWord: String
     ): Boolean {
         return username.isNotBlank() &&
                 pwd.isNotBlank() &&
+                pwdAgain.isNotBlank() &&
                 firstname.isNotBlank() &&
                 lastname.isNotBlank() &&
                 secretWord.isNotBlank()
@@ -125,8 +138,8 @@ class RegistrationFragment : Fragment() {
             .navigate(R.id.action_registrationFragment_to_walletFragment)
     }
 
-    private fun processError() {
-        showToast(Constants.INVALID_DATA)
+    private fun processError(message: String) {
+        showToast(message)
     }
 
     private fun stopLoading() { }
