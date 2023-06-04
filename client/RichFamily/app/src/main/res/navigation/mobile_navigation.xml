@@ -86,7 +86,7 @@
     <fragment
         android:id="@+id/groupListFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.group.GroupListFragment"
-        android:label="Группа"
+        android:label="Группы"
         tools:layout="@layout/fragment_group_list" >
         <action
             android:id="@+id/action_groupListFragment_to_groupFragment"
@@ -232,7 +232,7 @@
     <fragment
         android:id="@+id/groupFragment"
         android:name="ru.vsu.cs.tp.richfamily.view.group.GroupFragment"
-        android:label="Группы"
+        android:label="Группа"
         tools:layout="@layout/fragment_group" >
         <action
             android:id="@+id/action_groupFragment_to_userOperationFragment"

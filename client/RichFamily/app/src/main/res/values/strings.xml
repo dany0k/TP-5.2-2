@@ -111,4 +111,5 @@
     <string name="get_started_button_label">Начать</string>
     <string name="descr">descr</string>
     <string name="skip">Пропустить</string>
+    <string name="new_pwd_et">Новый пароль</string>
 </resources>
