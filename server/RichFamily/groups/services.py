@@ -2,6 +2,8 @@
 Сервисы бизнес-логики для взаимодействия с группами
 """
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.expressions import NoneType
 
 from operations.services import get_last_operation_for_user
 
@@ -16,7 +18,11 @@ def create_group(data, user: User):
     """
     group = Group.objects.create(gr_name = data['gr_name'])
     operation = get_last_operation_for_user(user)
-    GroupUser.objects.create(user=user, group=group, is_leader=True, last_operation_id=operation.first().id)
+    if operation.first() is None:
+        last_id = 0
+    else:
+        last_id = operation.first().id
+    GroupUser.objects.create(user=user, group=group, is_leader=True, last_operation_id=last_id)
     serializer = GroupSerializer(group)
     return serializer.data
 
@@ -48,7 +54,11 @@ def add_user(username, group_id) -> None:
     group = Group.objects.get(id=group_id)
     user = User.objects.get(username=username)
     operation = get_last_operation_for_user(user)
-    GroupUser.objects.create(group=group, user=user, last_operation_id=operation.first().id)
+    if operation.first() is None:
+        last_id = 0
+    else:
+        last_id = operation.first().id
+    GroupUser.objects.create(group=group, user=user, last_operation_id=last_id)
 
 
 def get_users(group_id) -> list:
