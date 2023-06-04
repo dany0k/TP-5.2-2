@@ -44,12 +44,10 @@ class RegistrationFragment : Fragment() {
                 }
                 is BaseResponse.Success -> {
                     processRegistration(it.data)
+                    stopAnim()
                 }
                 is BaseResponse.Error -> {
-                    binding.regButton.revertAnimation()
-                    binding.regButton.background =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-                    processError()
+                    stopAnim()
                 }
                 else -> {
                     stopLoading()
@@ -65,7 +63,6 @@ class RegistrationFragment : Fragment() {
             findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
         }
         binding.regButton.setOnClickListener {
-            binding.regButton.startAnimation()
             doRegistration()
         }
     }
@@ -88,30 +85,30 @@ class RegistrationFragment : Fragment() {
         val firstname = binding.userNameEt.text.toString()
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
-        if (!viewModel.isPwdValid(pwd)) {
-            showToast(Constants.PWD_INVALID)
-            stopAnim()
-            return
-        }
-        if (inputCheck(email, pwd, firstname, lastname, secretWord)) {
+        if (inputCheck(email, pwd, subPwd, firstname, lastname, secretWord)) {
+            if (!viewModel.isPwdValid(pwd)) {
+                showToast(Constants.PWD_INVALID)
+                return
+            }
             if (!viewModel.isValidEmail(email)) {
                 showToast(Constants.INVALID_EMAIL)
+                return
             }
-            if (viewModel.comparePwd(pwd, subPwd)) {
-                viewModel.registerUser(
-                    email = email,
-                    pwd = pwd,
-                    firstname = firstname,
-                    lastname = lastname,
-                    secretWord = secretWord
-                )
-            } else {
+            if (!viewModel.comparePwd(pwd, subPwd)) {
                 showToast(Constants.PWD_NOT_COMPARE)
+                return
             }
+            binding.regButton.startAnimation()
+            viewModel.registerUser(
+                email = email,
+                pwd = pwd,
+                firstname = firstname,
+                lastname = lastname,
+                secretWord = secretWord
+            )
         } else {
             showToast(Constants.COMP_FIELDS_TOAST)
         }
-        stopAnim()
     }
 
     private fun stopAnim() {
@@ -123,12 +120,14 @@ class RegistrationFragment : Fragment() {
     private fun inputCheck(
         username: String,
         pwd: String,
+        pwdAgain: String,
         firstname: String,
         lastname: String,
         secretWord: String
     ): Boolean {
         return username.isNotBlank() &&
                 pwd.isNotBlank() &&
+                pwdAgain.isNotBlank() &&
                 firstname.isNotBlank() &&
                 lastname.isNotBlank() &&
                 secretWord.isNotBlank()
@@ -139,8 +138,8 @@ class RegistrationFragment : Fragment() {
             .navigate(R.id.action_registrationFragment_to_walletFragment)
     }
 
-    private fun processError() {
-        showToast(Constants.USER_EXISTS)
+    private fun processError(message: String) {
+        showToast(message)
     }
 
     private fun stopLoading() { }

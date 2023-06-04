@@ -1,76 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.auth.LoginFragment">
 
-    <TextView
-        android:id="@+id/error_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/red"
-        tools:text="Error!"
-        android:layout_marginTop="@dimen/default_margin"/>
-
-    <EditText
-        android:id="@+id/user_email_et"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="@dimen/default_margin"
-        android:hint="@string/email_hint_text"
-        style="@style/HintTextEt"
-        android:background="@drawable/custom_input"
-        android:padding="@dimen/half_margin"
-        android:drawableStart="@drawable/ic_email"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        android:maxLength="45"
-        android:layout_marginTop="@dimen/default_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/error_tv" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/user_pass_et"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="@dimen/default_margin"
-        android:hint="@string/password_hint_text"
-        style="@style/HintTextEt"
-        android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_password"
-        android:padding="@dimen/half_margin"
-        android:maxLength="20"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/user_email_et"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:importantForAutofill="no" />
+        <TextView
+            android:id="@+id/error_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/red"
+            tools:text="Error!"
+            android:layout_marginTop="@dimen/default_margin"/>
 
-    <Button
-        style="@style/LinkText"
-        android:id="@+id/forgotPasswordButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:text="@string/forgot_password_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_pass_et"/>
+        <EditText
+            android:id="@+id/user_email_et"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/default_margin"
+            android:hint="@string/email_hint_text"
+            style="@style/HintTextEt"
+            android:background="@drawable/custom_input"
+            android:drawablePadding="@dimen/half_margin"
+            android:padding="16dp"
+            android:drawableStart="@drawable/ic_email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            android:maxLength="45"
+            android:layout_marginTop="@dimen/default_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/error_tv" />
 
-    <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:background="@drawable/rounded_corner"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordButton"
-        android:text="@string/enter_button_label" />
+        <EditText
+            android:id="@+id/user_pass_et"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/default_margin"
+            android:hint="@string/password_hint_text"
+            style="@style/HintTextEt"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/ic_password"
+            android:drawablePadding="@dimen/half_margin"
+            android:padding="16dp"
+            android:maxLength="20"
+            android:inputType="textPassword"
+            app:layout_constraintTop_toBottomOf="@id/user_email_et"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:importantForAutofill="no" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            style="@style/LinkText"
+            android:id="@+id/forgotPasswordButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:text="@string/forgot_password_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_pass_et"/>
+
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:background="@drawable/rounded_corner"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/forgotPasswordButton"
+            android:text="@string/enter_button_label" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

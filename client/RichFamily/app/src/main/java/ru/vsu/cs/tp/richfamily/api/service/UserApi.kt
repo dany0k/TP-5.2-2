@@ -25,7 +25,7 @@ interface UserApi {
     @POST("auth/token/logout")
     suspend fun logoutUser(@Header("Authorization") token: String) : Response<ResponseBody>
 
-    @POST("auth/utils/users/")
+    @POST("auth/utils/register/")
     suspend fun registerBase(
         @Body baseRegistrationRequest: BaseRegistrationRequest
     ) : Response<BaseUser>
@@ -35,7 +35,7 @@ interface UserApi {
         @Body registerRequest: RegisterRequest
     ) : Response<User>
 
-    @POST("auth/utils/users/reset_password/")
+    @POST("users/reset_password/")
     suspend fun resetPwd(
         @Body resetPwdRequestBody: ResetPwdRequestBody
     ) : Response<ResponseBody>

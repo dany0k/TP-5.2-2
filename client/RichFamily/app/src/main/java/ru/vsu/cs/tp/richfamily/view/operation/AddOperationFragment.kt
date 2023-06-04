@@ -31,6 +31,7 @@ import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -80,7 +81,7 @@ class AddOperationFragment : Fragment(){
 
     private fun setOperation() = with(binding) {
         val curTemp = args.template
-        totalEt.setText(curTemp.temp_sum.toString())
+        totalEt.setText(DecimalFormat("#.###").format(curTemp.temp_sum))
         commentEt.setText(curTemp.temp_comment)
         senderEt.setText(curTemp.temp_recipient)
         if (curTemp.temp_variant == Constants.CONS_TEXT) {
@@ -101,58 +102,71 @@ class AddOperationFragment : Fragment(){
             setDate(hasFocus)
         }
         binding.addOperationButton.setOnClickListener {
-            binding.addOperationButton.startAnimation()
-            val rbText: String = if (binding.consumptionRb.isChecked) {
-                Constants.CONS_TEXT
-            } else {
-                Constants.INCOME_TEXT
-            }
-
-            if (inputCheck(
-                    wallet = binding.filledScore.text.toString(),
-                    category = binding.filledCategory.text.toString(),
-                    opType = rbText,
-                    time = binding.timeEt.text.toString(),
-                    date = binding.dateEt.text.toString(),
-                    opRecipient = binding.senderEt.toString(),
-                    opSum = binding.totalEt.text.toString(),
-                    opComment = binding.commentEt.text.toString()
-                )) {
-                with(binding) {
-                    opViewModel.addOperation(
-                        walletId = walViewModel.getWalletFromACTV(
-                            filledScore.text.toString(), walList
-                        ),
-                        categoryId = catViewModel.getCategoryFromACTV(
-                            filledCategory.text.toString(), catList
-                        ),
-                        opType = rbText,
-                        opDate = dateTimeToLocalDateTime(
-                            time = timeEt.text.toString(),
-                            date = dateEt.text.toString()),
-                        opRecipient = senderEt.text.toString(),
-                        opSum =  totalEt.text.toString().toFloat(),
-                        opComment = commentEt.text.toString()
-                    )
-                }
-                Toast.makeText(
-                    requireActivity(),
-                    Constants.SUCCESS,
-                    Toast.LENGTH_SHORT
-                ).show()
-                YandexMetrica.reportEvent(YandexEvents.ADD_OPERATION)
-                findNavController().popBackStack()
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    Constants.COMP_FIELDS_TOAST,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            binding.addOperationButton.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-            binding.addOperationButton.revertAnimation()
+            processButton()
         }
+    }
+
+    private fun processButton() {
+        val rbText: String = if (binding.consumptionRb.isChecked) {
+            Constants.CONS_TEXT
+        } else {
+            Constants.INCOME_TEXT
+        }
+        val wallet = binding.filledScore.text.toString()
+        val category = binding.filledCategory.text.toString()
+        val time = binding.timeEt.text.toString()
+        val date = binding.dateEt.text.toString()
+        val opRecipient = binding.senderEt.text.toString()
+        val opSum = binding.totalEt.text.toString()
+        val opComment = binding.commentEt.text.toString()
+        if (!walViewModel.isScoreValid(opSum)) {
+            showToast(Constants.WALLET_INVALID)
+            return
+        }
+        if (inputCheck(
+                wallet = wallet,
+                category = category,
+                opType = rbText,
+                time = time,
+                date = date,
+                opRecipient = opRecipient,
+                opSum = opSum,
+                opComment = opComment
+            )) {
+            binding.addOperationButton.startAnimation()
+            opViewModel.addOperation(
+                walletId = walViewModel.getWalletFromACTV(wallet, walList),
+                categoryId = catViewModel.getCategoryFromACTV(category, catList),
+                opType = rbText,
+                opDate = dateTimeToLocalDateTime(
+                    time = time,
+                    date = date
+                ),
+                opRecipient = opRecipient,
+                opSum = opSum.toFloat(),
+                opComment = opComment
+            )
+            showToast(Constants.SUCCESS)
+            YandexMetrica.reportEvent(YandexEvents.ADD_OPERATION)
+            findNavController().popBackStack()
+        } else {
+            Toast.makeText(
+                requireActivity(),
+                Constants.COMP_FIELDS_TOAST,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        stopAnim()
+    }
+
+    private fun stopAnim() {
+        binding.addOperationButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.addOperationButton.revertAnimation()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun inputCheck(
@@ -181,12 +195,10 @@ class AddOperationFragment : Fragment(){
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
             val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-
             val datePickerDialog = DatePickerDialog(requireActivity(),
                 { _, selectedYear, selectedMonth, selectedDayOfMonth ->
                     val result = "$selectedDayOfMonth/${selectedMonth + 1}/$selectedYear"
-                    binding.dateEt
-                        .setText(result)
+                    binding.dateEt.setText(result)
                 }, year, month, dayOfMonth
             )
             datePickerDialog.show()
@@ -204,8 +216,8 @@ class AddOperationFragment : Fragment(){
                     val result = "$selectedHour:$selectedMinute"
                     binding.timeEt.setText(result)
                 }, hour, minute, true)
-
             timePickerDialog.show()
+            binding.timeEt.clearFocus()
         }
     }
 

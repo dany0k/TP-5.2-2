@@ -54,31 +54,45 @@ class AddWalletFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addWalletButton.setOnClickListener {
-            binding.addWalletButton.startAnimation()
-            val walletName = binding.walletNameEt.text.toString()
-            val walletTotal = binding.totalEt.text.toString()
-            val walletCurrency = "RUB"
-            val walletComment = binding.walletCommentTil.editText?.text.toString()
-            if (inputCheck(walletName, walletTotal, walletComment)) {
-                walletViewModel.addWallet(
-                    accName = walletName,
-                    accSum = walletTotal.toFloat(),
-                    accCurrency = walletCurrency,
-                    accComment = walletComment
-                )
-                YandexMetrica.reportEvent(YandexEvents.ADD_WALLET)
-                findNavController().popBackStack()
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    Constants.COMP_FIELDS_TOAST,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            binding.addWalletButton.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-            binding.addWalletButton.revertAnimation()
+            processButton()
         }
+    }
+
+    private fun processButton() {
+        val walletName = binding.walletNameEt.text.toString()
+        val walletTotal = binding.totalEt.text.toString()
+        val walletCurrency = "RUB"
+        val walletComment = binding.walletCommentTil.editText?.text.toString()
+        if (!walletViewModel.isScoreValid(walletTotal)) {
+            showToast(Constants.WALLET_INVALID)
+            stopAnim()
+            return
+        }
+        if (inputCheck(walletName, walletTotal, walletComment)) {
+            binding.addWalletButton.startAnimation()
+            walletViewModel.addWallet(
+                accName = walletName,
+                accSum = walletTotal.toFloat(),
+                accCurrency = walletCurrency,
+                accComment = walletComment
+            )
+            YandexMetrica.reportEvent(YandexEvents.ADD_WALLET)
+            findNavController().popBackStack()
+        } else {
+            showToast(Constants.COMP_FIELDS_TOAST)
+        }
+        stopAnim()
+    }
+
+    private fun stopAnim() {
+        binding.addWalletButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.addWalletButton.revertAnimation()
+    }
+
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun inputCheck(
@@ -89,5 +103,10 @@ class AddWalletFragment : Fragment() {
         return (walletName.isNotBlank() &&
                 walletTotal.isNotBlank() &&
                 walletComment.isNotBlank())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.addWalletButton.dispose()
     }
 }

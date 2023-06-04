@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,285 +7,290 @@
     android:id="@+id/creditFragment"
     tools:context=".view.credit.CreditFragment">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/credit_sum_cv"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="@dimen/card_elevation"
-        android:layout_margin="6dp"
-        app:cardCornerRadius="@dimen/card_radius"
-        app:contentPadding="@dimen/card_padding"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/credit_sum_cv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/credit_total_label_tv"
-                style="@style/CardLabelText"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/credit_total_hint_text" />
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/card_elevation"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:contentPadding="@dimen/card_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/credit_total_tv"
-                    style="@style/DefaultTextNoMargin"
+                    android:id="@+id/credit_total_label_tv"
+                    style="@style/CardLabelText"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="7000" />
+                    android:text="@string/credit_total_hint_text" />
 
-                <TextView
-                    style="@style/DefaultTextNoMargin"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/credit_total_tv"
+                        style="@style/DefaultTextNoMargin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="7000" />
+
+                    <TextView
+                        style="@style/DefaultTextNoMargin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rub_sign" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/credit_base_info_cv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/card_elevation"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:contentPadding="@dimen/card_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/credit_sum_cv">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
+                    android:layout_margin="@dimen/half_margin">
+
+                    <TextView
+                        style="@style/CardLabelTextSmall"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/first_pay_hint_text" />
+
+                    <TextView
+                        android:id="@+id/first_pay_tv"
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="300000" />
+
+                    <TextView
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rub_sign" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/percentage_label_tv"
+                        style="@style/CardLabelTextSmall"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/percentage_hint_text" />
+
+                    <TextView
+                        android:id="@+id/percentage_tv"
+                        style="@style/CardText"
+                        android:layout_gravity="end"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        tools:text="12" />
+
+                    <TextView
+                        android:id="@+id/percent_label_tv"
+                        style="@style/CardText"
+                        android:layout_gravity="end"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:text="@string/percent_sign_tv" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/half_margin"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/period_label_tv"
+                        style="@style/CardLabelTextSmall"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/period_text_tv" />
+
+                    <TextView
+                        android:id="@+id/period_tv"
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/half_margin"
+                        tools:text="12" />
+
+                    <TextView
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/month_text" />
+                </LinearLayout>
 
             </LinearLayout>
 
+        </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/credit_base_info_cv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="@dimen/card_elevation"
-        android:layout_margin="6dp"
-        app:cardCornerRadius="@dimen/card_radius"
-        app:contentPadding="@dimen/card_padding"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/credit_sum_cv">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            app:cardElevation="@dimen/card_elevation"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="@dimen/card_radius"
+            app:contentPadding="@dimen/card_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/credit_base_info_cv">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_margin">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/CardLabelTextSmall"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/first_pay_hint_text" />
+                    android:layout_margin="@dimen/half_margin">
 
-                <TextView
-                    android:id="@+id/first_pay_tv"
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        style="@style/CardLabelTextSmall"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/interest_charges_text" />
+
+                    <TextView
+                        android:id="@+id/cr_percents_sum_tv"
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="3000" />
+
+                    <TextView
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rub_sign" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:text="300000" />
+                    android:layout_margin="@dimen/half_margin"
+                    android:orientation="horizontal">
 
-                <TextView
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        style="@style/CardLabelTextSmall"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cost_and_percentage_text" />
+
+                    <TextView
+                        android:id="@+id/cr_sum_plus_percents_tv"
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="800000" />
+
+                    <TextView
+                        style="@style/CardText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rub_sign" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-            </LinearLayout>
+                    android:layout_margin="@dimen/half_margin"
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_margin"
-                android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/monthly_pay_label_tv"
+                        style="@style/CardLabelTextSmall"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:text="@string/monthly_payment_text" />
 
-                <TextView
-                    android:id="@+id/percentage_label_tv"
-                    style="@style/CardLabelTextSmall"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/percentage_hint_text" />
+                    <TextView
+                        android:id="@+id/monthly_sum_tv"
+                        style="@style/CardTextMedium"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="7000" />
 
-                <TextView
-                    android:id="@+id/percentage_tv"
-                    style="@style/CardText"
-                    android:layout_gravity="end"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    tools:text="12" />
+                    <TextView
+                        style="@style/CardTextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rub_sign" />
 
-                <TextView
-                    android:id="@+id/percent_label_tv"
-                    style="@style/CardText"
-                    android:layout_gravity="end"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/percent_sign_tv" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_margin"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/period_label_tv"
-                    style="@style/CardLabelTextSmall"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/period_text_tv" />
-
-                <TextView
-                    android:id="@+id/period_tv"
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/half_margin"
-                    tools:text="12" />
-
-                <TextView
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/month_text" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="@dimen/card_elevation"
-        android:layout_margin="6dp"
-        app:cardCornerRadius="@dimen/card_radius"
-        app:contentPadding="@dimen/card_padding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/credit_base_info_cv">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_margin">
-
-                <TextView
-                    style="@style/CardLabelTextSmall"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/interest_charges_text" />
-
-                <TextView
-                    android:id="@+id/cr_percents_sum_tv"
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="3000" />
-
-                <TextView
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
+                </LinearLayout>
 
             </LinearLayout>
 
+        </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_margin"
-                android:orientation="horizontal">
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/continueButton"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:padding="@dimen/default_padding"
+            android:text="@string/continue_button_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-                <TextView
-                    style="@style/CardLabelTextSmall"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/cost_and_percentage_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:id="@+id/cr_sum_plus_percents_tv"
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="800000" />
-
-                <TextView
-                    style="@style/CardText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/half_margin"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/monthly_pay_label_tv"
-                    style="@style/CardLabelTextSmall"
-                    android:textColor="@color/black"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:text="@string/monthly_payment_text" />
-
-                <TextView
-                    android:id="@+id/monthly_sum_tv"
-                    style="@style/CardTextMedium"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="7000" />
-
-                <TextView
-                    style="@style/CardTextMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rub_sign" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
-        android:id="@+id/continueButton"
-        android:background="@drawable/rounded_corner"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:padding="@dimen/default_padding"
-        android:text="@string/continue_button_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

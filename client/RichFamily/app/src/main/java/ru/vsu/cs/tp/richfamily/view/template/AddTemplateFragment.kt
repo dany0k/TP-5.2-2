@@ -63,45 +63,61 @@ class AddTemplateFragment : Fragment() {
             walList = it
         }
         binding.addTemplateButton.setOnClickListener {
-            binding.addTemplateButton.startAnimation()
-            val rbText: String = if (binding.consumptionRb.isChecked) {
-                Constants.CONS_TEXT
-            } else {
-                Constants.INCOME_TEXT
-            }
+            processButton()
+        }
+    }
 
-            if (inputCheck(
-                    wallet = binding.filledScore.text.toString(),
-                    category = binding.filledCategory.text.toString(),
+    private fun processButton() {
+        val rbText: String = if (binding.consumptionRb.isChecked) {
+            Constants.CONS_TEXT
+        } else {
+            Constants.INCOME_TEXT
+        }
+        val template = binding.templateNameEt.text.toString()
+        val wallet = binding.filledScore.text.toString()
+        val cat = binding.filledCategory.text.toString()
+        val sender = binding.senderEt.text.toString()
+        val opSum = binding.totalEt.text.toString()
+        val opComment = binding.commentEt.text.toString()
+        if (!walViewModel.isScoreValid(opSum)) {
+            showToast(Constants.WALLET_INVALID)
+            return
+        }
+        if (inputCheck(
+                template = template,
+                wallet = wallet,
+                category = cat,
+                opType = rbText,
+                opRecipient = sender,
+                opSum = opSum,
+                opComment = opComment
+            )) {
+            binding.addTemplateButton.startAnimation()
+                temViewModel.addTemplate(
+                    tempName = binding.templateNameEt.text.toString(),
+                    walletId = getWalletFromACTV(wallet),
+                    categoryId = getCategoryFromACTV(cat),
                     opType = rbText,
-                    opRecipient = binding.senderEt.toString(),
-                    opSum = binding.totalEt.text.toString(),
-                    opComment = binding.commentEt.text.toString()
-                )) {
-                with(binding) {
-                    temViewModel.addTemplate(
-                        tempName = templateNameEt.text.toString(),
-                        walletId = getWalletFromACTV(filledScore.text.toString()),
-                        categoryId = getCategoryFromACTV(filledCategory.text.toString()),
-                        opType = rbText,
-                        opRecipient = senderEt.text.toString(),
-                        opSum =  totalEt.text.toString().toFloat(),
-                        opComment = commentEt.text.toString()
-                    )
-                }
+                    opRecipient = sender,
+                    opSum =  opSum.toFloat(),
+                    opComment = opComment
+                )
                 YandexMetrica.reportEvent(YandexEvents.ADD_TEMPLATE)
                 findNavController().popBackStack()
             } else {
-                Toast.makeText(
-                    requireActivity(),
-                    Constants.COMP_FIELDS_TOAST,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            binding.addTemplateButton.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-            binding.addTemplateButton.revertAnimation()
+            showToast(Constants.COMP_FIELDS_TOAST)
         }
+        stopAnim()
+    }
+
+    private fun stopAnim() {
+        binding.addTemplateButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.addTemplateButton.revertAnimation()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun getWalletFromACTV(selectedItem: String): Int {
@@ -140,6 +156,7 @@ class AddTemplateFragment : Fragment() {
 
     private fun inputCheck(
         wallet: String,
+        template: String,
         category: String,
         opType: String,
         opRecipient: String,
@@ -147,6 +164,7 @@ class AddTemplateFragment : Fragment() {
         opComment: String
     ): Boolean {
         return wallet.isNotBlank() &&
+                template.isNotBlank() &&
                 category.isNotBlank() &&
                 opType.isNotBlank() &&
                 opRecipient.isNotBlank() &&

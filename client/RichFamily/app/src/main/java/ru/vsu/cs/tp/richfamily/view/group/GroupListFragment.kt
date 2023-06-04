@@ -20,6 +20,7 @@ import ru.vsu.cs.tp.richfamily.api.service.GroupApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentGroupListBinding
 import ru.vsu.cs.tp.richfamily.databinding.GroupAddDialogBinding
 import ru.vsu.cs.tp.richfamily.repository.GroupRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.GroupViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
@@ -104,14 +105,22 @@ class GroupListFragment :
         )
         builder.setView(dialogBinding.root)
         builder.setPositiveButton(R.string.add) { _, _ ->
-            YandexMetrica.reportEvent(YandexEvents.ADD_USER_IN_GROUP)
             val grName = dialogBinding.grNameEt.text.toString()
-            grViewModel.addGroup(grName)
+            if (!grViewModel.isNameValid(grName)) {
+                showToast(Constants.INVALID_GROUP_NAME)
+            } else {
+                grViewModel.addGroup(grName)
+                YandexMetrica.reportEvent(YandexEvents.ADD_USER_IN_GROUP)
+            }
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
         }
         builder.show()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun initRcView() = with(binding) {

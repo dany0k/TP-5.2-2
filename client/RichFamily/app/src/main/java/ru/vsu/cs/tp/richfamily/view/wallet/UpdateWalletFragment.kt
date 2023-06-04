@@ -18,6 +18,7 @@ import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
+import java.text.DecimalFormat
 
 class UpdateWalletFragment : Fragment() {
 
@@ -25,7 +26,6 @@ class UpdateWalletFragment : Fragment() {
     private lateinit var binding: FragmentUpdateWalletBinding
     private lateinit var walletViewModel: WalletViewModel
     private lateinit var token: String
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,25 +56,27 @@ class UpdateWalletFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.updateWalletButton.setOnClickListener {
-            binding.updateWalletButton.startAnimation()
             updateItem()
-            binding.updateWalletButton.background =
-                ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-            binding.updateWalletButton.revertAnimation()
+            stopAnim()
         }
     }
 
     private fun setWallet() = with(binding) {
         walletNameEt.setText(args.wallet.acc_name)
         walletCommentTil.editText!!.setText(args.wallet.acc_comment)
-        totalEt.setText(args.wallet.acc_sum.toString())
+        totalEt.setText(DecimalFormat("#.###").format(args.wallet.acc_sum))
     }
 
     private fun updateItem() = with(binding) {
         val walletName = walletNameEt.text.toString()
         val walletScore = totalEt.text.toString()
         val walletComment = walletCommentTil.editText!!.text.toString()
+        if (!walletViewModel.isScoreValid(walletScore)) {
+            showToast(Constants.WALLET_INVALID)
+            return
+        }
         if (inputCheck(walletName, walletScore, walletComment)) {
+            binding.updateWalletButton.startAnimation()
             walletViewModel.editWallet(
                 id = args.wallet.id,
                 accName = walletName,
@@ -83,11 +85,7 @@ class UpdateWalletFragment : Fragment() {
                 accComment = walletComment
             )
             findNavController().popBackStack()
-            Toast.makeText(
-                requireActivity(),
-                "Счет изменен",
-                Toast.LENGTH_LONG
-            ).show()
+            showToast(Constants.WALLET_UPDATE)
         } else {
             Toast.makeText(
                 requireActivity(),
@@ -95,6 +93,16 @@ class UpdateWalletFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    private fun stopAnim() {
+        binding.updateWalletButton.background =
+            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
+        binding.updateWalletButton.revertAnimation()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun inputCheck(
@@ -105,5 +113,10 @@ class UpdateWalletFragment : Fragment() {
         return (walletTitle.isNotBlank() &&
                 walletScore.isNotBlank() &&
                 walletComment.isNotBlank())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.updateWalletButton.dispose()
     }
 }

@@ -225,9 +225,11 @@ class GroupFragment :
         builder.setPositiveButton(R.string.accept) { _, _ ->
             grViewModel.deleteUserFromGroup(groupId = args.groupId, userId =  id)
             showToast()
+            stopAnimation()
         }
         builder.setNegativeButton(R.string.cancel) { _, _ ->
             onDestroyView()
+            stopAnimation()
         }
         builder.show()
     }

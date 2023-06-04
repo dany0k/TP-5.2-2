@@ -48,7 +48,7 @@ class LoginFragment : Fragment() {
                 }
 
                 is BaseResponse.Error -> {
-                    processError()
+                    processError(it.msg!!)
                     binding.loginButton.revertAnimation()
                     binding.loginButton.background =
                         ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
@@ -93,8 +93,8 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun processError() {
-        showToast(Constants.INVALID_DATA)
+    private fun processError(message: String) {
+        showToast(message)
     }
 
 

@@ -21,6 +21,7 @@ import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.api.model.auth.UserProfile
 import ru.vsu.cs.tp.richfamily.api.model.auth.UserRequestBody
 import ru.vsu.cs.tp.richfamily.repository.UserRepository
+import ru.vsu.cs.tp.richfamily.utils.Constants
 
 class LoginViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -30,7 +31,6 @@ class LoginViewModel(application: Application) :
     val loginResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
     val regResult: MutableLiveData<BaseResponse<User>> = MutableLiveData()
     val resetResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
-    val status: MutableLiveData<String> = MutableLiveData()
     private val logoutResult: MutableLiveData<BaseResponse<ResponseBody>> = MutableLiveData()
     val currentUser: MutableLiveData<UserProfile> = MutableLiveData()
     val errorMessage = MutableLiveData<String>()
@@ -56,7 +56,7 @@ class LoginViewModel(application: Application) :
                         BaseResponse.Success(response.body())
                 } else {
                     loginResult.value =
-                        BaseResponse.Error(response?.message())
+                        BaseResponse.Error(Constants.CANT_LOGIN)
                 }
             } catch (ex: java.lang.Exception) {
                 loginResult.value = BaseResponse.Error(ex.message)
@@ -83,7 +83,6 @@ class LoginViewModel(application: Application) :
             }
         }
     }
-
 
     fun registerUser(
         email: String,
@@ -116,10 +115,10 @@ class LoginViewModel(application: Application) :
                     if (response?.code() == 200) {
                         regResult.postValue(BaseResponse.Success(response.body()))
                     } else {
-                        regResult.postValue(BaseResponse.Error(responseBase.message()))
+                        regResult.postValue(BaseResponse.Error(response!!.body().toString()))
                     }
                 } else {
-                    regResult.postValue(BaseResponse.Error(responseBase?.message()))
+                    regResult.postValue(BaseResponse.Error(responseBase.toString()))
                 }
             } catch (ex: java.lang.Exception) {
                 regResult.value = BaseResponse.Error(ex.message)
@@ -137,7 +136,7 @@ class LoginViewModel(application: Application) :
                         currentUser.postValue(response.body())
                         loading.value = false
                     } else {
-                        onError("Error : ${response.message()} ")
+                        onError(response.message())
                     }
                 }
             } catch (ex: Exception) {
@@ -202,26 +201,11 @@ class LoginViewModel(application: Application) :
                     if (response!!.code() == 200) {
                         loading.value = false
                     } else {
-                        onError("Error : ${response.message()} ")
+                        onError(response.message())
                     }
                 }
             } catch (ex: Exception) {
                 onError(ex.toString())
-            }
-        }
-    }
-
-    fun getUserStatusOnboard(token: String) {
-        loading.value = true
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = userRepo.getUserInfo(token = token)
-            withContext(Dispatchers.Main) {
-                if (response!!.code() == 200) {
-                    status.postValue(response.body().toString())
-                    loading.value = false
-                } else {
-                    onError("Error : ${response.message()} ")
-                }
             }
         }
     }
