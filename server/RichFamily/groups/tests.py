@@ -3,7 +3,7 @@ from django.test import TestCase
 from groups.models import Group
 
 
-class UsersTests(TestCase):
+class GroupsTests(TestCase):
     def test_group_create(self):
         group = Group.objects.create(gr_name="gr_name")
         self.assertIsNotNone(group)

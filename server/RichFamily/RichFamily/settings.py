@@ -86,10 +86,10 @@ WSGI_APPLICATION = 'RichFamily.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-      #   'default': {
-      #  'ENGINE': 'django.db.backends.sqlite3',
-      #  'NAME': BASE_DIR / 'db.sqlite3',
-      #  }
+        #'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        #}
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv('POSTGRES_DB'),
@@ -140,7 +140,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
