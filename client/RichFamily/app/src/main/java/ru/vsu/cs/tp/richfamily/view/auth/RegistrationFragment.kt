@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.impl.ob.Va
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
@@ -17,6 +18,7 @@ import ru.vsu.cs.tp.richfamily.databinding.FragmentRegistrationBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.utils.Validator
 import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
@@ -86,25 +88,11 @@ class RegistrationFragment : Fragment() {
     private fun doRegistration() {
         val email = binding.userEmailEt.text.toString()
         val pwd = binding.userPassEt.text.toString()
-        val subPwd = binding.userSubmitPassEt.text.toString()
         val firstname = binding.userNameEt.text.toString()
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
         binding.errorMessageTv.visibility = View.GONE
-        if (!inputCheck(email, pwd, subPwd, firstname, lastname, secretWord)) {
-            return
-        }
-        if (!viewModel.isPwdValid(pwd)) {
-            binding.userPassEt.error = Constants.PWD_INVALID
-            return
-        }
-        if (!viewModel.isValidEmail(email)) {
-            binding.userEmailEt.error = Constants.INVALID_EMAIL
-            return
-        }
-        if (!viewModel.comparePwd(pwd, subPwd)) {
-            binding.userPassEt.error = Constants.PWD_NOT_COMPARE
-            binding.userSubmitPassEt.error = Constants.PWD_NOT_COMPARE
+        if (!processValidation()) {
             return
         }
         binding.regButton.startAnimation()
@@ -117,44 +105,19 @@ class RegistrationFragment : Fragment() {
         )
     }
 
+    private fun processValidation(
+    ): Boolean {
+        return Validator.isValidFirstName(binding.userNameEt) &&
+                Validator.isValidLastName(binding.userSurnameEt) &&
+                Validator.isValidEmail(binding.userEmailEt) &&
+                Validator.isValidPwd(binding.userPassEt) &&
+                Validator.isValidSecretWord(binding.userSecretWordEt) &&
+                Validator.comparePwd(binding.userPassEt, binding.userSubmitPassEt)
+    }
     private fun stopAnim() {
         binding.regButton.revertAnimation()
         binding.regButton.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-    }
-
-    private fun inputCheck(
-        username: String,
-        pwd: String,
-        pwdAgain: String,
-        firstname: String,
-        lastname: String,
-        secretWord: String
-    ): Boolean {
-        if (username.isBlank()) {
-            binding.userEmailEt.error = Constants.COMP_FIELD
-        }
-        if (pwd.isBlank()) {
-            binding.userPassEt.error = Constants.COMP_FIELD
-        }
-        if (pwdAgain.isBlank()) {
-            binding.userSubmitPassEt.error = Constants.COMP_FIELD
-        }
-        if (firstname.isBlank()) {
-            binding.userNameEt.error = Constants.COMP_FIELD
-        }
-        if (lastname.isBlank()) {
-            binding.userSurnameEt.error = Constants.COMP_FIELD
-        }
-        if (secretWord.isBlank()) {
-            binding.userSecretWordEt.error = Constants.COMP_FIELD
-        }
-        return username.isNotBlank() &&
-                pwd.isNotBlank() &&
-                pwdAgain.isNotBlank() &&
-                firstname.isNotBlank() &&
-                lastname.isNotBlank() &&
-                secretWord.isNotBlank()
     }
 
     private fun navigateHome() {

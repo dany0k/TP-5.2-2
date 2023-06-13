@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.FragmentUpdateAccountBinding
+import ru.vsu.cs.tp.richfamily.utils.AlphabetOnlyInputFilter
 import ru.vsu.cs.tp.richfamily.utils.Constants
 import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
@@ -37,8 +38,8 @@ class UpdateAccountFragment : Fragment() {
             false
         )
         token = MainActivity.getToken()
-        binding.firstnameEt.filters = arrayOf(Filter.nameFilter)
-        binding.lastnameEt.filters = arrayOf(Filter.nameFilter)
+        binding.firstnameEt.filters = arrayOf(AlphabetOnlyInputFilter())
+        binding.lastnameEt.filters = arrayOf(AlphabetOnlyInputFilter())
         return binding.root
     }
 
@@ -91,7 +92,14 @@ class UpdateAccountFragment : Fragment() {
         if (lastname.isBlank()) {
             binding.lastnameEt.error = Constants.COMP_FIELD
         }
+        if (firstname.length > 20) {
+            binding.firstnameEt.error = Constants.MAX_LENGHT_ERR_20
+        }
+        if (lastname.length > 20) {
+            binding.lastnameEt.error = Constants.MAX_LENGHT_ERR_20
+        }
         return firstname.isNotBlank() && lastname.isNotBlank()
+                && firstname.length <= 20 && lastname.length <= 20
     }
 
     override fun onDestroy() {

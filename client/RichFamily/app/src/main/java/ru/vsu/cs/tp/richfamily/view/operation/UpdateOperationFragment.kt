@@ -339,6 +339,12 @@ class UpdateOperationFragment : Fragment() {
         if (time.isBlank()) {
             binding.timeEt.error = Constants.COMP_FIELD
         }
+        if (opRecipient.length > 20) {
+            binding.senderEt.error = Constants.MAX_LENGHT_ERR_20
+        }
+        if (opSum.length > 9) {
+            binding.totalEt.error = Constants.MAX_LENGHT_ERR_9
+        }
         return wallet.isNotBlank() &&
                 category.isNotBlank() &&
                 opType.isNotBlank() &&
@@ -346,7 +352,9 @@ class UpdateOperationFragment : Fragment() {
                 date.isNotBlank() &&
                 opRecipient.isNotBlank() &&
                 opSum.isNotBlank() &&
-                opComment.isNotBlank()
+                opComment.isNotBlank() &&
+                opSum.length <= 9 &&
+                opRecipient.length <= 20
     }
 
     override fun onDestroyView() {

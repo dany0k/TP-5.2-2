@@ -116,9 +116,17 @@ class UpdateWalletFragment : Fragment() {
         if (walletComment.isBlank()) {
             binding.walletCommentTil.error = Constants.COMP_FIELD
         }
+        if (walletTitle.length > 20) {
+            binding.walletNameEt.error = Constants.MAX_LENGHT_ERR_20
+        }
+        if (walletScore.length > 9) {
+            binding.totalEt.error = Constants.MAX_LENGHT_ERR_9
+        }
         return (walletTitle.isNotBlank() &&
                 walletScore.isNotBlank() &&
-                walletComment.isNotBlank())
+                walletComment.isNotBlank() &&
+                walletTitle.length <= 20 &&
+                walletScore.length <= 9)
     }
 
     override fun onDestroyView() {
