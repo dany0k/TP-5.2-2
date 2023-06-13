@@ -12,6 +12,7 @@ object Constants {
     const val EMAIL_PLACEHOLDER = "Здесь пока что пусто"
     const val COMP_FIELDS_TOAST = "Заполните все поля!"
     const val SUCCESS = "Успешно!"
+    const val FIRSTPAY_BT_SUM = "Некорректный первоначальный взнос!"
     const val DELETE_GROUP_MESSAGE = "При удалении группы все пользваотели автоматически выйдут из нее," +
             " их доходы и расходы будут сохранены\nВы уверены?"
     const val LEAVE_GROUP_MESSAGE = "Вы уверены?"
