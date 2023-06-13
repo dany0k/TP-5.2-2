@@ -186,13 +186,26 @@ class AddTemplateFragment : Fragment() {
         if (opComment.isBlank()) {
             binding.commentEt.error = Constants.COMP_FIELD
         }
+        if (template.length > 20) {
+            binding.templateNameEt.error = Constants.MAX_LENGHT_ERR_20
+        }
+        if (template.length > 20) {
+            binding.senderEt.error = Constants.MAX_LENGHT_ERR_20
+        }
+        if (opSum.length > 9) {
+            binding.totalEt.error = Constants.MAX_LENGHT_ERR_9
+        }
+
         return wallet.isNotBlank() &&
                 template.isNotBlank() &&
                 category.isNotBlank() &&
                 opType.isNotBlank() &&
                 opRecipient.isNotBlank() &&
                 opSum.isNotBlank() &&
-                opComment.isNotBlank()
+                opComment.isNotBlank() &&
+                opSum.length <= 9 &&
+                opRecipient.length <= 20 &&
+                template.length <= 20
     }
 
     private fun initViewModels(token: String) {

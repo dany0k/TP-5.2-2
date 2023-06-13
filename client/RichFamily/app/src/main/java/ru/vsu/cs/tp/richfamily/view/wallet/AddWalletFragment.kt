@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -65,22 +66,23 @@ class AddWalletFragment : Fragment() {
         val walletTotal = binding.totalEt.text.toString()
         val walletCurrency = "RUB"
         val walletComment = binding.walletCommentTil.editText?.text.toString()
-        if (inputCheck(walletName, walletTotal, walletComment)) {
-            if (!walletViewModel.isScoreValid(walletTotal)) {
-                binding.totalEt.error = Constants.WALLET_INVALID
-                stopAnim()
-                return
-            }
-            binding.addWalletButton.startAnimation()
-            walletViewModel.addWallet(
-                accName = walletName,
-                accSum = walletTotal.toFloat(),
-                accCurrency = walletCurrency,
-                accComment = walletComment
-            )
-            YandexMetrica.reportEvent(YandexEvents.ADD_WALLET)
-            findNavController().popBackStack()
+        if (!inputCheck(walletName, walletTotal, walletComment)) {
+            return
         }
+        if (!walletViewModel.isScoreValid(walletTotal)) {
+            binding.totalEt.error = Constants.WALLET_INVALID
+            stopAnim()
+            return
+        }
+        binding.addWalletButton.startAnimation()
+        walletViewModel.addWallet(
+            accName = walletName,
+            accSum = walletTotal.toFloat(),
+            accCurrency = walletCurrency,
+            accComment = walletComment
+        )
+        YandexMetrica.reportEvent(YandexEvents.ADD_WALLET)
+        findNavController().popBackStack()
         stopAnim()
     }
 
@@ -109,9 +111,17 @@ class AddWalletFragment : Fragment() {
         if (walletComment.isBlank()) {
             binding.walletCommentTil.error = Constants.COMP_FIELD
         }
+        if (walletName.length > 20) {
+            binding.walletNameEt.error = Constants.MAX_LENGHT_ERR_20
+        }
+        if (walletTotal.length > 9) {
+            binding.totalEt.error = Constants.MAX_LENGHT_ERR_9
+        }
         return (walletName.isNotBlank() &&
                 walletTotal.isNotBlank() &&
-                walletComment.isNotBlank())
+                walletComment.isNotBlank() &&
+                walletName.length < 21 &&
+                walletTotal.length < 10)
     }
 
     override fun onDestroyView() {

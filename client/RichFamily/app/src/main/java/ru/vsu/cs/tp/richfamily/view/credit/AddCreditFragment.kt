@@ -146,11 +146,15 @@ class AddCreditFragment : Fragment() {
         if (crFirstPay.isBlank()) {
             binding.crFirstPayEt.error = Constants.COMP_FIELD
         }
+        if (crName.length > 20) {
+            binding.crNameEt.error = Constants.MAX_LENGHT_ERR_20
+        }
         return crName.isNotBlank() &&
         crAllSum.isNotBlank() &&
         crPerc.isNotBlank() &&
         crPeriod.isNotBlank() &&
-        crFirstPay.isNotBlank()
+        crFirstPay.isNotBlank() &&
+                crName.length <= 20
     }
 
     private fun processCreditNotAuth(
