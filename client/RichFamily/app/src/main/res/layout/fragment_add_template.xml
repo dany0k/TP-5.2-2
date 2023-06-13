@@ -18,6 +18,8 @@
             style="@style/HintTextEt"
             android:drawablePadding="@dimen/half_margin"
             android:padding="16dp"
+            android:inputType="textFilter"
+            android:maxLength="20"
             android:background="@drawable/custom_input"
             android:hint="@string/template_name_hint_et"
             android:drawableStart="@drawable/ic_template"

@@ -38,14 +38,14 @@ class OperationRVAdapter(
         }
 
         private fun getTime(dateTimeString: String): String {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
             val dateTime = LocalDateTime.parse(dateTimeString, formatter)
             val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
             return dateTime.format(timeFormatter)
         }
 
         private fun getDate(dateTimeString: String): String {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
             val dateTime = LocalDateTime.parse(dateTimeString, formatter)
             val dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
             return dateTime.format(dateFormatter)

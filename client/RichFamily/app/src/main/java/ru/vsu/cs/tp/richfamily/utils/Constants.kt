@@ -11,6 +11,7 @@ object Constants {
     const val NAME_PLACEHOLDER = "Лучший пользователь"
     const val EMAIL_PLACEHOLDER = "Здесь пока что пусто"
     const val COMP_FIELDS_TOAST = "Заполните все поля!"
+    const val COMP_FIELD = "Поле не должно быть пустым!"
     const val SUCCESS = "Успешно!"
     const val FIRSTPAY_BT_SUM = "Некорректный первоначальный взнос!"
     const val DELETE_GROUP_MESSAGE = "При удалении группы все пользваотели автоматически выйдут из нее," +
@@ -19,7 +20,7 @@ object Constants {
     const val EXIT_ACCOUNT_MESSAGE = "Вы действительно хотите выйти?"
     const val NO_SUCH_USER = "Ошибка при добавление пользователя"
     const val USER_EXISTS = "Пользовтель с такой почтой уже существует!"
-    const val WALLET_INVALID = "Неверно заполнены поля!"
+    const val WALLET_INVALID = "Неверно заполнено поле!"
     const val CANT_LOGIN = "Невозможно войти с предоставленными данными!"
     const val PWD_NOT_COMPARE = "Пароли не совпадают!"
     const val PWD_INVALID = "Пароль должен содержать не менее 8 символов, как минимум одну заглавную букву и цифру!"

@@ -16,6 +16,7 @@ import ru.vsu.cs.tp.richfamily.api.service.CreditApi
 import ru.vsu.cs.tp.richfamily.databinding.FragmentAddCreditBinding
 import ru.vsu.cs.tp.richfamily.repository.CreditRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.CreditViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.factory.AnyViewModelFactory
@@ -46,6 +47,7 @@ class AddCreditFragment : Fragment() {
                 token = token
             )
         )[CreditViewModel::class.java]
+        binding.crNameEt.filters = arrayOf(Filter.textFilter)
         return binding.root
     }
 
@@ -67,11 +69,10 @@ class AddCreditFragment : Fragment() {
         val crFirstPay = binding.crFirstPayEt.text.toString()
         val crTotalSum = 0F
         if (!inputCheck(crName, crAllSum, crPerc, crPeriod, crFirstPay)) {
-            showToast(Constants.COMP_FIELDS_TOAST)
             return
         }
         if (!checkSum(crFirstPay = crFirstPay.toFloat(), crAllSum = crAllSum.toFloat())) {
-            showToast(Constants.FIRSTPAY_BT_SUM)
+            binding.crFirstPayEt.error = Constants.FIRSTPAY_BT_SUM
             return
         }
         if (!checkFields(
@@ -80,7 +81,6 @@ class AddCreditFragment : Fragment() {
                 crAllSum.toFloat(),
                 crPeriod.toInt())
             ) {
-            showToast(Constants.INVALID_DATA)
             return
         }
         binding.calculateCreditButton.startAnimation()
@@ -101,13 +101,24 @@ class AddCreditFragment : Fragment() {
                             crAllSum: Float,
                             crPeriod: Int
     ): Boolean {
+        if (crPerc <= 0) {
+            binding.crPercEt.error = Constants.INVALID_DATA
+        }
+        if (crFirstPay <= 0) {
+            binding.crFirstPayEt.error = Constants.INVALID_DATA
+        }
+        if (crAllSum <= 0) {
+            binding.crSumEt.error = Constants.INVALID_DATA
+        }
+        if (crPeriod <= 0) {
+            binding.crPerionEt.error = Constants.INVALID_DATA
+        }
         return crPerc > 0 && crFirstPay > 0 && crAllSum > 0 && crPeriod > 0
     }
 
     private fun checkSum(crAllSum: Float, crFirstPay: Float) : Boolean {
         return crFirstPay < crAllSum
     }
-
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -120,6 +131,21 @@ class AddCreditFragment : Fragment() {
         crPeriod: String,
         crFirstPay: String,
     ): Boolean {
+        if (crName.isBlank()) {
+            binding.crNameEt.error = Constants.COMP_FIELD
+        }
+        if (crAllSum.isBlank()) {
+            binding.crSumEt.error = Constants.COMP_FIELD
+        }
+        if (crPerc.isBlank()) {
+            binding.crPercEt.error = Constants.COMP_FIELD
+        }
+        if (crPeriod.isBlank()) {
+            binding.crPerionEt.error = Constants.COMP_FIELD
+        }
+        if (crFirstPay.isBlank()) {
+            binding.crFirstPayEt.error = Constants.COMP_FIELD
+        }
         return crName.isNotBlank() &&
         crAllSum.isNotBlank() &&
         crPerc.isNotBlank() &&

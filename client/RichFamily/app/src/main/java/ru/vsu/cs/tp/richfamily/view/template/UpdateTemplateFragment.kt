@@ -21,6 +21,7 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
@@ -51,6 +52,8 @@ class UpdateTemplateFragment : Fragment() {
         if (token.isNotEmpty()) {
             initViewModels(token = token)
         }
+        binding.templateNameEt.filters = arrayOf(Filter.textFilter)
+        binding.senderEt.filters = arrayOf(Filter.textFilter)
         return binding.root
     }
 
@@ -83,11 +86,7 @@ class UpdateTemplateFragment : Fragment() {
         val opRec = binding.senderEt.text.toString()
         val opSum = binding.totalEt.text.toString()
         val opComment = binding.commentEt.text.toString()
-        if (!walViewModel.isScoreValid(opSum)) {
-            showToast(Constants.WALLET_INVALID)
-            return
-        }
-        if (inputCheck(
+        if (!inputCheck(
                 name = name,
                 wallet = wallet,
                 category = cat,
@@ -96,20 +95,23 @@ class UpdateTemplateFragment : Fragment() {
                 opSum = opSum,
                 opComment = opComment
             )) {
-            temViewModel.editOperation(
-                id = args.template.id,
-                name = name,
-                walletId = getWalletFromACTV(wallet),
-                categoryId = getCategoryFromACTV(cat),
-                opType = rbText,
-                opRecipient = opRec,
-                opSum =  opSum.toFloat(),
-                opComment = opComment
-            )
-            findNavController().popBackStack()
-        } else {
-            showToast(Constants.COMP_FIELDS_TOAST)
+            return
         }
+        if (!walViewModel.isScoreValid(opSum)) {
+            binding.totalEt.error = Constants.WALLET_INVALID
+            return
+        }
+        temViewModel.editOperation(
+            id = args.template.id,
+            name = name,
+            walletId = getWalletFromACTV(wallet),
+            categoryId = getCategoryFromACTV(cat),
+            opType = rbText,
+            opRecipient = opRec,
+            opSum =  opSum.toFloat(),
+            opComment = opComment
+        )
+        findNavController().popBackStack()
     }
 
     private fun showToast(message: String) {
@@ -224,6 +226,27 @@ class UpdateTemplateFragment : Fragment() {
         opSum: String,
         opComment: String
     ): Boolean {
+        if (name.isBlank()) {
+            binding.templateNameEt.error = Constants.COMP_FIELD
+        }
+        if (wallet.isBlank()) {
+            binding.scoreTil.error = Constants.COMP_FIELD
+        }
+        if (category.isBlank()) {
+            binding.categoryTil.error = Constants.COMP_FIELD
+        }
+        if (opType.isBlank()) {
+            binding.operationTypeTv.error = Constants.COMP_FIELD
+        }
+        if (opRecipient.isBlank()) {
+            binding.senderEt.error = Constants.COMP_FIELD
+        }
+        if (opSum.isBlank()) {
+            binding.totalEt.error = Constants.COMP_FIELD
+        }
+        if (opComment.isBlank()) {
+            binding.commentEt.error = Constants.COMP_FIELD
+        }
         return name.isNotBlank() &&
                 wallet.isNotBlank() &&
                 category.isNotBlank() &&
