@@ -206,6 +206,9 @@ class AddOperationFragment : Fragment(){
         if (opSum.length > 9) {
             binding.totalEt.error = Constants.MAX_LENGHT_ERR_9
         }
+        if (opSum.toInt() <= 0) {
+            binding.totalEt.error
+        }
         return wallet.isNotBlank() &&
                 category.isNotBlank() &&
                 opType.isNotBlank() &&

@@ -174,7 +174,7 @@
             android:padding="16dp"
             android:maxLength="9"
             android:hint="@string/total_hint_text"
-            android:inputType="numberSigned"
+            android:inputType="number"
             android:drawableStart="@drawable/ic_rub"
             app:layout_constraintTop_toBottomOf="@id/category_til"
             app:layout_constraintStart_toStartOf="parent"

@@ -111,7 +111,6 @@ class RegistrationFragment : Fragment() {
                 Validator.isValidLastName(binding.userSurnameEt) &&
                 Validator.isValidEmail(binding.userEmailEt) &&
                 Validator.isValidPwd(binding.userPassEt) &&
-                Validator.isValidPwd(binding.userSubmitPassEt) &&
                 Validator.isValidSecretWord(binding.userSecretWordEt) &&
                 Validator.comparePwd(binding.userPassEt, binding.userSubmitPassEt)
     }

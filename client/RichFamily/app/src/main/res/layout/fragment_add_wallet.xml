@@ -44,7 +44,7 @@
             android:drawablePadding="@dimen/half_margin"
             android:importantForAutofill="no"
             android:maxLength="9"
-            android:inputType="numberSigned"
+            android:inputType="number"
             app:layout_constraintTop_toBottomOf="@+id/wallet_name_et"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

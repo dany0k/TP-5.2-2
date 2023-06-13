@@ -72,8 +72,11 @@ object Validator {
         } else if (secret.length >= 21) {
             secretET.error = Constants.MAX_LENGHT_ERR_20
             return false
-        } else if (secret.length < 9) {
+        } else if (secret.length < 8) {
             secretET.error = Constants.MIN_LENGHT_ERR_8
+            return false
+        } else if (!secret.matches(regex = Regex("[a-zA-Zа-яА-Я0-9]*"))) {
+            secretET.error = Constants.SECRET_VALID
             return false
         }
         return true

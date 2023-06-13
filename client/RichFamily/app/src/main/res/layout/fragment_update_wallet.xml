@@ -43,7 +43,7 @@
             android:drawableStart="@drawable/ic_rub"
             android:drawablePadding="@dimen/half_margin"
             android:importantForAutofill="no"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             app:layout_constraintTop_toBottomOf="@+id/wallet_name_et"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>

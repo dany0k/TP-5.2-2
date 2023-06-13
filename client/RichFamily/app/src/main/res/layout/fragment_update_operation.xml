@@ -172,7 +172,7 @@
             android:drawablePadding="@dimen/half_margin"
             android:padding="16dp"
             android:hint="@string/total_hint_text"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:drawableStart="@drawable/ic_rub"
             app:layout_constraintTop_toBottomOf="@id/category_til"
             app:layout_constraintStart_toStartOf="parent"

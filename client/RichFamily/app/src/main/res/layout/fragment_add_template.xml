@@ -150,7 +150,7 @@
             android:drawablePadding="@dimen/half_margin"
             android:hint="@string/total_hint_text"
             android:importantForAutofill="no"
-            android:inputType="numberSigned"
+            android:inputType="number"
             android:maxLength="9"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
