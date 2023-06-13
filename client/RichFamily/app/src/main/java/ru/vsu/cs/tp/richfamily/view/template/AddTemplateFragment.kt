@@ -23,6 +23,7 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.TemplateRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.TemplateViewModel
@@ -51,6 +52,8 @@ class AddTemplateFragment : Fragment() {
         token = MainActivity.getToken()
         initViewModels(token = token)
         initAdapters()
+        binding.templateNameEt.filters = arrayOf(Filter.textFilter)
+        binding.senderEt.filters = arrayOf(Filter.textFilter)
         return binding.root
     }
 
@@ -79,11 +82,7 @@ class AddTemplateFragment : Fragment() {
         val sender = binding.senderEt.text.toString()
         val opSum = binding.totalEt.text.toString()
         val opComment = binding.commentEt.text.toString()
-        if (!walViewModel.isScoreValid(opSum)) {
-            showToast(Constants.WALLET_INVALID)
-            return
-        }
-        if (inputCheck(
+        if (!inputCheck(
                 template = template,
                 wallet = wallet,
                 category = cat,
@@ -92,21 +91,24 @@ class AddTemplateFragment : Fragment() {
                 opSum = opSum,
                 opComment = opComment
             )) {
-            binding.addTemplateButton.startAnimation()
-                temViewModel.addTemplate(
-                    tempName = binding.templateNameEt.text.toString(),
-                    walletId = getWalletFromACTV(wallet),
-                    categoryId = getCategoryFromACTV(cat),
-                    opType = rbText,
-                    opRecipient = sender,
-                    opSum =  opSum.toFloat(),
-                    opComment = opComment
-                )
-                YandexMetrica.reportEvent(YandexEvents.ADD_TEMPLATE)
-                findNavController().popBackStack()
-            } else {
-            showToast(Constants.COMP_FIELDS_TOAST)
+        return
         }
+        if (!walViewModel.isScoreValid(opSum)) {
+            binding.totalEt.error = Constants.WALLET_INVALID
+            return
+        }
+        binding.addTemplateButton.startAnimation()
+        temViewModel.addTemplate(
+            tempName = binding.templateNameEt.text.toString(),
+            walletId = getWalletFromACTV(wallet),
+            categoryId = getCategoryFromACTV(cat),
+            opType = rbText,
+            opRecipient = sender,
+            opSum =  opSum.toFloat(),
+            opComment = opComment
+        )
+        YandexMetrica.reportEvent(YandexEvents.ADD_TEMPLATE)
+        findNavController().popBackStack()
         stopAnim()
     }
 
@@ -163,6 +165,27 @@ class AddTemplateFragment : Fragment() {
         opSum: String,
         opComment: String
     ): Boolean {
+        if (template.isBlank()) {
+            binding.templateNameEt.error = Constants.COMP_FIELD
+        }
+        if (wallet.isBlank()) {
+            binding.scoreTil.error = Constants.COMP_FIELD
+        }
+        if (category.isBlank()) {
+            binding.categoryTil.error = Constants.COMP_FIELD
+        }
+        if (opType.isBlank()) {
+            binding.operationTypeTv.error = Constants.COMP_FIELD
+        }
+        if (opRecipient.isBlank()) {
+            binding.senderEt.error = Constants.COMP_FIELD
+        }
+        if (opSum.isBlank()) {
+            binding.totalEt.error = Constants.COMP_FIELD
+        }
+        if (opComment.isBlank()) {
+            binding.commentEt.error = Constants.COMP_FIELD
+        }
         return wallet.isNotBlank() &&
                 template.isNotBlank() &&
                 category.isNotBlank() &&

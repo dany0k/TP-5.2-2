@@ -67,18 +67,19 @@ class RecoveryFragment : Fragment() {
         val secretWord = binding.secretWordEt.text.toString()
         val newPwd = binding.passwordEt.text.toString()
         val newPwdSub = binding.passwprdAgainEt.text.toString()
-        binding.errorMessageTv.visibility = View.GONE
+        binding.errorMessageTv.visibility = View.INVISIBLE
         if (inputCheck(email, secretWord, newPwd, newPwdSub)) {
             if (!viewModel.isValidEmail(email)) {
-                showErrMsg(Constants.INVALID_EMAIL)
+                binding.emailEt.error = Constants.INVALID_EMAIL
                 return
             }
             if (!viewModel.comparePwd(newPwd, newPwdSub)) {
-                showErrMsg(Constants.PWD_NOT_COMPARE)
+                binding.passwprdAgainEt.error = Constants.PWD_NOT_COMPARE
+                binding.passwordEt.error = Constants.PWD_NOT_COMPARE
                 return
             }
             if (!viewModel.isPwdValid(newPwd)) {
-                showErrMsg(Constants.PWD_INVALID)
+                binding.passwordEt.error = Constants.PWD_INVALID
                 return
             }
             binding.recoverButton.startAnimation()
@@ -88,8 +89,6 @@ class RecoveryFragment : Fragment() {
                 newPassword = newPwd
             )
             YandexMetrica.reportEvent(YandexEvents.USER_RESET_PWD)
-        } else {
-            showErrMsg(Constants.COMP_FIELDS_TOAST)
         }
     }
 
@@ -136,6 +135,18 @@ class RecoveryFragment : Fragment() {
         newPwd: String,
         newPwdSub: String
     ): Boolean {
+        if (email.isBlank()) {
+            binding.emailEt.error = Constants.COMP_FIELD
+        }
+        if (secretWord.isBlank()) {
+            binding.secretWordEt.error = Constants.COMP_FIELD
+        }
+        if (newPwd.isBlank()) {
+            binding.passwordEt.error = Constants.COMP_FIELD
+        }
+        if (newPwdSub.isBlank()) {
+            binding.passwprdAgainEt.error = Constants.COMP_FIELD
+        }
         return email.isNotBlank() && secretWord.isNotBlank() &&
                 newPwd.isNotBlank() && newPwdSub.isNotBlank()
     }

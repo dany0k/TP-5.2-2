@@ -27,6 +27,7 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.WalletViewModel
@@ -59,6 +60,7 @@ class UpdateOperationFragment : Fragment() {
         if (token.isNotEmpty()) {
             initViewModels(token = token)
         }
+        binding.senderEt.filters = arrayOf(Filter.textFilter)
         return binding.root
     }
 
@@ -98,11 +100,7 @@ class UpdateOperationFragment : Fragment() {
         val opRecipient = binding.senderEt.text.toString()
         val opSum = binding.totalEt.text.toString()
         val opComment = binding.commentEt.text.toString()
-        if (!walViewModel.isScoreValid(opSum)) {
-            showToast(Constants.WALLET_INVALID)
-            return
-        }
-        if (inputCheck(
+        if (!inputCheck(
                 wallet = wallet,
                 category = category,
                 opType = rbText,
@@ -112,24 +110,27 @@ class UpdateOperationFragment : Fragment() {
                 opSum = opSum,
                 opComment = opComment
             )) {
-            binding.addOperationButton.startAnimation()
-            opViewModel.editOperation(
-                id = curOp.id,
-                walletId = walViewModel.getWalletFromACTV(wallet, walList),
-                categoryId = catViewModel.getCategoryFromACTV(category, catList),
-                opType = rbText,
-                opDate = dateTimeToLocalDateTime(
-                    time = time,
-                    date = date
-                ),
-                opRecipient = opRecipient,
-                opSum = opSum.toFloat(),
-                opComment = opComment
-            )
-            findNavController().popBackStack()
-        } else {
-            showToast(Constants.COMP_FIELDS_TOAST)
+        return
         }
+        if (!walViewModel.isScoreValid(opSum)) {
+            binding.totalEt.error = Constants.WALLET_INVALID
+            return
+        }
+        binding.addOperationButton.startAnimation()
+        opViewModel.editOperation(
+            id = curOp.id,
+            walletId = walViewModel.getWalletFromACTV(wallet, walList),
+            categoryId = catViewModel.getCategoryFromACTV(category, catList),
+            opType = rbText,
+            opDate = dateTimeToLocalDateTime(
+                time = time,
+                date = date
+            ),
+            opRecipient = opRecipient,
+            opSum = opSum.toFloat(),
+            opComment = opComment
+        )
+        findNavController().popBackStack()
         stopAnim()
     }
 
@@ -182,7 +183,7 @@ class UpdateOperationFragment : Fragment() {
             "HH:mm d/M/yyyy", Locale.getDefault()
         )
         val outputDateFormat = SimpleDateFormat(
-            "yyyy-MM-dd'T'HH:mm:ss.SS'Z'", Locale.getDefault()
+            "yyyy-MM-dd'T'HH:mm:ss.SS", Locale.getDefault()
         )
 
         val inputDate = inputDateFormat.parse("$time $date")
@@ -209,14 +210,14 @@ class UpdateOperationFragment : Fragment() {
     }
 
     private fun getTime(dateTimeString: String): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
         val dateTime = LocalDateTime.parse(dateTimeString, formatter)
         val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
         return dateTime.format(timeFormatter)
     }
 
     private fun getDate(dateTimeString: String): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
         val dateTime = LocalDateTime.parse(dateTimeString, formatter)
         val dateFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
         return dateTime.format(dateFormatter)
@@ -314,6 +315,30 @@ class UpdateOperationFragment : Fragment() {
         opSum: String,
         opComment: String
     ): Boolean {
+        if (wallet.isBlank()) {
+            binding.scoreTil.error = Constants.COMP_FIELD
+        }
+        if (category.isBlank()) {
+            binding.categoryTil.error = Constants.COMP_FIELD
+        }
+        if (opType.isBlank()) {
+            binding.operationTypeTv.error = Constants.COMP_FIELD
+        }
+        if (opRecipient.isBlank()) {
+            binding.senderEt.error = Constants.COMP_FIELD
+        }
+        if (opSum.isBlank()) {
+            binding.totalEt.error = Constants.COMP_FIELD
+        }
+        if (opComment.isBlank()) {
+            binding.commentEt.error = Constants.COMP_FIELD
+        }
+        if (date.isBlank()) {
+            binding.dateEt.error = Constants.COMP_FIELD
+        }
+        if (time.isBlank()) {
+            binding.timeEt.error = Constants.COMP_FIELD
+        }
         return wallet.isNotBlank() &&
                 category.isNotBlank() &&
                 opType.isNotBlank() &&

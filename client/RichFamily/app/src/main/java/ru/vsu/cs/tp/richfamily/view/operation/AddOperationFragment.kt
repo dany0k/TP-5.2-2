@@ -26,6 +26,7 @@ import ru.vsu.cs.tp.richfamily.repository.CategoryRepository
 import ru.vsu.cs.tp.richfamily.repository.OperationRepository
 import ru.vsu.cs.tp.richfamily.repository.WalletRepository
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.CategoryViewModel
 import ru.vsu.cs.tp.richfamily.viewmodel.OperationViewModel
@@ -59,6 +60,7 @@ class AddOperationFragment : Fragment(){
         token = MainActivity.getToken()
         initViewModels(token = token)
         initAdapters()
+        binding.senderEt.filters = arrayOf(Filter.textFilter)
         return binding.root
     }
 
@@ -119,11 +121,7 @@ class AddOperationFragment : Fragment(){
         val opRecipient = binding.senderEt.text.toString()
         val opSum = binding.totalEt.text.toString()
         val opComment = binding.commentEt.text.toString()
-        if (!walViewModel.isScoreValid(opSum)) {
-            showToast(Constants.WALLET_INVALID)
-            return
-        }
-        if (inputCheck(
+        if (!inputCheck(
                 wallet = wallet,
                 category = category,
                 opType = rbText,
@@ -133,29 +131,28 @@ class AddOperationFragment : Fragment(){
                 opSum = opSum,
                 opComment = opComment
             )) {
-            binding.addOperationButton.startAnimation()
-            opViewModel.addOperation(
-                walletId = walViewModel.getWalletFromACTV(wallet, walList),
-                categoryId = catViewModel.getCategoryFromACTV(category, catList),
-                opType = rbText,
-                opDate = dateTimeToLocalDateTime(
-                    time = time,
-                    date = date
-                ),
-                opRecipient = opRecipient,
-                opSum = opSum.toFloat(),
-                opComment = opComment
-            )
-            showToast(Constants.SUCCESS)
-            YandexMetrica.reportEvent(YandexEvents.ADD_OPERATION)
-            findNavController().popBackStack()
-        } else {
-            Toast.makeText(
-                requireActivity(),
-                Constants.COMP_FIELDS_TOAST,
-                Toast.LENGTH_SHORT
-            ).show()
+        return
         }
+        if (!walViewModel.isScoreValid(opSum)) {
+            binding.totalEt.error = Constants.WALLET_INVALID
+            return
+        }
+        binding.addOperationButton.startAnimation()
+        opViewModel.addOperation(
+            walletId = walViewModel.getWalletFromACTV(wallet, walList),
+            categoryId = catViewModel.getCategoryFromACTV(category, catList),
+            opType = rbText,
+            opDate = dateTimeToLocalDateTime(
+                time = time,
+                date = date
+            ),
+            opRecipient = opRecipient,
+            opSum = opSum.toFloat(),
+            opComment = opComment
+        )
+        showToast(Constants.SUCCESS)
+        YandexMetrica.reportEvent(YandexEvents.ADD_OPERATION)
+        findNavController().popBackStack()
         stopAnim()
     }
 
@@ -179,6 +176,30 @@ class AddOperationFragment : Fragment(){
         opSum: String,
         opComment: String
     ): Boolean {
+        if (wallet.isBlank()) {
+            binding.scoreTil.error = Constants.COMP_FIELD
+        }
+        if (category.isBlank()) {
+            binding.categoryTil.error = Constants.COMP_FIELD
+        }
+        if (opType.isBlank()) {
+            binding.operationTypeTv.error = Constants.COMP_FIELD
+        }
+        if (opRecipient.isBlank()) {
+            binding.senderEt.error = Constants.COMP_FIELD
+        }
+        if (opSum.isBlank()) {
+            binding.totalEt.error = Constants.COMP_FIELD
+        }
+        if (opComment.isBlank()) {
+            binding.commentEt.error = Constants.COMP_FIELD
+        }
+        if (date.isBlank()) {
+            binding.dateEt.error = Constants.COMP_FIELD
+        }
+        if (time.isBlank()) {
+            binding.timeEt.error = Constants.COMP_FIELD
+        }
         return wallet.isNotBlank() &&
                 category.isNotBlank() &&
                 opType.isNotBlank() &&
@@ -226,7 +247,7 @@ class AddOperationFragment : Fragment(){
             "HH:mm d/M/yyyy", Locale.getDefault()
         )
         val outputDateFormat = SimpleDateFormat(
-            "yyyy-MM-dd'T'HH:mm:ss.SS'Z'", Locale.getDefault()
+            "yyyy-MM-dd'T'HH:mm:ss.SS", Locale.getDefault()
         )
 
         val inputDate = inputDateFormat.parse("$time $date")

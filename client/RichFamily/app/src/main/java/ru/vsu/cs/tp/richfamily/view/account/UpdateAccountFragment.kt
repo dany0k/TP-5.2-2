@@ -1,6 +1,7 @@
 package ru.vsu.cs.tp.richfamily.view.account
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,9 @@ import ru.vsu.cs.tp.richfamily.MainActivity
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.databinding.FragmentUpdateAccountBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
+import java.util.regex.Pattern
 
 class UpdateAccountFragment : Fragment() {
 
@@ -34,6 +37,8 @@ class UpdateAccountFragment : Fragment() {
             false
         )
         token = MainActivity.getToken()
+        binding.firstnameEt.filters = arrayOf(Filter.nameFilter)
+        binding.lastnameEt.filters = arrayOf(Filter.nameFilter)
         return binding.root
     }
 
@@ -67,12 +72,6 @@ class UpdateAccountFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
                 findNavController().popBackStack(R.id.accountFragment, false)
-            } else {
-                Toast.makeText(
-                    requireActivity(),
-                    Constants.COMP_FIELDS_TOAST,
-                    Toast.LENGTH_SHORT
-                ).show()
             }
             binding.submitButton.background =
                 ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
@@ -86,6 +85,12 @@ class UpdateAccountFragment : Fragment() {
     }
 
     private fun inputCheck(firstname: String, lastname: String): Boolean {
+        if (firstname.isBlank()) {
+            binding.firstnameEt.error = Constants.COMP_FIELD
+        }
+        if (lastname.isBlank()) {
+            binding.lastnameEt.error = Constants.COMP_FIELD
+        }
         return firstname.isNotBlank() && lastname.isNotBlank()
     }
 

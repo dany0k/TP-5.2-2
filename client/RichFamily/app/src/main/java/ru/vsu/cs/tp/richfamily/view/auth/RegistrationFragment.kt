@@ -15,6 +15,7 @@ import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.databinding.FragmentRegistrationBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
 import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
@@ -33,6 +34,8 @@ class RegistrationFragment : Fragment() {
             container,
             false
         )
+        binding.userNameEt.filters = arrayOf(Filter.nameFilter)
+        binding.userSurnameEt.filters = arrayOf(Filter.nameFilter)
         val token = SessionManager.getToken(requireActivity())
         if (!token.isNullOrBlank()) {
             navigateHome()
@@ -88,30 +91,30 @@ class RegistrationFragment : Fragment() {
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
         binding.errorMessageTv.visibility = View.GONE
-        if (inputCheck(email, pwd, subPwd, firstname, lastname, secretWord)) {
-            if (!viewModel.isPwdValid(pwd)) {
-                showErrMsg(Constants.PWD_INVALID)
-                return
-            }
-            if (!viewModel.isValidEmail(email)) {
-                showErrMsg(Constants.INVALID_EMAIL)
-                return
-            }
-            if (!viewModel.comparePwd(pwd, subPwd)) {
-                showErrMsg(Constants.PWD_NOT_COMPARE)
-                return
-            }
-            binding.regButton.startAnimation()
-            viewModel.registerUser(
-                email = email,
-                pwd = pwd,
-                firstname = firstname,
-                lastname = lastname,
-                secretWord = secretWord
-            )
-        } else {
-            showErrMsg(Constants.COMP_FIELDS_TOAST)
+        if (!inputCheck(email, pwd, subPwd, firstname, lastname, secretWord)) {
+            return
         }
+        if (!viewModel.isPwdValid(pwd)) {
+            binding.userPassEt.error = Constants.PWD_INVALID
+            return
+        }
+        if (!viewModel.isValidEmail(email)) {
+            binding.userEmailEt.error = Constants.INVALID_EMAIL
+            return
+        }
+        if (!viewModel.comparePwd(pwd, subPwd)) {
+            binding.userPassEt.error = Constants.PWD_NOT_COMPARE
+            binding.userSubmitPassEt.error = Constants.PWD_NOT_COMPARE
+            return
+        }
+        binding.regButton.startAnimation()
+        viewModel.registerUser(
+            email = email,
+            pwd = pwd,
+            firstname = firstname,
+            lastname = lastname,
+            secretWord = secretWord
+        )
     }
 
     private fun stopAnim() {
@@ -128,6 +131,24 @@ class RegistrationFragment : Fragment() {
         lastname: String,
         secretWord: String
     ): Boolean {
+        if (username.isBlank()) {
+            binding.userEmailEt.error = Constants.COMP_FIELD
+        }
+        if (pwd.isBlank()) {
+            binding.userPassEt.error = Constants.COMP_FIELD
+        }
+        if (pwdAgain.isBlank()) {
+            binding.userSubmitPassEt.error = Constants.COMP_FIELD
+        }
+        if (firstname.isBlank()) {
+            binding.userNameEt.error = Constants.COMP_FIELD
+        }
+        if (lastname.isBlank()) {
+            binding.userSurnameEt.error = Constants.COMP_FIELD
+        }
+        if (secretWord.isBlank()) {
+            binding.userSecretWordEt.error = Constants.COMP_FIELD
+        }
         return username.isNotBlank() &&
                 pwd.isNotBlank() &&
                 pwdAgain.isNotBlank() &&
