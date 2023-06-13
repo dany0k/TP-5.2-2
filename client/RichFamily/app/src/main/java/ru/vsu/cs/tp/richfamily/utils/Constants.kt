@@ -21,7 +21,7 @@ object Constants {
     const val WALLET_INVALID = "Неверно заполнены поля!"
     const val CANT_LOGIN = "Невозможно войти с предоставленными данными!"
     const val PWD_NOT_COMPARE = "Пароли не совпадают!"
-    const val PWD_INVALID = "Пароль слишком легкий!"
+    const val PWD_INVALID = "Пароль должен содержать не менее 8 символов, как минимум одну заглавную букву и цифру!"
     const val INVALID_EMAIL = "Неверно заполнено поле email!"
     const val SUCCESS_LOGIN = "Успешно!"
     const val INVALID_DATA = "Неверные данные"

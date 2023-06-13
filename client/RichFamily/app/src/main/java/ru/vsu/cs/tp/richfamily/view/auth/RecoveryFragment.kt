@@ -67,17 +67,18 @@ class RecoveryFragment : Fragment() {
         val secretWord = binding.secretWordEt.text.toString()
         val newPwd = binding.passwordEt.text.toString()
         val newPwdSub = binding.passwprdAgainEt.text.toString()
+        binding.errorMessageTv.visibility = View.GONE
         if (inputCheck(email, secretWord, newPwd, newPwdSub)) {
             if (!viewModel.isValidEmail(email)) {
-                showToast(Constants.INVALID_EMAIL)
+                showErrMsg(Constants.INVALID_EMAIL)
                 return
             }
             if (!viewModel.comparePwd(newPwd, newPwdSub)) {
-                showToast(Constants.PWD_NOT_COMPARE)
+                showErrMsg(Constants.PWD_NOT_COMPARE)
                 return
             }
             if (!viewModel.isPwdValid(newPwd)) {
-                showToast(Constants.PWD_INVALID)
+                showErrMsg(Constants.PWD_INVALID)
                 return
             }
             binding.recoverButton.startAnimation()
@@ -88,7 +89,7 @@ class RecoveryFragment : Fragment() {
             )
             YandexMetrica.reportEvent(YandexEvents.USER_RESET_PWD)
         } else {
-            showToast(Constants.COMP_FIELDS_TOAST)
+            showErrMsg(Constants.COMP_FIELDS_TOAST)
         }
     }
 
@@ -99,7 +100,12 @@ class RecoveryFragment : Fragment() {
     }
 
     private fun processError() {
-        showToast(Constants.INVALID_DATA)
+        showErrMsg(Constants.INVALID_DATA)
+    }
+
+    private fun showErrMsg(msg: String) {
+        binding.errorMessageTv.text = msg
+        binding.errorMessageTv.visibility = View.VISIBLE
     }
 
     private fun process() {
