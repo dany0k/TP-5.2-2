@@ -44,9 +44,11 @@ class RegistrationFragment : Fragment() {
                 }
                 is BaseResponse.Success -> {
                     processRegistration(it.data)
+                    binding.errorMessageTv.visibility = View.GONE
                     stopAnim()
                 }
                 is BaseResponse.Error -> {
+                    showErrMsg(Constants.USER_EXISTS)
                     stopAnim()
                 }
                 else -> {
@@ -85,17 +87,18 @@ class RegistrationFragment : Fragment() {
         val firstname = binding.userNameEt.text.toString()
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
+        binding.errorMessageTv.visibility = View.GONE
         if (inputCheck(email, pwd, subPwd, firstname, lastname, secretWord)) {
             if (!viewModel.isPwdValid(pwd)) {
-                showToast(Constants.PWD_INVALID)
+                showErrMsg(Constants.PWD_INVALID)
                 return
             }
             if (!viewModel.isValidEmail(email)) {
-                showToast(Constants.INVALID_EMAIL)
+                showErrMsg(Constants.INVALID_EMAIL)
                 return
             }
             if (!viewModel.comparePwd(pwd, subPwd)) {
-                showToast(Constants.PWD_NOT_COMPARE)
+                showErrMsg(Constants.PWD_NOT_COMPARE)
                 return
             }
             binding.regButton.startAnimation()
@@ -107,7 +110,7 @@ class RegistrationFragment : Fragment() {
                 secretWord = secretWord
             )
         } else {
-            showToast(Constants.COMP_FIELDS_TOAST)
+            showErrMsg(Constants.COMP_FIELDS_TOAST)
         }
     }
 
@@ -153,6 +156,12 @@ class RegistrationFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
     }
+
+    private fun showErrMsg(msg: String) {
+        binding.errorMessageTv.text = msg
+        binding.errorMessageTv.visibility = View.VISIBLE
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
