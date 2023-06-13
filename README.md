@@ -15,8 +15,8 @@
 2. [Мамонов Дмитрий](https://github.com/Dmitriy-M1319)
 3. [Смирнов Павел](https://github.com/SmPavel)
 ## Данные для авторизации
-email: user1@gmail.com
-pwd: Qwer123as
+- email: user1@gmail.com
+- pwd: Qwer123as
 ## Ссылки
 1. [Клиент](https://github.com/dany0k/TP-5.2-2/tree/main/client)
 2. [Сервер](https://github.com/dany0k/TP-5.2-2/tree/main/server)
