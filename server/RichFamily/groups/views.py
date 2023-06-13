@@ -89,6 +89,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         if self.request.user == get_leader(pk):
             body_unicode = request.body.decode('utf-8')
             body_data = json.loads(body_unicode)
+            if self.request.user.email == body_data['username']:
+                return Response({'message': 'Вы уже являетесь лидером группы'}, status=403)
             add_user(body_data['username'], pk)
             return Response({'message': 'Успешно'})
         else:
