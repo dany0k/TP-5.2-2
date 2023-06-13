@@ -11,12 +11,13 @@
 Пользователю будет добавлена возможность создать специальный шаблон транзакции, для частых платежей.
 Можно выбирать тип транзакции(доход\расход), счет, дата, время, получатель, категория, сумма, комментарий.
 ## Авторы
-1. [Змаев Даниил](https://github.com/dany0k)
-2. [Мамонов Дмитрий](https://github.com/Dmitriy-M1319)
-3. [Смирнов Павел](https://github.com/SmPavel)
+1. [Змаев Даниил](https://github.com/dany0k) TeamLead, разработчик клиентской части
+2. [Мамонов Дмитрий](https://github.com/Dmitriy-M1319) Разработчик серверной части
+3. [Смирнов Павел](https://github.com/SmPavel) Тестировщик
 ## Данные для авторизации
 - email: user1@gmail.com
 - pwd: Qwer123as
+- secret: TP2023rich
 ## Ссылки
 1. [Клиент](https://github.com/dany0k/TP-5.2-2/tree/main/client)
 2. [Сервер](https://github.com/dany0k/TP-5.2-2/tree/main/server)
