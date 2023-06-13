@@ -87,10 +87,23 @@ class LoginFragment : Fragment() {
     private fun doLogin() {
         val username = binding.userEmailEt.text.toString()
         val pwd = binding.userPassEt.text.toString()
+        if (!inputCheck()) {
+            return
+        }
         viewModel.loginUser(
             username = username,
             pwd = pwd
         )
+    }
+
+    fun inputCheck() : Boolean {
+        if (binding.userEmailEt.text.isBlank()) {
+            binding.userEmailEt.error = Constants.COMP_FIELD
+        }
+        if (binding.userPassEt.text.isBlank()) {
+            binding.userPassEt.error = Constants.COMP_FIELD
+        }
+        return binding.userEmailEt.text.isNotBlank() && binding.userPassEt.text.isNotBlank()
     }
 
     private fun processError(message: String) {

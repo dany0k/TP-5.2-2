@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:hint="@string/name_hint_text"
-            android:maxLength="20"
             android:background="@drawable/custom_input"
             android:drawableStart="@drawable/ic_firstname"
             android:drawablePadding="@dimen/half_margin"
@@ -36,7 +35,6 @@
             android:drawableStart="@drawable/ic_lastname"
             android:drawablePadding="@dimen/half_margin"
             android:padding="16dp"
-            android:maxLength="20"
             android:inputType="text"
             android:layout_margin="@dimen/default_margin"
             app:layout_constraintTop_toBottomOf="@id/user_name_et"
@@ -53,7 +51,6 @@
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="@dimen/half_margin"
             android:padding="16dp"
-            android:maxLength="45"
             android:inputType="textEmailAddress"
             android:layout_margin="@dimen/default_margin"
             app:layout_constraintTop_toBottomOf="@id/user_surname_et"
@@ -71,7 +68,6 @@
             android:drawablePadding="@dimen/half_margin"
             android:padding="16dp"
             android:layout_margin="@dimen/default_margin"
-            android:maxLength="20"
             android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@id/user_email_et"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +84,6 @@
             android:drawablePadding="@dimen/half_margin"
             android:padding="16dp"
             android:layout_margin="@dimen/default_margin"
-            android:maxLength="20"
             android:inputType="textPassword"
             app:layout_constraintTop_toBottomOf="@id/user_pass_et"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +99,6 @@
             android:drawableStart="@drawable/ic_pwd"
             android:drawablePadding="@dimen/half_margin"
             android:padding="16dp"
-            android:maxLength="20"
             android:layout_margin="@dimen/default_margin"
             app:layout_constraintTop_toBottomOf="@id/user_submit_pass_et"
             android:inputType="textPassword"
@@ -122,6 +116,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/user_secret_word_et"/>
 
+        <TextView
+            android:id="@+id/error_message_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/haveAccountButton"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:padding="@dimen/default_padding"
+            tools:text="Пароль слишком легкий. Пароль должен содержать минимум 6 символов"/>
+
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/regButton"
             android:layout_width="wrap_content"
@@ -131,7 +137,7 @@
             android:padding="@dimen/default_padding"
             android:text="@string/submit_button_label"
             android:layout_margin="@dimen/default_margin"
-            app:layout_constraintTop_toBottomOf="@id/haveAccountButton"
+            app:layout_constraintTop_toBottomOf="@id/error_message_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 

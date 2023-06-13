@@ -112,4 +112,8 @@
     <string name="descr">descr</string>
     <string name="skip">Пропустить</string>
     <string name="new_pwd_et">Новый пароль</string>
+    <string name="app_version">Версия приложения 1.1</string>
+    <string name="contributors_label">Разработчики:</string>
+    <string name="contr_prev_text">Студенты Воронежского Государственного Университета, Факультет Компьютерных Наук</string>
+    <string name="contrib_names">- Змаев Даниил\n- Мамонов Дмитрий\n- Смирнов Павел</string>
 </resources>

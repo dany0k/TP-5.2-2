@@ -10,12 +10,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.yandex.metrica.YandexMetrica
+import com.yandex.metrica.impl.ob.Va
 import ru.vsu.cs.tp.richfamily.R
 import ru.vsu.cs.tp.richfamily.api.model.auth.BaseResponse
 import ru.vsu.cs.tp.richfamily.api.model.auth.User
 import ru.vsu.cs.tp.richfamily.databinding.FragmentRegistrationBinding
 import ru.vsu.cs.tp.richfamily.utils.Constants
+import ru.vsu.cs.tp.richfamily.utils.Filter
 import ru.vsu.cs.tp.richfamily.utils.SessionManager
+import ru.vsu.cs.tp.richfamily.utils.Validator
 import ru.vsu.cs.tp.richfamily.utils.YandexEvents
 import ru.vsu.cs.tp.richfamily.viewmodel.LoginViewModel
 
@@ -33,6 +36,8 @@ class RegistrationFragment : Fragment() {
             container,
             false
         )
+        binding.userNameEt.filters = arrayOf(Filter.nameFilter)
+        binding.userSurnameEt.filters = arrayOf(Filter.nameFilter)
         val token = SessionManager.getToken(requireActivity())
         if (!token.isNullOrBlank()) {
             navigateHome()
@@ -44,9 +49,11 @@ class RegistrationFragment : Fragment() {
                 }
                 is BaseResponse.Success -> {
                     processRegistration(it.data)
+                    binding.errorMessageTv.visibility = View.GONE
                     stopAnim()
                 }
                 is BaseResponse.Error -> {
+                    showErrMsg(Constants.USER_EXISTS)
                     stopAnim()
                 }
                 else -> {
@@ -81,56 +88,36 @@ class RegistrationFragment : Fragment() {
     private fun doRegistration() {
         val email = binding.userEmailEt.text.toString()
         val pwd = binding.userPassEt.text.toString()
-        val subPwd = binding.userSubmitPassEt.text.toString()
         val firstname = binding.userNameEt.text.toString()
         val lastname = binding.userSurnameEt.text.toString()
         val secretWord = binding.userSecretWordEt.text.toString()
-        if (inputCheck(email, pwd, subPwd, firstname, lastname, secretWord)) {
-            if (!viewModel.isPwdValid(pwd)) {
-                showToast(Constants.PWD_INVALID)
-                return
-            }
-            if (!viewModel.isValidEmail(email)) {
-                showToast(Constants.INVALID_EMAIL)
-                return
-            }
-            if (!viewModel.comparePwd(pwd, subPwd)) {
-                showToast(Constants.PWD_NOT_COMPARE)
-                return
-            }
-            binding.regButton.startAnimation()
-            viewModel.registerUser(
-                email = email,
-                pwd = pwd,
-                firstname = firstname,
-                lastname = lastname,
-                secretWord = secretWord
-            )
-        } else {
-            showToast(Constants.COMP_FIELDS_TOAST)
+        binding.errorMessageTv.visibility = View.GONE
+        if (!processValidation()) {
+            return
         }
+        binding.regButton.startAnimation()
+        viewModel.registerUser(
+            email = email,
+            pwd = pwd,
+            firstname = firstname,
+            lastname = lastname,
+            secretWord = secretWord
+        )
     }
 
+    private fun processValidation(
+    ): Boolean {
+        return Validator.isValidFirstName(binding.userNameEt) &&
+                Validator.isValidLastName(binding.userSurnameEt) &&
+                Validator.isValidEmail(binding.userEmailEt) &&
+                Validator.isValidPwd(binding.userPassEt) &&
+                Validator.isValidSecretWord(binding.userSecretWordEt) &&
+                Validator.comparePwd(binding.userPassEt, binding.userSubmitPassEt)
+    }
     private fun stopAnim() {
         binding.regButton.revertAnimation()
         binding.regButton.background =
             ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corner)
-    }
-
-    private fun inputCheck(
-        username: String,
-        pwd: String,
-        pwdAgain: String,
-        firstname: String,
-        lastname: String,
-        secretWord: String
-    ): Boolean {
-        return username.isNotBlank() &&
-                pwd.isNotBlank() &&
-                pwdAgain.isNotBlank() &&
-                firstname.isNotBlank() &&
-                lastname.isNotBlank() &&
-                secretWord.isNotBlank()
     }
 
     private fun navigateHome() {
@@ -153,6 +140,12 @@ class RegistrationFragment : Fragment() {
             Toast.LENGTH_SHORT
         ).show()
     }
+
+    private fun showErrMsg(msg: String) {
+        binding.errorMessageTv.text = msg
+        binding.errorMessageTv.visibility = View.VISIBLE
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
