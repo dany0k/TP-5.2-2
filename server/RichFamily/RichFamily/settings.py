@@ -129,7 +129,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'RichFamily',
     'VERSION': '1.1.0',
-    'DESCRIPTION': 'Пользователь для тестирования: username = testuser@gmail.com, password = Tp567test, secret_word=tp',
+    'DESCRIPTION': 'Пользователь для тестирования: username = user1@gmail.com, password = Qwer123as, secret_word=TP2023rich',
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
