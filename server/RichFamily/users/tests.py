@@ -1,3 +1,8 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RichFamily.settings')
+import django
+django.setup()
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 
@@ -6,7 +11,7 @@ from .models import AppUserProfile
 
 class UsersTests(TestCase):
     def setUp(self):
-        self.user_account = User.objects.create_user("user1", None, "pass1")
+        self.user_account = User.objects.create_user("user345", None, "pass1")
 
     def test_app_user_profile_create(self):
         self.user_account.appuserprofile.secret_word = "secret"

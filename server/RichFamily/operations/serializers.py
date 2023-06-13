@@ -42,7 +42,7 @@ class CreditPayNonAuthorizedRequestSerializer(serializers.Serializer):
     cr_name = serializers.CharField(max_length=255)
     cr_all_sum = serializers.FloatField()
     cr_first_pay = serializers.FloatField()
-    cr_percen = serializers.IntegerField()
+    cr_percent = serializers.IntegerField()
     cr_period = serializers.IntegerField()
 
 
@@ -51,7 +51,7 @@ class CreditPayNonAuthorizedResponseSerializer(serializers.Serializer):
     cr_name = serializers.CharField(max_length=255)
     cr_all_sum = serializers.FloatField()
     cr_first_pay = serializers.FloatField()
-    cr_percen = serializers.IntegerField()
+    cr_percent = serializers.IntegerField()
     cr_period = serializers.IntegerField()
     cr_month_pay = serializers.FloatField()
     cr_percents_sum = serializers.FloatField()
@@ -64,3 +64,11 @@ class SuccessSerializer(serializers.Serializer):
 
 class MessageSerializer(serializers.Serializer):
     message = serializers.CharField(max_length=255)
+
+
+class DetailSerializer(serializers.Serializer):
+    detail = serializers.CharField(max_length=255)
+
+
+class BadRequestErrorSerializer(serializers.Serializer):
+    field = serializers.ListField(child=serializers.CharField())

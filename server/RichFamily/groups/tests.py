@@ -1,9 +1,14 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RichFamily.settings')
+import django
+django.setup()
+
 from django.test import TestCase
 
 from groups.models import Group
+from RichFamily.wsgi import *
 
-
-class UsersTests(TestCase):
+class GroupsTests(TestCase):
     def test_group_create(self):
         group = Group.objects.create(gr_name="gr_name")
         self.assertIsNotNone(group)
