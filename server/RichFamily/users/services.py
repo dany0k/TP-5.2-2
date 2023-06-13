@@ -23,7 +23,7 @@ def create_user(body_data: Dict) -> User:
     OperationCategory.objects.create(user=user, cat_name='Транспорт')
     OperationCategory.objects.create(user=user, cat_name='Развлечения')
     Account.objects.create(user=user, 
-                           acc_name='Первоначальный счет',
+                           acc_name='Счет',
                            acc_sum=0.0,
                            acc_currency='RUB',
                            acc_comment='Стартовый счет пользователя')

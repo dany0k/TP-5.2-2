@@ -1,3 +1,8 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RichFamily.settings')
+import django
+django.setup()
+
 from datetime import datetime
 from django.test import TestCase
 from django.contrib.auth.models import User
@@ -7,7 +12,7 @@ from .models import Account, OperationCategory, Operation, OperationTemplate, Cr
 
 class OperationsTests(TestCase):
     def setUp(self):
-        self.user_account = User.objects.create_user("user1", None, "pass1")
+        self.user_account = User.objects.create_user("user456", None, "pass1")
         self.account = Account.objects.create(user=self.user_account,
                                          acc_name="acc1", acc_sum=4660.0, acc_currency="RUB", acc_comment="")
         self.category = OperationCategory.objects.create(user=self.user_account, cat_name="cat1")

@@ -1,6 +1,7 @@
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiResponse, extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import status
 from rest_framework.response import Response
 from rest_framework import permissions
 from django.forms.utils import json
@@ -12,6 +13,28 @@ from .services import change_account, generate_report, get_operations_by_account
 from django.http.response import FileResponse
 
 
+@extend_schema_view(
+    list=extend_schema(description="Получить все категории операций для авторизованного пользователя",  responses={
+        status.HTTP_200_OK: OperationCategorySerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer}),
+    create=extend_schema(description="Создать новую категорию операций для авторизованного пользователя", responses={
+        status.HTTP_200_OK: OperationCategorySerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    update=extend_schema(description="Обновить существующую категорию для авторизованного пользователя", responses={
+        status.HTTP_200_OK: OperationCategorySerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    retrieve=extend_schema(exclude=True),
+    partial_update=extend_schema(exclude=True),
+    destroy=extend_schema(description="Удалить категорию операций для авторизованного пользователя", responses={
+        status.HTTP_204_NO_CONTENT: OpenApiResponse(
+                response=None,
+                description='No response body'), 
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer}),
+)
 class OperationCategoryViewSet(viewsets.ModelViewSet):
     queryset = OperationCategory.objects.all()
     serializer_class = OperationCategorySerializer
@@ -26,14 +49,37 @@ class OperationCategoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return OperationCategory.objects.filter(user=self.request.user)
 
+    @extend_schema(exclude=True, responses=OperationSerializer)
     @action(detail=True, methods=['get'])
     def operations(self, request, pk=None):
         """
-        Получить все операции пользователей определенной категории
+        Получить все операции определенной категории
         """
         return Response(get_operations_by_category(pk))
 
 
+@extend_schema_view(
+    list=extend_schema(description="Получить все шаблоны создания операций для авторизованного пользователя",  responses={
+        status.HTTP_200_OK: OperationTemplateSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer}),
+    create=extend_schema(description="Создать новый шаблон операций для авторизованного пользователя", responses={
+        status.HTTP_200_OK: OperationTemplateSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    update=extend_schema(description="Обновить существующий шаблон для авторизованного пользователя", responses={
+        status.HTTP_200_OK: OperationTemplateSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    partial_update=extend_schema(exclude=True),
+    retrieve=extend_schema(exclude=True),
+    destroy=extend_schema(description="Удалить шаблон создания операций для авторизованного пользователя", responses={
+        status.HTTP_204_NO_CONTENT: OpenApiResponse(
+                response=None,
+                description='No response body'), 
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer}),
+)
 class OperationTemplateViewSet(viewsets.ModelViewSet):
     queryset = OperationTemplate.objects.all()
     serializer_class = OperationTemplateSerializer
@@ -43,6 +89,31 @@ class OperationTemplateViewSet(viewsets.ModelViewSet):
         return OperationTemplate.objects.filter(category__user=self.request.user)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Получить все финансовые операции для авторизованного пользователя",  responses={
+        status.HTTP_200_OK: OperationSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer}),
+    create=extend_schema(description="Создать новую финансовую операцию для авторизованного пользователя", responses={
+        status.HTTP_200_OK: OperationSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    retrieve=extend_schema(description="Получить операцию по ее идентификатору id", responses={
+        status.HTTP_200_OK: OperationSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer}),
+    update=extend_schema(description="Обновить существующую операцию", responses={
+        status.HTTP_200_OK: OperationSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    partial_update=extend_schema(exclude=True),
+    destroy=extend_schema(description="Удалить существующую операцию", responses={
+        status.HTTP_204_NO_CONTENT: OpenApiResponse(
+                response=None,
+                description='No response body'), 
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer}),
+)
 class OperationViewSet(viewsets.ModelViewSet):
     queryset = Operation.objects.all()
     serializer_class = OperationSerializer
@@ -63,7 +134,10 @@ class OperationViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         rollback_account(instance)
         instance.delete()
-
+    
+    @extend_schema(responses={
+        status.HTTP_200_OK: OperationSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer})
     @action(detail=False, methods=['get'])
     def report(self, request):
         """
@@ -72,8 +146,11 @@ class OperationViewSet(viewsets.ModelViewSet):
         response = generate_report(self.request.user)
         return Response(response)
 
+    @extend_schema(responses={
+        status.HTTP_200_OK: SuccessSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer})
     @extend_schema(responses=SuccessSerializer)
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['get'])
     def save_report(self, request):
         """
         Сохранить сгенерированный пользователем отчет
@@ -82,12 +159,15 @@ class OperationViewSet(viewsets.ModelViewSet):
         save_report(report)
         return Response({'success': True})
 
-    @extend_schema(responses=MessageSerializer)
+    @extend_schema(responses={
+        status.HTTP_200_OK: MessageSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_500_INTERNAL_SERVER_ERROR: MessageSerializer
+        })
     @action(detail=False, methods=['get'])
     def send_report(self, request):
         """
         Отправить сгенерированный отчет пользователю
-        В случае ошибки: отправляется 503 код (сервис недоступен) и сообщение об ошибке message
         """
         try:
            file = open_report()
@@ -96,6 +176,28 @@ class OperationViewSet(viewsets.ModelViewSet):
            return Response({'message': e}, status=503)
 
 
+@extend_schema_view(
+    list=extend_schema(description="Получить все счета для авторизованного пользователя",  responses={
+        status.HTTP_200_OK: AccountSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer}),
+    create=extend_schema(description="Создать новый счет для авторизованного пользователя", responses={
+        status.HTTP_200_OK: AccountSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    retrieve=extend_schema(exclude=True),
+    update=extend_schema(description="Обновить существующий счет для авторизованного пользователя", responses={
+        status.HTTP_200_OK: AccountSerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    partial_update=extend_schema(exclude=True),
+    destroy=extend_schema(description="Удалить существующий счет для авторизованного пользователя", responses={
+        status.HTTP_204_NO_CONTENT: OpenApiResponse(
+                response=None,
+                description='No response body'), 
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer}),
+)
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
@@ -110,15 +212,33 @@ class AccountViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
 
-    @extend_schema(responses=OperationSerializer)
+    @extend_schema(exclude=True, responses=OperationSerializer)
     @action(detail=True, methods=['get'])
     def operations(self, request, pk=None):
         """
-        Получить операции с определенного счета
+        Получить финансовые операции с определенного счета 
         """
         return Response(get_operations_by_account(pk))
 
 
+@extend_schema_view(
+    list=extend_schema(description="Получить все кредитные платежи для авторизованного пользователя",  responses={
+        status.HTTP_200_OK: CreditPaySerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer}),
+    retrieve=extend_schema(exclude=True),
+    create=extend_schema(description="Рассчитать новый кредитный платеж для авторизованного пользователя", responses={
+        status.HTTP_200_OK: CreditPaySerializer,
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer}),
+    update=extend_schema(exclude=True),
+    partial_update=extend_schema(exclude=True),
+    destroy=extend_schema(description="Удалить рассчитанный кредитный платеж", responses={
+        status.HTTP_204_NO_CONTENT: OpenApiResponse(
+                response=None,
+                description='No response body'), 
+        status.HTTP_401_UNAUTHORIZED: DetailSerializer,
+        status.HTTP_404_NOT_FOUND: DetailSerializer}),
+)
 class CreditPayViewSet(viewsets.ModelViewSet):
     queryset = CreditPay.objects.all()
     serializer_class = CreditPaySerializer
@@ -138,9 +258,14 @@ class CreditPayViewSet(viewsets.ModelViewSet):
                         cr_percents_sum=percents_sum,
                         cr_sum_plus_percents=all_sum)
 
-    @extend_schema(request=CreditPayNonAuthorizedRequestSerializer, responses=CreditPayNonAuthorizedResponseSerializer)
+    @extend_schema(request=CreditPayNonAuthorizedRequestSerializer, responses={
+        status.HTTP_200_OK: CreditPayNonAuthorizedResponseSerializer,
+        status.HTTP_400_BAD_REQUEST: BadRequestErrorSerializer})
     @action(methods=['post'], detail=False)
     def calc_credit(self, request):
+        """
+        Расчет кредитного платежа для неавторизованного пользователя
+        """
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
         payment = calc_payment(body_data['cr_all_sum'],
