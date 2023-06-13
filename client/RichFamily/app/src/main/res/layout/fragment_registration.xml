@@ -131,6 +131,7 @@
             app:layout_constraintTop_toBottomOf="@id/haveAccountButton"
             android:textColor="@color/red"
             android:visibility="gone"
+            android:padding="@dimen/default_padding"
             tools:text="Пароль слишком легкий. Пароль должен содержать минимум 6 символов"/>
 
         <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton

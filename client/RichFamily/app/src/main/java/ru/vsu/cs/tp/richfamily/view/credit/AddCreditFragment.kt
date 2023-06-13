@@ -70,6 +70,10 @@ class AddCreditFragment : Fragment() {
             showToast(Constants.COMP_FIELDS_TOAST)
             return
         }
+        if (!checkSum(crFirstPay = crFirstPay.toFloat(), crAllSum = crAllSum.toFloat())) {
+            showToast(Constants.FIRSTPAY_BT_SUM)
+            return
+        }
         if (!checkFields(
                 crPerc.toInt(),
                 crFirstPay.toFloat(),
@@ -98,6 +102,10 @@ class AddCreditFragment : Fragment() {
                             crPeriod: Int
     ): Boolean {
         return crPerc > 0 && crFirstPay > 0 && crAllSum > 0 && crPeriod > 0
+    }
+
+    private fun checkSum(crAllSum: Float, crFirstPay: Float) : Boolean {
+        return crFirstPay < crAllSum
     }
 
 
