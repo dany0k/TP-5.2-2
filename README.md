@@ -33,7 +33,7 @@
 4. [Отчет по ролям](https://github.com/dany0k/TP-5.2-2/blob/main/docs/%D0%9E%D1%82%D1%87%D0%B5%D1%82%20%D0%BF%D0%BE%20%D1%80%D0%BE%D0%BB%D1%8F%D0%BC.pdf)
 5. [Сопроводительное письмо](https://github.com/dany0k/TP-5.2-2/blob/main/docs/%D0%A1%D0%BE%D0%BF%D1%80%D0%BE%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5%20%D0%BF%D0%B8%D1%81%D1%8C%D0%BC%D0%BE.pdf)
 ## Видео
-1. [Развертывание](https://drive.google.com/file/d/1aXksFNOkljwxngMgkMBU_DxrJeG0yNA-/view)
+1. [Развертывание](https://drive.google.com/file/d/1_SxhU2mmCeM6i003a5SdOlKSPTzPcgvx/view?usp=sharing)
 2. [Сервер](https://drive.google.com/file/d/1jjv6IrYiJTzTIivG7nK8xCbEI8wMXNM3/view)
 3. [Клиент](https://drive.google.com/file/d/1NjE8AoDp90DTvMX6oVq5EhssETlK5i_k/view)
 4. [Презентация](https://drive.google.com/file/d/1ZcCKqJTLNSCI9WDnYHaLKnpD7jOTwpL8/view?usp=sharing)
