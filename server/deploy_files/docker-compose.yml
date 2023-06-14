@@ -11,10 +11,19 @@ services:
       - '443:443'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
-      - public:/code/public
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      - public:/code/public 
 
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes: 
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+      
   web:
-    image: xwisert/richfamily:latest
+    image: xwisert/richfamily:updated
     command: bash -c "/code/run.sh"
     restart: always
     env_file:
@@ -37,3 +46,4 @@ services:
 volumes: 
   app_data:
   public:
+
